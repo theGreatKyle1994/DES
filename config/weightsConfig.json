@@ -1,0 +1,54 @@
+{
+  "weatherWeights": {
+    "AUTUMN_LATE": {
+      "STORMY": 10,
+      "FOGGY": 10,
+      "WINDY": 10,
+      "MISTY": 10,
+      "SUNNY": 10
+    },
+    "AUTUMN": {
+      "STORMY": 10,
+      "FOGGY": 10,
+      "WINDY": 10,
+      "MISTY": 10,
+      "SUNNY": 10
+    },
+    "SPRING_EARLY": {
+      "STORMY": 10,
+      "FOGGY": 10,
+      "WINDY": 10,
+      "MISTY": 10,
+      "SUNNY": 10
+    },
+    "SPRING": {
+      "STORMY": 10,
+      "FOGGY": 10,
+      "WINDY": 10,
+      "MISTY": 10,
+      "SUNNY": 10
+    },
+    "SUMMER": {
+      "STORMY": 10,
+      "FOGGY": 10,
+      "WINDY": 10,
+      "MISTY": 10,
+      "SUNNY": 10
+    },
+    "WINTER": {
+      "STORMY": 10,
+      "FOGGY": 10,
+      "WINDY": 10,
+      "MISTY": 10,
+      "SUNNY": 10
+    }
+  },
+  "seasonWeights": {
+    "SUMMER": 10,
+    "AUTUMN": 10,
+    "WINTER": 10,
+    "SPRING": 10,
+    "AUTUMN_LATE": 10,
+    "SPRING_EARLY": 10
+  }
+}
