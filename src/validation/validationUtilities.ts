@@ -7,10 +7,9 @@ import {
   weatherDBDefaults,
   WeatherType,
 } from "../models/weather";
+import { writeConfig } from "../utilities/utils";
 import { type SeasonDB, seasonDBDefaults, SeasonName } from "../models/seasons";
 import { type ModConfig, modConfigDefaults } from "../models/mod";
-import path from "path";
-import fs from "fs/promises";
 
 // SPT Imports
 import type { ILogger } from "@spt/models/spt/utils/ILogger";
@@ -27,7 +26,6 @@ export function checkConfigs(
 
 function checkSeasonDB(dbSeason: SeasonDB, logger: ILogger): void {
   let isError: boolean = false;
-
   // Check season config for invalid keys
   isError = validateConfigKeys<SeasonDB, typeof seasonDBDefaults>(
     dbSeason,
@@ -35,7 +33,6 @@ function checkSeasonDB(dbSeason: SeasonDB, logger: ILogger): void {
     "season",
     logger
   );
-
   // Run config validation checks
   if (!Object.values(SeasonName).includes(dbSeason.seasonName as SeasonName)) {
     isError = true;
@@ -65,14 +62,12 @@ function checkSeasonDB(dbSeason: SeasonDB, logger: ILogger): void {
     logger.error("[TWS] seasonLeft must be <= seasonLength.");
     dbSeason.seasonLeft = dbSeason.seasonLength;
   }
-
   // Repair config issues
-  if (isError) repairDB<SeasonDB>(dbSeason, "season", logger);
+  if (isError) repairConfig<SeasonDB>(dbSeason, "season", logger);
 }
 
 function checkWeatherDB(dbWeather: WeatherDB, logger: ILogger): void {
   let isError: boolean = false;
-
   // Check weather config for invalid keys
   isError = validateConfigKeys<WeatherDB, typeof weatherDBDefaults>(
     dbWeather,
@@ -80,7 +75,6 @@ function checkWeatherDB(dbWeather: WeatherDB, logger: ILogger): void {
     "weather",
     logger
   );
-
   // Run config validation checks
   if (
     !Object.values(WeatherType).includes(dbWeather.weatherName as WeatherType)
@@ -105,9 +99,21 @@ function checkWeatherDB(dbWeather: WeatherDB, logger: ILogger): void {
     logger.error("[TWS] weatherLeft must be <= weatherLength.");
     dbWeather.weatherLeft = dbWeather.weatherLength;
   }
-
   // Repair config issues
-  if (isError) repairDB<WeatherDB>(dbWeather, "weather", logger);
+  if (isError) repairConfig<WeatherDB>(dbWeather, "weather", logger);
+}
+
+export function checkModConfig(modConfig: ModConfig, logger: ILogger): void {
+  let isError: boolean = false;
+  // Check mod config for invalid keys
+  isError = validateConfigKeys<ModConfig, typeof modConfigDefaults>(
+    modConfig,
+    modConfigDefaults,
+    "config",
+    logger
+  );
+  // Repair config issues
+  if (isError) repairConfig<ModConfig>(modConfig, "config", logger);
 }
 
 function validateConfigKeys<ConfigType, ModelType>(
@@ -117,67 +123,41 @@ function validateConfigKeys<ConfigType, ModelType>(
   logger: ILogger
 ): boolean {
   let isError: boolean = false;
-
-  // Delete unknown keys
+  // Check against model
+  for (let key in model) {
+    // Replace missing keys
+    if (!Object.keys(config).includes(key)) {
+      isError = true;
+      logger.error(`[TWS] Key: "${key}" is missing in ${fileName}.json.`);
+      config[key as string] = model[key];
+    }
+  }
+  // check against config
   for (let key in config) {
-    if (!Object.keys(model).includes(key)) {
+    // Delete unknown keys
+    if (!Object.hasOwn(model as Object, key)) {
       isError = true;
       logger.error(`[TWS] Invalid key: "${key}" found in ${fileName}.json.`);
       delete config[key];
     }
-  }
-
-  // Replace missing keys
-  for (let key in model) {
-    if (!Object.keys(config).includes(key)) {
+    // Fix invalid types
+    if (typeof model[key as string] !== typeof config[key]) {
       isError = true;
-      logger.error(`[TWS] "${key}" is missing in ${fileName}.json.`);
-      config = {
-        ...config,
-        [key]: model[key],
-      };
+      logger.error(
+        `[TWS] Key: "${key}" has an incorrect type of: ${typeof config[key]}.`
+      );
+      config[key] = model[key as string];
     }
   }
+  // Return error status
   return isError;
 }
 
-export function checkModConfig(modConfig: ModConfig, logger: ILogger): void {
-  let isError: boolean = false;
-
-  // Check mod config for invalid keys
-  isError = validateConfigKeys<ModConfig, typeof modConfigDefaults>(
-    modConfig,
-    modConfigDefaults,
-    "config",
-    logger
-  );
-
-  // Confirm mod config contains only boolean values
-  for (let key in modConfig) {
-    if (typeof modConfig[key] !== "boolean") {
-      isError = true;
-      logger.error(`[TWS] ${key}: "${modConfig[key]}" is not a boolean.`);
-      modConfig[key] = modConfigDefaults[key];
-    }
-  }
-
-  // Repair config issues
-  if (isError) repairDB<ModConfig>(modConfig, "config", logger);
-}
-
-async function repairDB<DBType>(
-  db: DBType,
+function repairConfig<ConfigType>(
+  config: ConfigType,
   fileName: string,
   logger: ILogger
-): Promise<void> {
+): void {
   logger.warning(`[TWS] Repairing ${fileName}.json...`);
-  try {
-    await fs.writeFile(
-      path.join(__dirname, "../../config", `${fileName}.json`),
-      JSON.stringify(db, null, 2)
-    );
-    logger.success(`[TWS] Successfully updated ${fileName}.json.`);
-  } catch {
-    logger.error(`[TWS] Could not write to /config/${fileName}.json.`);
-  }
+  writeConfig<ConfigType>(config, fileName, logger);
 }

@@ -44,7 +44,7 @@ class TarkovWeatherSystem implements IPreSptLoadMod {
         LogTextColor.YELLOW
       );
     }
-    
+
     // Add routes if mod is active
     if (modConfig.enable) {
       this.staticRouterModService.registerStaticRouter(
@@ -53,48 +53,42 @@ class TarkovWeatherSystem implements IPreSptLoadMod {
           {
             url: "/client/game/keepalive",
             action: async (_url, _, __, output) => {
-              // if (modConfig.enableWeather) {
-              //   this.WeatherSystem.setWeather(this.weatherSeasonValues);
-              // }
-              // if (modConfig.enableSeasons) {
-              //   this.WeatherSystem.setSeason(this.weatherSeasonValues);
-              // }
+              //  this.WeatherSystem.setWeather(this.weatherSeasonValues);
+              //  this.WeatherSystem.setSeason(this.weatherSeasonValues);
               return output;
             },
           },
         ],
         "[TWS] /client/game/keepalive"
       );
-      modConfig.enableSeasons &&
-        this.staticRouterModService.registerStaticRouter(
-          "[TWS] /client/match/local/end",
-          [
-            {
-              url: "/client/match/local/end",
-              action: async (_url, _, __, output) => {
-                // this.WeatherSystem.setSeason(this.weatherSeasonValues);
-                return output;
-              },
+      this.staticRouterModService.registerStaticRouter(
+        "[TWS] /client/match/local/end",
+        [
+          {
+            url: "/client/match/local/end",
+            action: async (_url, _, __, output) => {
+              // this.WeatherSystem.setSeason(this.weatherSeasonValues);
+              return output;
             },
-          ],
-          "[TWS] /client/match/local/end"
-        );
-      modConfig.enableWeather &&
-        this.staticRouterModService.registerStaticRouter(
-          "[TWS] /client/weather",
-          [
-            {
-              url: "/client/weather",
-              action: async (_url, _, __, output) => {
-                if (this.WeatherSystem.dbWeather.weatherLeft <= 0) {
-                  this.WeatherSystem.setWeather(this.weatherSeasonValues);
-                }
-                return output;
-              },
+          },
+        ],
+        "[TWS] /client/match/local/end"
+      );
+      this.staticRouterModService.registerStaticRouter(
+        "[TWS] /client/weather",
+        [
+          {
+            url: "/client/weather",
+            action: async (_url, _, __, output) => {
+              if (this.WeatherSystem.dbWeather.weatherLeft <= 0) {
+                this.WeatherSystem.setWeather(this.weatherSeasonValues);
+              }
+              return output;
             },
-          ],
-          "[TWS] /client/weather"
-        );
+          },
+        ],
+        "[TWS] /client/weather"
+      );
     }
   }
 }
