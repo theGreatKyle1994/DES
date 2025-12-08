@@ -34,8 +34,14 @@ class WeatherSystem {
     this.logger.log(`[TWS] Loading...`, LogTextColor.GREEN);
     // Validate db configs
     checkConfigs(this.dbSeason, this.dbWeather, this.logger);
-    // Check current season
+    // Check seasons
     if (modConfig.enableSeasons) {
+      // Setup game database to initial values from db files
+      weatherSeasonValues = {
+        ...weatherSeasonValues,
+        seasonDates: seasonDates,
+        overrideSeason: this.dbSeason.seasonType,
+      };
       this.logger.log(
         `[TWS] Season is: ${this.dbSeason.seasonName}`,
         LogTextColor.CYAN
@@ -43,8 +49,19 @@ class WeatherSystem {
     } else {
       this.logger.log("[TWS] Season is disabled.", LogTextColor.YELLOW);
     }
-    // Check current weather
+     // Check weather
     if (modConfig.enableWeather) {
+      // Setup game database to initial values from db files
+      weatherSeasonValues = {
+        ...weatherSeasonValues,
+        weather: {
+          ...weatherSeasonValues.weather,
+          seasonValues: {
+            ...weatherSeasonValues.weather.seasonValues,
+            default: weatherLayouts[this.dbWeather.weatherName],
+          },
+        },
+      };
       this.logger.log(
         `[TWS] Weather is: ${this.dbWeather.weatherName}`,
         LogTextColor.CYAN
@@ -52,19 +69,6 @@ class WeatherSystem {
     } else {
       this.logger.log("[TWS] Weather is disabled.", LogTextColor.YELLOW);
     }
-    // Setup game database to initial values from db files
-    weatherSeasonValues = {
-      ...weatherSeasonValues,
-      seasonDates: seasonDates,
-      overrideSeason: this.dbSeason.seasonType,
-      weather: {
-        ...weatherSeasonValues.weather,
-        seasonValues: {
-          ...weatherSeasonValues.weather.seasonValues,
-          default: weatherLayouts[this.dbWeather.weatherName],
-        },
-      },
-    };
     // End loading
     this.logger.log(`[TWS] Loading finished!`, LogTextColor.GREEN);
   }

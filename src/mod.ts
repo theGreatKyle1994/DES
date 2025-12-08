@@ -42,8 +42,10 @@ class TarkovWeatherSystem implements IPreSptLoadMod {
           {
             url: "/client/match/local/end",
             action: async (_url, _, __, output) => {
-              this.WeatherSystem.decrementWeather(this.weatherSeasonValues);
-              this.WeatherSystem.decrementSeason(this.weatherSeasonValues);
+              modConfig.enableSeasons &&
+                this.WeatherSystem.decrementSeason(this.weatherSeasonValues);
+              modConfig.enableWeather &&
+                this.WeatherSystem.decrementWeather(this.weatherSeasonValues);
               return output;
             },
           },
@@ -56,8 +58,10 @@ class TarkovWeatherSystem implements IPreSptLoadMod {
           {
             url: "/client/weather",
             action: async (_url, _, __, output) => {
-              this.WeatherSystem.setSeason(this.weatherSeasonValues);
-              this.WeatherSystem.setWeather(this.weatherSeasonValues);
+              modConfig.enableSeasons &&
+                this.WeatherSystem.setSeason(this.weatherSeasonValues);
+              modConfig.enableWeather &&
+                this.WeatherSystem.setWeather(this.weatherSeasonValues);
               return output;
             },
           },
