@@ -47,20 +47,6 @@ class TarkovWeatherSystem implements IPreSptLoadMod {
 
     // Add routes if mod is active
     if (modConfig.enable) {
-      // this.staticRouterModService.registerStaticRouter(
-      //   "[TWS] /client/game/keepalive",
-      //   [
-      //     {
-      //       url: "/client/game/keepalive",
-      //       action: async (_url, _, __, output) => {
-      //          this.WeatherSystem.checkWeather(this.weatherSeasonValues);
-      //          this.WeatherSystem.checkSeason(this.weatherSeasonValues);
-      //         return output;
-      //       },
-      //     },
-      //   ],
-      //   "[TWS] /client/game/keepalive"
-      // );
       this.staticRouterModService.registerStaticRouter(
         "[TWS] /client/match/local/end",
         [

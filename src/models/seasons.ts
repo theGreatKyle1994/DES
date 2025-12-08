@@ -9,6 +9,15 @@ export interface SeasonDB {
   seasonLeft: number;
 }
 
+export interface SeasonWeights {
+  SUMMER: number;
+  AUTUMN: number;
+  WINTER: number;
+  SPRING: number;
+  AUTUMN_LATE: number;
+  SPRING_EARLY: number;
+}
+
 export enum SeasonName {
   SUMMER = "SUMMER",
   AUTUMN = "AUTUMN",

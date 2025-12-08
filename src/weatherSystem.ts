@@ -5,16 +5,22 @@ import dbSeasonConfig from "../config/season.json";
 import weightsConfig from "../config/weightsConfig.json";
 
 // General Imports
-import { seasonDates } from "./models/seasons";
-import { weatherLayouts, WeatherType, type WeatherDB } from "./models/weather";
-import type { SeasonDB } from "./models/seasons";
+import { seasonDates, SeasonName } from "./models/seasons";
+import {
+  weatherLayouts,
+  WeatherName,
+  type WeatherDB,
+  type WeatherWeights,
+} from "./models/weather";
+import type { SeasonDB, SeasonWeights } from "./models/seasons";
 import { checkConfigs } from "./validation/validationUtilities";
-import { writeConfig } from "./utilities/utils";
+import { writeConfig, chooseWeight } from "./utilities/utils";
 
 // SPT Imports
 import { LogTextColor } from "@spt/models/spt/logging/LogTextColor";
 import type { ILogger } from "@spt/models/spt/utils/ILogger";
 import type { IWeatherConfig } from "@spt/models/spt/config/IWeatherConfig";
+import { Season } from "@spt/models/enums/Season";
 
 class WeatherSystem {
   public dbWeather = dbWeatherConfig as WeatherDB;
@@ -66,14 +72,18 @@ class WeatherSystem {
   public setSeason = (seasonValues: IWeatherConfig) => {
     if (this.dbSeason.seasonLeft <= 0) {
       // debug, need to implement
+      const seasonChoice = this.getRandomSeason();
+      // Set season database
+      this.dbSeason.seasonType = Season[seasonChoice];
+      this.dbSeason.seasonName = SeasonName[seasonChoice];
+      this.dbSeason.seasonLeft = this.dbSeason.seasonLength;
+      // Set chosen season to game database
       seasonValues.overrideSeason = this.dbSeason.seasonType;
       // Check new season choice
       this.logger.log(
         `[TWS] The season changed to: ${seasonValues.overrideSeason}`,
         LogTextColor.BLUE
       );
-      // Set new season time
-      this.dbSeason.seasonLeft = this.dbSeason.seasonLength;
       // Write changes to local db
       writeConfig(this.dbSeason, "season", this.logger);
     } else {
@@ -89,8 +99,9 @@ class WeatherSystem {
       // Generate random weather choice
       const weatherChoice = this.getRandomWeather();
       // Set weather database
-      this.dbWeather.weatherName = WeatherType[weatherChoice];
-      // Set chosen weather to database
+      this.dbWeather.weatherName = WeatherName[weatherChoice];
+      this.dbWeather.weatherLeft = this.dbWeather.weatherLength;
+      // Set chosen weather to game database
       weatherValues.weather.seasonValues["default"] =
         weatherLayouts[weatherChoice];
       // Check new weather choice
@@ -98,8 +109,6 @@ class WeatherSystem {
         `[TWS] The weather changed to: ${this.dbWeather.weatherName}`,
         LogTextColor.BLUE
       );
-      // Set new weather time
-      this.dbWeather.weatherLeft = this.dbWeather.weatherLength;
       // Write changes to local db
       writeConfig(this.dbWeather, "weather", this.logger);
     } else {
@@ -116,22 +125,19 @@ class WeatherSystem {
     }
   };
 
+  public getRandomSeason(): string {
+    // Fetch season weights
+    const seasonWeights: SeasonWeights = weightsConfig.seasonWeights;
+    // Return chosen weight
+    return chooseWeight(seasonWeights);
+  }
+
   public getRandomWeather(): string {
     // Fetch weather weights based on current season
-    const seasonWeights: typeof weightsConfig.weatherWeights =
+    const weatherWeights: WeatherWeights =
       weightsConfig.weatherWeights[this.dbSeason.seasonName];
-    // Calculate total weight of season weather types
-    let totalWeight = 0;
-    for (let key in seasonWeights) {
-      totalWeight += seasonWeights[key];
-    }
-    // Determine random weather choice
-    const cursor = Math.ceil(Math.random() * totalWeight);
-    let total = 0;
-    for (let key in seasonWeights) {
-      total += seasonWeights[key];
-      if (total >= cursor) return key;
-    }
+    // Return chosen weight
+    return chooseWeight(weatherWeights);
   }
 
   public decrementSeason(seasonValues: IWeatherConfig): void {

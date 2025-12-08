@@ -2,12 +2,20 @@
 import type { ISeasonalValues } from "@spt/models/spt/config/IWeatherConfig";
 
 export interface WeatherDB {
-  weatherName: WeatherType;
+  weatherName: WeatherName;
   weatherLength: number;
   weatherLeft: number;
 }
 
-export enum WeatherType {
+export interface WeatherWeights {
+  STORMY: number;
+  FOGGY: number;
+  WINDY: number;
+  MISTY: number;
+  SUNNY: number;
+}
+
+export enum WeatherName {
   DEFAULT = "DEFAULT",
   STORMY = "STORMY",
   FOGGY = "FOGGY",
