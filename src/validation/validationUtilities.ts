@@ -25,6 +25,7 @@ export function checkConfigs(
 
 function checkSeasonDB(dbSeason: SeasonDB, logger: ILogger): void {
   let isError: boolean = false;
+
   // Check season config for invalid keys
   isError = validateConfigKeys<SeasonDB, typeof seasonDBDefaults>(
     dbSeason,
@@ -32,6 +33,7 @@ function checkSeasonDB(dbSeason: SeasonDB, logger: ILogger): void {
     "season",
     logger
   );
+
   // Run config validation checks
   if (!Object.values(SeasonName).includes(dbSeason.seasonName as SeasonName)) {
     isError = true;
@@ -40,6 +42,7 @@ function checkSeasonDB(dbSeason: SeasonDB, logger: ILogger): void {
     );
     dbSeason.seasonName = SeasonName.SUMMER;
   }
+
   if (dbSeason.seasonLength <= 0 || dbSeason.seasonLeft < 0) {
     isError = true;
     logger.error(
@@ -54,12 +57,14 @@ function checkSeasonDB(dbSeason: SeasonDB, logger: ILogger): void {
     logger.error("[TWS] seasonLeft must be <= seasonLength.");
     dbSeason.seasonLeft = dbSeason.seasonLength;
   }
+
   // Repair config issues
   if (isError) repairConfig<SeasonDB>(dbSeason, "season", logger);
 }
 
 function checkWeatherDB(dbWeather: WeatherDB, logger: ILogger): void {
   let isError: boolean = false;
+
   // Check weather config for invalid keys
   isError = validateConfigKeys<WeatherDB, typeof weatherDBDefaults>(
     dbWeather,
@@ -67,6 +72,7 @@ function checkWeatherDB(dbWeather: WeatherDB, logger: ILogger): void {
     "weather",
     logger
   );
+
   // Run config validation checks
   if (
     !Object.values(WeatherName).includes(dbWeather.weatherName as WeatherName)
@@ -77,6 +83,7 @@ function checkWeatherDB(dbWeather: WeatherDB, logger: ILogger): void {
     );
     dbWeather.weatherName = WeatherName.SUNNY;
   }
+
   if (dbWeather.weatherLength <= 0 || dbWeather.weatherLeft < 0) {
     isError = true;
     logger.error(
@@ -91,12 +98,14 @@ function checkWeatherDB(dbWeather: WeatherDB, logger: ILogger): void {
     logger.error("[TWS] weatherLeft must be <= weatherLength.");
     dbWeather.weatherLeft = dbWeather.weatherLength;
   }
+
   // Repair config issues
   if (isError) repairConfig<WeatherDB>(dbWeather, "weather", logger);
 }
 
 export function checkModConfig(modConfig: ModConfig, logger: ILogger): void {
   let isError: boolean = false;
+
   // Check mod config for invalid keys
   isError = validateConfigKeys<ModConfig, typeof modConfigDefaults>(
     modConfig,
@@ -104,6 +113,7 @@ export function checkModConfig(modConfig: ModConfig, logger: ILogger): void {
     "config",
     logger
   );
+  
   // Repair config issues
   if (isError) repairConfig<ModConfig>(modConfig, "config", logger);
 }
@@ -115,6 +125,7 @@ function validateConfigKeys<ConfigType, ModelType>(
   logger: ILogger
 ): boolean {
   let isError: boolean = false;
+
   // Check against model
   for (let key in model) {
     // Replace missing keys
@@ -124,6 +135,7 @@ function validateConfigKeys<ConfigType, ModelType>(
       config[key as string] = model[key];
     }
   }
+
   // check against config
   for (let key in config) {
     // Delete unknown keys
@@ -132,6 +144,7 @@ function validateConfigKeys<ConfigType, ModelType>(
       logger.error(`[TWS] Invalid key: "${key}" found in ${fileName}.json.`);
       delete config[key];
     }
+
     // Fix invalid types
     if (typeof model[key as string] !== typeof config[key]) {
       isError = true;

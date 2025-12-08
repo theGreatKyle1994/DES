@@ -21,14 +21,17 @@ export async function writeConfig<ConfigType>(
 }
 
 export function chooseWeight(weights: Object): string {
-  // Calculate total weight of season weather types
   let totalWeight = 0;
+
+  // Calculate total weight of season weather types
   for (let key in weights) {
     totalWeight += weights[key];
   }
+
   // Determine random weather choice
   const cursor = Math.ceil(Math.random() * totalWeight);
   let total = 0;
+  
   for (let key in weights) {
     total += weights[key];
     if (total >= cursor) return key;
