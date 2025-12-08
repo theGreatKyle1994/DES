@@ -13,7 +13,6 @@ import { type ModConfig, modConfigDefaults } from "../models/mod";
 
 // SPT Imports
 import type { ILogger } from "@spt/models/spt/utils/ILogger";
-import { Season } from "@spt/models/enums/Season";
 
 export function checkConfigs(
   dbSeason: SeasonDB,
@@ -40,13 +39,6 @@ function checkSeasonDB(dbSeason: SeasonDB, logger: ILogger): void {
       `[TWS] seasonName: "${dbSeason.seasonName}" is not a valid season type.`
     );
     dbSeason.seasonName = SeasonName.SUMMER;
-    dbSeason.seasonType = Season.SUMMER;
-  } else if (dbSeason.seasonType !== Season[dbSeason.seasonName]) {
-    isError = true;
-    logger.error(
-      `[TWS] seasonType: "${dbSeason.seasonType}" does not match internal enum for Season.`
-    );
-    dbSeason.seasonType = Season[dbSeason.seasonName];
   }
   if (dbSeason.seasonLength <= 0 || dbSeason.seasonLeft < 0) {
     isError = true;

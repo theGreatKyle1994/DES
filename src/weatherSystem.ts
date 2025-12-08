@@ -40,7 +40,7 @@ class WeatherSystem {
       weatherSeasonValues = {
         ...weatherSeasonValues,
         seasonDates: seasonDates,
-        overrideSeason: this.dbSeason.seasonType,
+        overrideSeason: Season[this.dbSeason.seasonName],
       };
       this.logger.log(
         `[TWS] Season is: ${this.dbSeason.seasonName}`,
@@ -49,7 +49,7 @@ class WeatherSystem {
     } else {
       this.logger.log("[TWS] Season is disabled.", LogTextColor.YELLOW);
     }
-     // Check weather
+    // Check weather
     if (modConfig.enableWeather) {
       // Setup game database to initial values from db files
       weatherSeasonValues = {
@@ -78,11 +78,10 @@ class WeatherSystem {
       // debug, need to implement
       const seasonChoice = this.getRandomSeason();
       // Set season database
-      this.dbSeason.seasonType = Season[seasonChoice];
       this.dbSeason.seasonName = SeasonName[seasonChoice];
       this.dbSeason.seasonLeft = this.dbSeason.seasonLength;
       // Set chosen season to game database
-      seasonValues.overrideSeason = this.dbSeason.seasonType;
+      seasonValues.overrideSeason = Season[this.dbSeason.seasonName];
       // Check new season choice
       this.logger.log(
         `[TWS] The season changed to: ${seasonValues.overrideSeason}`,
@@ -93,7 +92,7 @@ class WeatherSystem {
     } else {
       seasonValues = {
         ...seasonValues,
-        overrideSeason: this.dbSeason.seasonType,
+        overrideSeason: Season[this.dbSeason.seasonName],
       };
     }
   };
