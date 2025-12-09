@@ -3,6 +3,7 @@ export interface ModConfig {
   enableSeasons: boolean;
   enableWeather: boolean;
   randomSeasons: boolean;
+  fikaAdjustmentID: string;
 }
 
 export const modConfigDefaults = {
@@ -10,4 +11,5 @@ export const modConfigDefaults = {
   enableSeasons: true,
   enableWeather: true,
   randomSeasons: false,
+  fikaAdjustmentID: "",
 };

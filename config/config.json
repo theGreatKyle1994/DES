@@ -2,5 +2,6 @@
   "enable": true,
   "enableSeasons": true,
   "enableWeather": true,
-  "randomSeasons": false
+  "randomSeasons": false,
+  "fikaAdjustmentID": ""
 }

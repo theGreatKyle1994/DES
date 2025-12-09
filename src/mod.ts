@@ -5,6 +5,7 @@ import modConfig from "../config/config.json";
 import { DependencyContainer } from "tsyringe";
 import WeatherSystem from "./weatherSystem";
 import { checkModConfig } from "./validation/validationUtilities";
+import { writeConfig } from "./utilities/utils";
 
 // SPT Imports
 import { ConfigTypes } from "@spt/models/enums/ConfigTypes";
@@ -14,6 +15,8 @@ import type { StaticRouterModService } from "@spt/services/mod/staticRouter/Stat
 import type { IPreSptLoadMod } from "@spt/models/external/IPreSptLoadMod";
 import type { ConfigServer } from "@spt/servers/ConfigServer";
 import type { IWeatherConfig } from "@spt/models/spt/config/IWeatherConfig";
+import type { IGetBodyResponseData } from "@spt/models/eft/httpResponse/IGetBodyResponseData";
+import type { IPmcData } from "@spt/models/eft/common/IPmcData";
 
 class TarkovWeatherSystem implements IPreSptLoadMod {
   public logger: ILogger;
@@ -39,11 +42,43 @@ class TarkovWeatherSystem implements IPreSptLoadMod {
       // Initialize core mod
       this.WeatherSystem.enable(this.weatherSeasonValues, this.logger);
       this.staticRouterModService.registerStaticRouter(
+        "[TWS] /client/game/profile/list",
+        [
+          {
+            url: "/client/game/profile/list",
+            action: async (_, __, ___, output) => {
+              // const outputData = JSON.parse(output) as IGetBodyResponseData<
+              //   IPmcData[]
+              // >;
+              // const sessionID = outputData.data[0].sessionId;
+              // modConfig.fikaAdjustmentID = sessionID;
+              // writeConfig(modConfig, "config", this.logger);
+              return output;
+            },
+          },
+        ],
+        "[TWS] /client/game/profile/list"
+      );
+      this.staticRouterModService.registerStaticRouter(
+        "[TWS] /fika/raid/create",
+        [
+          {
+            url: "/fika/raid/create",
+            action: async (_, info, ___, output) => {
+              // const data = JSON.parse(info) as { serverId: string };
+              // this.WeatherSystem.fikaID = data.serverId;
+              return output;
+            },
+          },
+        ],
+        "[TWS] /fika/raid/create"
+      );
+      this.staticRouterModService.registerStaticRouter(
         "[TWS] /client/match/local/end",
         [
           {
             url: "/client/match/local/end",
-            action: async (_url, _, __, output) => {
+            action: async (_, __, ___, output) => {
               modConfig.enableSeasons &&
                 this.WeatherSystem.decrementSeason(this.weatherSeasonValues);
               modConfig.enableWeather &&
@@ -59,7 +94,7 @@ class TarkovWeatherSystem implements IPreSptLoadMod {
         [
           {
             url: "/client/weather",
-            action: async (_url, _, __, output) => {
+            action: async (_, __, ___, output) => {
               modConfig.enableSeasons &&
                 this.WeatherSystem.setSeason(this.weatherSeasonValues);
               modConfig.enableWeather &&
