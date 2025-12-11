@@ -23,7 +23,6 @@ import type { IWeatherConfig } from "@spt/models/spt/config/IWeatherConfig";
 import { Season } from "@spt/models/enums/Season";
 
 class WeatherSystem {
-  public fikaID: string = "";
   public dbWeather = dbWeatherConfig as WeatherDB;
   public dbSeason = dbSeasonConfig as SeasonDB;
   public logger: ILogger;
@@ -143,7 +142,7 @@ class WeatherSystem {
   public decrementSeason(seasonValues: IWeatherConfig): void {
     // sessionID check to only decrement by 1 instead of for each player
     if (
-      this.dbSeason.seasonLeft > 0 
+      this.dbSeason.seasonLeft > 0
       // && modConfig.fikaAdjustmentID === this.fikaID
     ) {
       this.dbSeason.seasonLeft--;
@@ -159,7 +158,7 @@ class WeatherSystem {
   public decrementWeather(weatherValues: IWeatherConfig): void {
     // sessionID check to only decrement by 1 instead of for each player
     if (
-      this.dbWeather.weatherLeft > 0 
+      this.dbWeather.weatherLeft > 0
       // && modConfig.fikaAdjustmentID === this.fikaID
     ) {
       this.dbWeather.weatherLeft--;
