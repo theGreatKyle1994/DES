@@ -2,12 +2,16 @@ export interface ModConfig {
   enable: boolean;
   enableSeasons: boolean;
   enableWeather: boolean;
+  useSeasonLength: boolean;
+  useWeatherLength: boolean;
   randomSeasons: boolean;
 }
 
-export const modConfigDefaults = {
+export const modConfigDefaults: ModConfig = {
   enable: true,
   enableSeasons: true,
   enableWeather: true,
-  randomSeasons: false
+  useSeasonLength: true,
+  useWeatherLength: true,
+  randomSeasons: false,
 };

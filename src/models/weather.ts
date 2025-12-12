@@ -33,8 +33,8 @@ interface WeatherLayouts {
   SUNNY: ISeasonalValues;
 }
 
-export const weatherDBDefaults = {
-  weatherName: "SUNNY",
+export const weatherDBDefaults: WeatherDB = {
+  weatherName: WeatherName.SUNNY,
   weatherLength: 3,
   weatherLeft: 3,
 };

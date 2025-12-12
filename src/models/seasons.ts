@@ -35,8 +35,8 @@ export const seasonOrder: string[] = [
   "SPRING",
 ];
 
-export const seasonDBDefaults = {
-  seasonName: "SUMMER",
+export const seasonDBDefaults: SeasonDB = {
+  seasonName: SeasonName.SUMMER,
   seasonLength: 14,
   seasonLeft: 14,
 };

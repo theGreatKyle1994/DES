@@ -1,6 +1,3 @@
-// Configs
-import weightsConfig from "../../config/weightsConfig.json";
-
 // General Imports
 import {
   type WeatherDB,

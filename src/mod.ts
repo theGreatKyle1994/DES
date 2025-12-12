@@ -84,9 +84,17 @@ class TarkovWeatherSystem implements IPreSptLoadMod {
               const UID: string = info.results.profile._id;
               const isHost: boolean = this.FikaHostHandler.isHost(UID);
               // Only host can modify configs
-              if (modConfig.enableSeasons && isHost)
+              if (
+                modConfig.enableSeasons &&
+                modConfig.useSeasonLength &&
+                isHost
+              )
                 this.WeatherSystem.decrementSeason(this.weatherSeasonValues);
-              if (modConfig.enableWeather && isHost)
+              if (
+                modConfig.enableWeather &&
+                modConfig.useWeatherLength &&
+                isHost
+              )
                 this.WeatherSystem.decrementWeather(this.weatherSeasonValues);
               return output;
             },
