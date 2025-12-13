@@ -19,15 +19,23 @@ import { writeConfig, chooseWeight, loadConfigs } from "./utilities/utils";
 // SPT Imports
 import { LogTextColor } from "@spt/models/spt/logging/LogTextColor";
 import type { ILogger } from "@spt/models/spt/utils/ILogger";
-import type { IWeatherConfig } from "@spt/models/spt/config/IWeatherConfig";
+import type {
+  ISeasonalValues,
+  IWeatherConfig,
+} from "@spt/models/spt/config/IWeatherConfig";
 import { Season } from "@spt/models/enums/Season";
 
 class WeatherSystem {
   public dbWeather = dbWeatherConfig as WeatherDB;
   public dbSeason = dbSeasonConfig as SeasonDB;
+  public defaultWeatherConfigs: ISeasonalValues[] = [];
+  public weatherConfigs: ISeasonalValues[] = [];
   public logger: ILogger;
 
-  public enable(weatherSeasonValues: IWeatherConfig, logger: ILogger): void {
+  public async enable(
+    weatherSeasonValues: IWeatherConfig,
+    logger: ILogger
+  ): Promise<void> {
     this.logger = logger;
     this.logger.log(`[TWS] Loading...`, LogTextColor.GREEN);
 
@@ -38,6 +46,8 @@ class WeatherSystem {
     if (modConfig.enableSeasons) {
       // Setup season dates to allow any season
       weatherSeasonValues.seasonDates = seasonDates;
+
+      // Set initial season
       this.setSeason(weatherSeasonValues);
       this.logger.logWithColor(
         `[TWS] ${this.dbSeason.seasonLeft} raid(s) left for ${this.dbSeason.seasonName}`,
@@ -47,8 +57,27 @@ class WeatherSystem {
 
     // Setup weather
     if (modConfig.enableWeather) {
+      // Load default weather configs
+      this.defaultWeatherConfigs = await loadConfigs<ISeasonalValues>(
+        "defaultWeather",
+        this.logger
+      );
+      this.logger.logWithColor(
+        `[TWS] Loaded ${this.defaultWeatherConfigs.length} default weather patterns.`,
+        LogTextColor.CYAN
+      );
+
       // Load custom weather configs
-      loadConfigs("customWeather", this.logger);
+      this.weatherConfigs = await loadConfigs<ISeasonalValues>(
+        "customWeather",
+        this.logger
+      );
+      this.logger.logWithColor(
+        `[TWS] Loaded ${this.weatherConfigs.length} custom weather patterns.`,
+        LogTextColor.CYAN
+      );
+
+      // Set initial weather
       this.setWeather(weatherSeasonValues);
       this.logger.logWithColor(
         `[TWS] ${this.dbWeather.weatherLeft} raid(s) left for ${this.dbWeather.weatherName}`,

@@ -38,12 +38,12 @@ export function chooseWeight(weights: Object): string {
   }
 }
 
-export async function loadConfigs(
+export async function loadConfigs<T = string>(
   subPath: string,
   logger: ILogger
-): Promise<string[]> {
+): Promise<T[]> {
   let filePaths: string[] = [];
-  let configs: string[] = [];
+  let configs: T[] = [];
 
   // Grab all file paths in config/subPath
   try {
