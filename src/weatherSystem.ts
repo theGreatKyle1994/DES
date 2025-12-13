@@ -1,7 +1,7 @@
 // Configs
 import modConfig from "../config/config.json";
-import dbWeatherConfig from "../config/weather.json";
-import dbSeasonConfig from "../config/season.json";
+import dbWeatherConfig from "../config/db/weather.json";
+import dbSeasonConfig from "../config/db/season.json";
 import weightsConfig from "../config/weightsConfig.json";
 
 // General Imports

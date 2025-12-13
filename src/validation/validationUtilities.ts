@@ -54,7 +54,7 @@ function checkSeasonDB(dbSeason: SeasonDB, logger: ILogger): void {
     }
 
     // Repair config issues
-    if (isError) repairConfig<SeasonDB>(dbSeason, "season", logger);
+    if (isError) repairConfig<SeasonDB>(dbSeason, "db/season", logger);
 }
 
 function checkWeatherDB(dbWeather: WeatherDB, logger: ILogger): void {
@@ -85,7 +85,7 @@ function checkWeatherDB(dbWeather: WeatherDB, logger: ILogger): void {
     }
 
     // Repair config issues
-    if (isError) repairConfig<WeatherDB>(dbWeather, "weather", logger);
+    if (isError) repairConfig<WeatherDB>(dbWeather, "db/weather", logger);
 }
 
 export function checkModConfig(modConfig: ModConfig, logger: ILogger): void {
