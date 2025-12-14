@@ -3,7 +3,6 @@ import modConfig from "../config/config.json";
 import dbWeatherConfig from "../config/db/weather.json";
 import dbSeasonConfig from "../config/db/season.json";
 import seasonWeights from "../config/seasonWeights.json";
-import weatherWeights from "../config/defaultWeather/weights.json";
 
 // General Imports
 import { seasonDates, SeasonName, seasonOrder } from "./models/seasons";
@@ -14,7 +13,12 @@ import type {
 } from "./models/weather";
 import type { SeasonDB } from "./models/seasons";
 import { checkConfigs } from "./validation/validationUtilities";
-import { writeConfig, chooseWeight, loadConfigs } from "./utilities/utils";
+import {
+    writeConfig,
+    chooseWeight,
+    loadConfigs,
+    loadWeights,
+} from "./utilities/utils";
 
 // SPT Imports
 import { LogTextColor } from "@spt/models/spt/logging/LogTextColor";
@@ -78,6 +82,9 @@ class WeatherSystem {
             ["weights.json"]
         );
 
+        // Load default weather weights
+        this.weatherWeights = await loadWeights(this.logger, "defaultWeather");
+
         // Grab initial weather count
         let customWeatherLength: number = this.weatherConfigs.length;
         this.logger.logWithColor(
@@ -89,8 +96,15 @@ class WeatherSystem {
         this.weatherConfigs = await loadConfigs<WeatherConfig>(
             this.logger,
             "customWeather",
-            ["weights.json", "example.json"],
+            ["weights.json", "example.json", "exampleWeights.json"],
             this.weatherConfigs
+        );
+
+        // Load custom weather weights
+        this.weatherWeights = await loadWeights(
+            this.logger,
+            "customWeather",
+            this.weatherWeights
         );
 
         // Grab all weather names, default and custom
@@ -190,7 +204,7 @@ class WeatherSystem {
     }
 
     public getRandomWeather(): string {
-        return chooseWeight(weatherWeights[this.dbSeason.seasonName]);
+        return chooseWeight(this.weatherWeights[this.dbSeason.seasonName]);
     }
 
     public findWeather(target: string): ISeasonalValues {

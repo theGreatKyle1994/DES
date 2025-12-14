@@ -1,4 +1,5 @@
 // General Imports
+import type { WeatherWeightsConfig } from "../models/weather";
 import path from "path";
 import fs from "fs/promises";
 
@@ -12,11 +13,57 @@ export async function writeConfig<ConfigType>(
 ): Promise<void> {
     try {
         await fs.writeFile(
-            path.join(__dirname, "../../config/", `${fileName}.json`),
+            path.join(__dirname, "../../config/db/", `${fileName}.json`),
             JSON.stringify(config, null, 2)
         );
     } catch {
         logger.error(`[TWS] Could not write to /config/${fileName}.json.`);
+    }
+}
+
+export async function loadWeights(
+    logger: ILogger,
+    subPath: string,
+    weights: WeatherWeightsConfig = {
+        SUMMER: {},
+        AUTUMN: {},
+        WINTER: {},
+        SPRING: {},
+        AUTUMN_LATE: {},
+        SPRING_EARLY: {},
+    }
+): Promise<WeatherWeightsConfig> {
+    let weightsConfig: WeatherWeightsConfig;
+    try {
+        // Get weight config based on sub folder
+        weightsConfig = JSON.parse(
+            await fs.readFile(
+                path.join(__dirname, `../../config/${subPath}/weights.json`),
+                {
+                    encoding: "utf-8",
+                }
+            )
+        );
+
+        // Add config values to weight config
+        weights = {
+            SUMMER: { ...weights.SUMMER, ...weightsConfig.SUMMER },
+            AUTUMN: { ...weights.AUTUMN, ...weightsConfig.AUTUMN },
+            WINTER: { ...weights.WINTER, ...weightsConfig.WINTER },
+            SPRING: { ...weights.SPRING, ...weightsConfig.SPRING },
+            AUTUMN_LATE: {
+                ...weights.AUTUMN_LATE,
+                ...weightsConfig.AUTUMN_LATE,
+            },
+            SPRING_EARLY: {
+                ...weights.SPRING_EARLY,
+                ...weightsConfig.SPRING_EARLY,
+            },
+        };
+
+        return weights;
+    } catch (err) {
+        logger.warning(`[TWS] Could not load: ${subPath}/weights.json.`);
     }
 }
 

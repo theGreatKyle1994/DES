@@ -1,0 +1,20 @@
+{
+    "AUTUMN_LATE": {
+        "EXAMPLENAME": 10
+    },
+    "AUTUMN": {
+        "EXAMPLENAME": 10
+    },
+    "SPRING_EARLY": {
+        "EXAMPLENAME": 10
+    },
+    "SPRING": {
+        "EXAMPLENAME": 10
+    },
+    "SUMMER": {
+        "EXAMPLENAME": 10
+    },
+    "WINTER": {
+        "EXAMPLENAME": 10
+    }
+}
