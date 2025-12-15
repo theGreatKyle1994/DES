@@ -1,13 +1,13 @@
 // Configs
 import modConfig from "../config/config.json";
 
-// General Imports
+// General
 import { DependencyContainer } from "tsyringe";
 import WeatherModule from "./modules/WeatherModule";
 import SeasonModule from "./modules/SeasonModule";
 import FikaHandler from "./utilities/fikaHandler";
 
-// SPT Imports
+// SPT
 import { ConfigTypes } from "@spt/models/enums/ConfigTypes";
 import { LogTextColor } from "@spt/models/spt/logging/LogTextColor";
 import type { ILogger } from "@spt/models/spt/utils/ILogger";
@@ -15,55 +15,35 @@ import type { StaticRouterModService } from "@spt/services/mod/staticRouter/Stat
 import type { IPreSptLoadMod } from "@spt/models/external/IPreSptLoadMod";
 import type { ConfigServer } from "@spt/servers/ConfigServer";
 import type { IWeatherConfig } from "@spt/models/spt/config/IWeatherConfig";
-import type { IUIDRequestData } from "@spt/models/eft/common/request/IUIDRequestData";
 import type { IEndLocalRaidRequestData } from "@spt/models/eft/match/IEndLocalRaidRequestData";
 
-// Fika Imports
+// Fika
 import type { IFikaRaidCreateRequestData } from "@spt/models/fika/routes/raid/create/IFikaRaidCreateRequestData";
 
-class TarkovWeatherSystem implements IPreSptLoadMod {
-    public FikaHostHandler = new FikaHandler();
-    public logger: ILogger;
-    public configServer: ConfigServer;
-    public staticRouterModService: StaticRouterModService;
-    public SeasonModule = new SeasonModule();
-    public WeatherModule = new WeatherModule();
-    public weatherSeasonValues: IWeatherConfig;
+class DynamicEnvironmentSystem implements IPreSptLoadMod {
+    private _FikaHostHandler = new FikaHandler();
+    private _logger: ILogger;
+    private _configServer: ConfigServer;
+    private _staticRouterModService: StaticRouterModService;
+    private _SeasonModule = new SeasonModule();
+    private _WeatherModule = new WeatherModule();
+    private _weatherSeasonValues: IWeatherConfig;
 
     public preSptLoad(container: DependencyContainer): void {
-        this.logger = container.resolve<ILogger>("WinstonLogger");
-        this.configServer = container.resolve<ConfigServer>("ConfigServer");
-        this.staticRouterModService = container.resolve<StaticRouterModService>(
-            "StaticRouterModService"
-        );
-        this.weatherSeasonValues = this.configServer.getConfig<IWeatherConfig>(
-            ConfigTypes.WEATHER
-        );
+        this._logger = container.resolve<ILogger>("WinstonLogger");
+        this._configServer = container.resolve<ConfigServer>("ConfigServer");
+        this._staticRouterModService =
+            container.resolve<StaticRouterModService>("StaticRouterModService");
+        this._weatherSeasonValues =
+            this._configServer.getConfig<IWeatherConfig>(ConfigTypes.WEATHER);
 
         if (modConfig.enable) {
             // Enable modules
-            this.SeasonModule.enable(this.weatherSeasonValues, this.logger);
-            this.WeatherModule.enable(this.weatherSeasonValues, this.logger);
-
-            // Add clients to list for future use
-            this.staticRouterModService.registerStaticRouter(
-                "[TWS] /client/game/profile/select",
-                [
-                    {
-                        url: "/client/game/profile/select",
-                        action: async (
-                            _,
-                            info: IUIDRequestData,
-                            ___,
-                            output
-                        ) => (this.FikaHostHandler.addClient(info.uid), output),
-                    },
-                ],
-                "[TWS] /client/game/profile/select"
-            );
+            this._SeasonModule.enable(this._weatherSeasonValues, this._logger);
+            this._WeatherModule.enable(this._weatherSeasonValues, this._logger);
 
             // Set host UID for config value changing
-            this.staticRouterModService.registerStaticRouter(
+            this._staticRouterModService.registerStaticRouter(
                 "[TWS] /fika/raid/create",
                 [
                     {
@@ -74,7 +54,7 @@ class TarkovWeatherSystem implements IPreSptLoadMod {
                             ___,
                             output
                         ) => (
-                            this.FikaHostHandler.setHost(info.serverId), output
+                            this._FikaHostHandler.setHost(info.serverId), output
                         ),
                     },
                 ],
@@ -82,7 +62,7 @@ class TarkovWeatherSystem implements IPreSptLoadMod {
             );
 
             // Decrement weather and season config values after raid
-            this.staticRouterModService.registerStaticRouter(
+            this._staticRouterModService.registerStaticRouter(
                 "[TWS] /client/match/local/end",
                 [
                     {
@@ -95,23 +75,23 @@ class TarkovWeatherSystem implements IPreSptLoadMod {
                         ) => {
                             const UID: string = info.results.profile._id;
                             const isHost: boolean =
-                                this.FikaHostHandler.isHost(UID);
+                                this._FikaHostHandler.isHost(UID);
                             // Only host can modify configs
                             if (
                                 modConfig.modules.seasons.enable &&
                                 modConfig.modules.seasons.useLength &&
                                 isHost
                             )
-                                this.SeasonModule.decrementSeason(
-                                    this.weatherSeasonValues
+                                this._SeasonModule.decrementSeason(
+                                    this._weatherSeasonValues
                                 );
                             if (
                                 modConfig.modules.weather.enable &&
                                 modConfig.modules.weather.useLength &&
                                 isHost
                             )
-                                this.WeatherModule.decrementWeather(
-                                    this.weatherSeasonValues
+                                this._WeatherModule.decrementWeather(
+                                    this._weatherSeasonValues
                                 );
                             return output;
                         },
@@ -121,19 +101,19 @@ class TarkovWeatherSystem implements IPreSptLoadMod {
             );
 
             // Generate weather and season values
-            this.staticRouterModService.registerStaticRouter(
+            this._staticRouterModService.registerStaticRouter(
                 "[TWS] /client/weather",
                 [
                     {
                         url: "/client/weather",
                         action: async (_, __, ___, output) => {
                             modConfig.modules.seasons.enable &&
-                                this.SeasonModule.setSeason(
-                                    this.weatherSeasonValues
+                                this._SeasonModule.setSeason(
+                                    this._weatherSeasonValues
                                 );
                             modConfig.modules.weather.enable &&
-                                this.WeatherModule.setWeather(
-                                    this.weatherSeasonValues
+                                this._WeatherModule.setWeather(
+                                    this._weatherSeasonValues
                                 );
                             return output;
                         },
@@ -142,7 +122,7 @@ class TarkovWeatherSystem implements IPreSptLoadMod {
                 "[TWS] /client/weather"
             );
         } else {
-            this.logger.log(
+            this._logger.log(
                 "[TWS] Mod has been disabled. Check config.",
                 LogTextColor.YELLOW
             );
@@ -150,4 +130,4 @@ class TarkovWeatherSystem implements IPreSptLoadMod {
     }
 }
 
-module.exports = { mod: new TarkovWeatherSystem() };
+module.exports = { mod: new DynamicEnvironmentSystem() };

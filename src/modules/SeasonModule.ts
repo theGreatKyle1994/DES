@@ -15,33 +15,33 @@ import type { IWeatherConfig } from "@spt/models/spt/config/IWeatherConfig";
 import { Season } from "@spt/models/enums/Season";
 
 export default class SeasonModule {
-    public logger: ILogger;
-    public dbSeason = dbSeasonConfig as SeasonDB;
+    private _logger: ILogger;
+    private _dbSeason = dbSeasonConfig as SeasonDB;
 
     public enable(weatherSeasonValues: IWeatherConfig, logger: ILogger): void {
-        this.logger = logger;
+        this._logger = logger;
 
         // Setup season
         if (modConfig.modules.seasons.enable)
             this.enableSeasons(weatherSeasonValues);
-        else this.logger.log("[TWS] Season is disabled.", LogTextColor.YELLOW);
+        else this._logger.log("[TWS] Season is disabled.", LogTextColor.YELLOW);
     }
 
-    public enableSeasons(seasonValues: IWeatherConfig): void {
+    private enableSeasons(seasonValues: IWeatherConfig): void {
         // Setup season dates to allow any season
         seasonValues.seasonDates = seasonDates;
 
         // Set initial season
         this.setSeason(seasonValues);
-        this.logger.logWithColor(
-            `[TWS] ${this.dbSeason.seasonLeft} raid(s) left for ${this.dbSeason.seasonName}`,
+        this._logger.logWithColor(
+            `[TWS] ${this._dbSeason.seasonLeft} raid(s) left for ${this._dbSeason.seasonName}`,
             LogTextColor.CYAN
         );
     }
 
     public setSeason(seasonValues: IWeatherConfig) {
         // Check if season change is needed
-        if (this.dbSeason.seasonLeft <= 0) {
+        if (this._dbSeason.seasonLeft <= 0) {
             let seasonChoice: string = "";
 
             // Use random seasons
@@ -50,7 +50,7 @@ export default class SeasonModule {
             // Determine next season in queue
             else {
                 const seasonIndex: number = seasonOrder.indexOf(
-                    this.dbSeason.seasonName
+                    this._dbSeason.seasonName
                 );
                 if (seasonIndex === seasonOrder.length - 1)
                     seasonChoice = seasonOrder[0] as SeasonName;
@@ -58,23 +58,23 @@ export default class SeasonModule {
             }
 
             // Set local season database
-            this.dbSeason.seasonName = SeasonName[seasonChoice];
-            this.dbSeason.seasonLeft = this.dbSeason.seasonLength;
+            this._dbSeason.seasonName = SeasonName[seasonChoice];
+            this._dbSeason.seasonLeft = this._dbSeason.seasonLength;
 
             // Set chosen season to game database
-            seasonValues.overrideSeason = Season[this.dbSeason.seasonName];
-            this.logger.log(
-                `[TWS] The season changed to: ${this.dbSeason.seasonName}`,
+            seasonValues.overrideSeason = Season[this._dbSeason.seasonName];
+            this._logger.log(
+                `[TWS] The season changed to: ${this._dbSeason.seasonName}`,
                 LogTextColor.BLUE
             );
 
-            writeConfig(this.dbSeason, "season", this.logger);
+            writeConfig(this._dbSeason, "season", this._logger);
         } else {
             // Enforce current values
-            seasonValues.overrideSeason = Season[this.dbSeason.seasonName];
+            seasonValues.overrideSeason = Season[this._dbSeason.seasonName];
 
-            this.logger.log(
-                `[TWS] Season is: ${this.dbSeason.seasonName}`,
+            this._logger.log(
+                `[TWS] Season is: ${this._dbSeason.seasonName}`,
                 LogTextColor.CYAN
             );
         }
@@ -82,14 +82,14 @@ export default class SeasonModule {
 
     public decrementSeason(seasonValues: IWeatherConfig): void {
         // Confirm seasondb has more raids left
-        if (this.dbSeason.seasonLeft > 0) {
-            this.dbSeason.seasonLeft--;
-            this.logger.logWithColor(
-                `[TWS] ${this.dbSeason.seasonLeft} raid(s) left for ${this.dbSeason.seasonName}`,
+        if (this._dbSeason.seasonLeft > 0) {
+            this._dbSeason.seasonLeft--;
+            this._logger.logWithColor(
+                `[TWS] ${this._dbSeason.seasonLeft} raid(s) left for ${this._dbSeason.seasonName}`,
                 LogTextColor.CYAN
             );
         } else this.setSeason(seasonValues);
 
-        writeConfig(this.dbSeason, "season", this.logger);
+        writeConfig(this._dbSeason, "season", this._logger);
     }
 }

@@ -26,12 +26,12 @@ import type {
 } from "@spt/models/spt/config/IWeatherConfig";
 
 export default class WeatherModule {
-    public logger: ILogger;
-    public dbWeather = dbWeatherConfig as WeatherDB;
-    public dbSeason = dbSeasonConfig as SeasonDB;
-    public weatherConfigs: WeatherConfig[] = [];
-    public weatherTypes: string[] = [];
-    public weatherWeights: WeatherWeightsConfig = {
+    private _logger: ILogger;
+    private _dbWeather = dbWeatherConfig as WeatherDB;
+    private _dbSeason = dbSeasonConfig as SeasonDB;
+    private _weatherConfigs: WeatherConfig[] = [];
+    private _weatherTypes: string[] = [];
+    private _weatherWeights: WeatherWeightsConfig = {
         SUMMER: {},
         AUTUMN: {},
         WINTER: {},
@@ -41,55 +41,59 @@ export default class WeatherModule {
     };
 
     public enable(weatherSeasonValues: IWeatherConfig, logger: ILogger): void {
-        this.logger = logger;
+        this._logger = logger;
 
         // Setup weather
         if (modConfig.modules.weather.enable)
             this.enableWeather(weatherSeasonValues);
-        else this.logger.log("[TWS] Weather is disabled.", LogTextColor.YELLOW);
+        else
+            this._logger.log("[TWS] Weather is disabled.", LogTextColor.YELLOW);
     }
 
-    public async enableWeather(weatherValues: IWeatherConfig): Promise<void> {
+    private async enableWeather(weatherValues: IWeatherConfig): Promise<void> {
         let weatherCount: number = 0;
 
         // Load default weather
-        this.weatherConfigs = await loadConfigs<WeatherConfig>(
-            this.logger,
+        this._weatherConfigs = await loadConfigs<WeatherConfig>(
+            this._logger,
             "weather/default",
             ["weights.json"]
         );
 
         // Load default weather weights
-        this.weatherWeights = await loadWeights(this.logger, "weather/default");
+        this._weatherWeights = await loadWeights(
+            this._logger,
+            "weather/default"
+        );
 
         // Grab initial weather count
-        weatherCount += this.weatherConfigs.length;
+        weatherCount += this._weatherConfigs.length;
 
-        this.logger.logWithColor(
+        this._logger.logWithColor(
             `[TWS] Loaded ${weatherCount} default weather pattern(s).`,
             LogTextColor.CYAN
         );
 
         // Load custom weather
         if (modConfig.modules.weather.useCustom) {
-            this.weatherConfigs = await loadConfigs<WeatherConfig>(
-                this.logger,
+            this._weatherConfigs = await loadConfigs<WeatherConfig>(
+                this._logger,
                 "weather/custom",
                 ["weights.json", "example.json", "exampleWeights.json"],
-                this.weatherConfigs
+                this._weatherConfigs
             );
 
             // Load custom weather weights
-            this.weatherWeights = await loadWeights(
-                this.logger,
+            this._weatherWeights = await loadWeights(
+                this._logger,
                 "weather/custom",
-                this.weatherWeights
+                this._weatherWeights
             );
 
             // Find difference for custom config length
-            weatherCount -= this.weatherConfigs.length;
+            weatherCount -= this._weatherConfigs.length;
 
-            this.logger.logWithColor(
+            this._logger.logWithColor(
                 `[TWS] Loaded ${Math.abs(
                     weatherCount
                 )} custom weather pattern(s).`,
@@ -98,66 +102,75 @@ export default class WeatherModule {
         }
 
         // Grab all weather names, default and custom
-        for (let { name } of this.weatherConfigs) this.weatherTypes.push(name);
+        for (let { name } of this._weatherConfigs)
+            this._weatherTypes.push(name);
 
         // Set initial weather
         this.setWeather(weatherValues);
-        this.logger.logWithColor(
-            `[TWS] ${this.dbWeather.weatherLeft} raid(s) left for ${this.dbWeather.weatherName}`,
+        this._logger.logWithColor(
+            `[TWS] ${this._dbWeather.weatherLeft} raid(s) left for ${this._dbWeather.weatherName}`,
             LogTextColor.CYAN
         );
     }
 
-    public setWeather(weatherValues: IWeatherConfig) {
+    public async setWeather(weatherValues: IWeatherConfig): Promise<void> {
         // Check if weather change is needed
-        if (this.dbWeather.weatherLeft <= 0) {
+        if (this._dbWeather.weatherLeft <= 0) {
+            // Update local season values
+            this._dbSeason = await loadConfigs<SeasonDB>(
+                this._logger,
+                "db/season"
+            )[0];
+
             // Generate random weather choice
             const weatherChoice = chooseWeight(
-                this.weatherWeights[this.dbSeason.seasonName]
+                this._weatherWeights[this._dbSeason.seasonName]
             );
 
             // Set local weather database
-            this.dbWeather.weatherName = weatherChoice;
-            this.dbWeather.weatherLeft = this.dbWeather.weatherLength;
+            this._dbWeather.weatherName = weatherChoice;
+            this._dbWeather.weatherLeft = this._dbWeather.weatherLength;
 
             // Set chosen weather to game database
             weatherValues.weather.seasonValues["default"] =
                 this.findWeather(weatherChoice);
 
-            this.logger.log(
-                `[TWS] The weather changed to: ${this.dbWeather.weatherName}`,
+            this._logger.log(
+                `[TWS] The weather changed to: ${this._dbWeather.weatherName}`,
                 LogTextColor.BLUE
             );
-            writeConfig(this.dbWeather, "weather", this.logger);
+
+            // Write changes to local weatherdb
+            writeConfig(this._dbWeather, "weather", this._logger);
         } else {
             // Enforce current values
             weatherValues.weather.seasonValues.default = this.findWeather(
-                this.dbWeather.weatherName
+                this._dbWeather.weatherName
             );
 
-            this.logger.log(
-                `[TWS] Weather is: ${this.dbWeather.weatherName}`,
+            this._logger.log(
+                `[TWS] Weather is: ${this._dbWeather.weatherName}`,
                 LogTextColor.CYAN
             );
         }
     }
 
-    public findWeather(target: string): ISeasonalValues {
-        for (let i = 0; i < this.weatherConfigs.length; i++)
-            if (this.weatherConfigs[i].name === target)
-                return this.weatherConfigs[i].weather;
+    private findWeather(target: string): ISeasonalValues {
+        for (let i = 0; i < this._weatherConfigs.length; i++)
+            if (this._weatherConfigs[i].name === target)
+                return this._weatherConfigs[i].weather;
     }
 
     public decrementWeather(weatherValues: IWeatherConfig): void {
         // Confirm weatherdb has more raids left
-        if (this.dbWeather.weatherLeft > 0) {
-            this.dbWeather.weatherLeft--;
-            this.logger.logWithColor(
-                `[TWS] ${this.dbWeather.weatherLeft} raid(s) left for ${this.dbWeather.weatherName}`,
+        if (this._dbWeather.weatherLeft > 0) {
+            this._dbWeather.weatherLeft--;
+            this._logger.logWithColor(
+                `[TWS] ${this._dbWeather.weatherLeft} raid(s) left for ${this._dbWeather.weatherName}`,
                 LogTextColor.CYAN
             );
         } else this.setWeather(weatherValues);
 
-        writeConfig(this.dbWeather, "weather", this.logger);
+        writeConfig(this._dbWeather, "weather", this._logger);
     }
 }

@@ -1,9 +1,9 @@
-// General Imports
+// General
 import type { WeatherWeightsConfig } from "../models/weather";
 import path from "path";
 import fs from "fs/promises";
 
-// SPT Imports
+// SPT
 import type { ILogger } from "@spt/models/spt/utils/ILogger";
 
 export async function writeConfig<ConfigType>(

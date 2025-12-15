@@ -1,4 +1,4 @@
-// SPT Imports
+// SPT
 import type { ISeasonDateTimes } from "@spt/models/spt/config/IWeatherConfig";
 
 export interface SeasonDB {
@@ -34,12 +34,6 @@ export const seasonOrder: string[] = [
     "SPRING_EARLY",
     "SPRING",
 ];
-
-export const seasonDBDefaults: SeasonDB = {
-    seasonName: SeasonName.SUMMER,
-    seasonLength: 14,
-    seasonLeft: 14,
-};
 
 export const seasonDates: ISeasonDateTimes[] = [
     {

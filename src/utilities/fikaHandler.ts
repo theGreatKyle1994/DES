@@ -1,20 +1,11 @@
-class FikaHandler {
-    public hostID: string = "";
-    public clients: string[] = [];
-
-    public addClient(UID: string): void {
-        if (!this.clients.includes(UID)) {
-            this.clients.push(UID);
-        }
-    }
+export default class FikaHandler {
+    private _hostID: string = "";
 
     public setHost(UID: string): void {
-        this.hostID = UID;
+        this._hostID = UID;
     }
 
     public isHost(UID: string): boolean {
-        return UID == this.hostID;
+        return UID == this._hostID;
     }
 }
-
-export default FikaHandler;

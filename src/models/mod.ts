@@ -14,20 +14,3 @@ export interface ModConfig {
         };
     };
 }
-
-export const modConfigDefaults: ModConfig = {
-    enable: true,
-    debug: false,
-    modules: {
-        seasons: {
-            enable: true,
-            useLength: true,
-            useRandom: false,
-        },
-        weather: {
-            enable: true,
-            useLength: true,
-            useCustom: false,
-        },
-    },
-};
