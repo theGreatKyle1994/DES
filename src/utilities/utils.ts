@@ -5,6 +5,7 @@ import fs from "fs/promises";
 
 // SPT
 import type { ILogger } from "@spt/models/spt/utils/ILogger";
+import { log } from "console";
 
 export async function writeConfig<ConfigType>(
     config: ConfigType,
@@ -85,6 +86,24 @@ export function chooseWeight(weights: Object): string {
     }
 }
 
+export async function loadConfig<T>(
+    logger: ILogger,
+    filePath: string
+): Promise<T> {
+    try {
+        return JSON.parse(
+            await fs.readFile(
+                path.join(__dirname, `../../config/${filePath}.json`),
+                {
+                    encoding: "utf-8",
+                }
+            )
+        );
+    } catch {
+        logger.warning(`[TWS] Error reading /config/${filePath}.json.`);
+    }
+}
+
 export async function loadConfigs<T = string>(
     logger: ILogger,
     subPath: string,
@@ -104,7 +123,7 @@ export async function loadConfigs<T = string>(
                 withFileTypes: false,
             }
         );
-    } catch (err) {
+    } catch {
         logger.warning(`[TWS] Error reading /config/${subPath} directory.`);
     }
 
@@ -131,7 +150,7 @@ export async function loadConfigs<T = string>(
                 )
             );
         }
-    } catch (err) {
+    } catch {
         logger.warning(`[TWS] Problem reading file: ${filePaths[index]}`);
     }
 

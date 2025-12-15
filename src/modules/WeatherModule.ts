@@ -13,6 +13,7 @@ import type { SeasonDB } from "../models/seasons";
 import {
     writeConfig,
     chooseWeight,
+    loadConfig,
     loadConfigs,
     loadWeights,
 } from "../utilities/utils";
@@ -117,10 +118,10 @@ export default class WeatherModule {
         // Check if weather change is needed
         if (this._dbWeather.weatherLeft <= 0) {
             // Update local season values
-            this._dbSeason = await loadConfigs<SeasonDB>(
+            this._dbSeason = await loadConfig<SeasonDB>(
                 this._logger,
                 "db/season"
-            )[0];
+            );
 
             // Generate random weather choice
             const weatherChoice = chooseWeight(
