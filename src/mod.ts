@@ -96,16 +96,16 @@ class TarkovWeatherSystem implements IPreSptLoadMod {
                                 this.FikaHostHandler.isHost(UID);
                             // Only host can modify configs
                             if (
-                                modConfig.enableSeasons &&
-                                modConfig.useSeasonLength &&
+                                modConfig.modules.seasons.enable &&
+                                modConfig.modules.seasons.useLength &&
                                 isHost
                             )
                                 this.WeatherSystem.decrementSeason(
                                     this.weatherSeasonValues
                                 );
                             if (
-                                modConfig.enableWeather &&
-                                modConfig.useWeatherLength &&
+                                modConfig.modules.weather.enable &&
+                                modConfig.modules.weather.useLength &&
                                 isHost
                             )
                                 this.WeatherSystem.decrementWeather(
@@ -124,11 +124,11 @@ class TarkovWeatherSystem implements IPreSptLoadMod {
                     {
                         url: "/client/weather",
                         action: async (_, __, ___, output) => {
-                            modConfig.enableSeasons &&
+                            modConfig.modules.seasons.enable &&
                                 this.WeatherSystem.setSeason(
                                     this.weatherSeasonValues
                                 );
-                            modConfig.enableWeather &&
+                            modConfig.modules.weather.enable &&
                                 this.WeatherSystem.setWeather(
                                     this.weatherSeasonValues
                                 );

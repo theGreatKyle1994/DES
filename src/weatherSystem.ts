@@ -52,17 +52,19 @@ class WeatherSystem {
         checkConfigs(this.dbSeason, this.dbWeather, this.logger);
 
         // Setup season
-        if (modConfig.enableSeasons) this.enableSeasons(weatherSeasonValues);
+        if (modConfig.modules.seasons.enable)
+            this.enableSeasons(weatherSeasonValues);
         else this.logger.log("[TWS] Season is disabled.", LogTextColor.YELLOW);
 
         // Setup weather
-        if (modConfig.enableWeather) this.enableWeather(weatherSeasonValues);
+        if (modConfig.modules.weather.enable)
+            this.enableWeather(weatherSeasonValues);
         else this.logger.log("[TWS] Weather is disabled.", LogTextColor.YELLOW);
 
         this.logger.log(`[TWS] Loading finished!`, LogTextColor.GREEN);
     }
 
-    public async enableSeasons(seasonValues: IWeatherConfig) {
+    public enableSeasons(seasonValues: IWeatherConfig): void {
         // Setup season dates to allow any season
         seasonValues.seasonDates = seasonDates;
 
@@ -74,34 +76,29 @@ class WeatherSystem {
         );
     }
 
-    public async enableWeather(weatherValues: IWeatherConfig) {
+    public async enableWeather(weatherValues: IWeatherConfig): Promise<void> {
         let weatherCount: number = 0;
+
         // Load default weather
-        if (modConfig.useDefaultWeather) {
-            // Load default weather configs
-            this.weatherConfigs = await loadConfigs<WeatherConfig>(
-                this.logger,
-                "defaultWeather",
-                ["weights.json"]
-            );
+        this.weatherConfigs = await loadConfigs<WeatherConfig>(
+            this.logger,
+            "defaultWeather",
+            ["weights.json"]
+        );
 
-            // Load default weather weights
-            this.weatherWeights = await loadWeights(
-                this.logger,
-                "defaultWeather"
-            );
+        // Load default weather weights
+        this.weatherWeights = await loadWeights(this.logger, "defaultWeather");
 
-            // Grab initial weather count
-            weatherCount += this.weatherConfigs.length;
+        // Grab initial weather count
+        weatherCount += this.weatherConfigs.length;
 
-            this.logger.logWithColor(
-                `[TWS] Loaded ${weatherCount} default weather pattern(s).`,
-                LogTextColor.CYAN
-            );
-        }
+        this.logger.logWithColor(
+            `[TWS] Loaded ${weatherCount} default weather pattern(s).`,
+            LogTextColor.CYAN
+        );
 
         // Load custom weather
-        if (modConfig.useCustomWeather) {
+        if (modConfig.modules.weather.useCustom) {
             this.weatherConfigs = await loadConfigs<WeatherConfig>(
                 this.logger,
                 "customWeather",
@@ -144,7 +141,8 @@ class WeatherSystem {
             let seasonChoice: string = "";
 
             // Use random seasons
-            if (modConfig.randomSeasons) seasonChoice = this.getRandomSeason();
+            if (modConfig.modules.seasons.useRandom)
+                seasonChoice = this.getRandomSeason();
             // Determine next season in queue
             else {
                 const seasonIndex: number = seasonOrder.indexOf(

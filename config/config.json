@@ -1,10 +1,16 @@
 {
     "enable": true,
-    "enableSeasons": true,
-    "enableWeather": true,
-    "useSeasonLength": true,
-    "useWeatherLength": true,
-    "useDefaultWeather": true,
-    "useCustomWeather": false,
-    "randomSeasons": false
+    "debug": false,
+    "modules": {
+        "seasons": {
+            "enable": true,
+            "useLength": true,
+            "useRandom": false
+        },
+        "weather": {
+            "enable": true,
+            "useLength": true,
+            "useCustom": false
+        }
+    }
 }

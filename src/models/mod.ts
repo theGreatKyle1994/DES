@@ -1,21 +1,33 @@
 export interface ModConfig {
     enable: boolean;
-    enableSeasons: boolean;
-    enableWeather: boolean;
-    useSeasonLength: boolean;
-    useWeatherLength: boolean;
-    useDefaultWeather: boolean;
-    useCustomWeather: boolean;
-    randomSeasons: boolean;
+    debug: boolean;
+    modules: {
+        seasons: {
+            enable: boolean;
+            useLength: boolean;
+            useRandom: boolean;
+        };
+        weather: {
+            enable: boolean;
+            useLength: boolean;
+            useCustom: boolean;
+        };
+    };
 }
 
 export const modConfigDefaults: ModConfig = {
     enable: true,
-    enableSeasons: true,
-    enableWeather: true,
-    useSeasonLength: true,
-    useWeatherLength: true,
-    useDefaultWeather: true,
-    useCustomWeather: false,
-    randomSeasons: false,
+    debug: false,
+    modules: {
+        seasons: {
+            enable: true,
+            useLength: true,
+            useRandom: false,
+        },
+        weather: {
+            enable: true,
+            useLength: true,
+            useCustom: false,
+        },
+    },
 };
