@@ -3,7 +3,8 @@ import modConfig from "../config/config.json";
 
 // General Imports
 import { DependencyContainer } from "tsyringe";
-import WeatherSystem from "./weatherSystem";
+import WeatherModule from "./modules/WeatherModule";
+import SeasonModule from "./modules/SeasonModule";
 import FikaHandler from "./utilities/fikaHandler";
 
 // SPT Imports
@@ -25,7 +26,8 @@ class TarkovWeatherSystem implements IPreSptLoadMod {
     public logger: ILogger;
     public configServer: ConfigServer;
     public staticRouterModService: StaticRouterModService;
-    public WeatherSystem = new WeatherSystem();
+    public SeasonModule = new SeasonModule();
+    public WeatherModule = new WeatherModule();
     public weatherSeasonValues: IWeatherConfig;
 
     public preSptLoad(container: DependencyContainer): void {
@@ -38,9 +40,11 @@ class TarkovWeatherSystem implements IPreSptLoadMod {
             ConfigTypes.WEATHER
         );
 
-        // Initialize core mod
         if (modConfig.enable) {
-            this.WeatherSystem.enable(this.weatherSeasonValues, this.logger);
+            // Enable modules
+            this.SeasonModule.enable(this.weatherSeasonValues, this.logger);
+            this.WeatherModule.enable(this.weatherSeasonValues, this.logger);
+
             // Add clients to list for future use
             this.staticRouterModService.registerStaticRouter(
                 "[TWS] /client/game/profile/select",
@@ -57,6 +61,7 @@ class TarkovWeatherSystem implements IPreSptLoadMod {
                 ],
                 "[TWS] /client/game/profile/select"
             );
+
             // Set host UID for config value changing
             this.staticRouterModService.registerStaticRouter(
                 "[TWS] /fika/raid/create",
@@ -75,6 +80,7 @@ class TarkovWeatherSystem implements IPreSptLoadMod {
                 ],
                 "[TWS] /fika/raid/create"
             );
+
             // Decrement weather and season config values after raid
             this.staticRouterModService.registerStaticRouter(
                 "[TWS] /client/match/local/end",
@@ -96,7 +102,7 @@ class TarkovWeatherSystem implements IPreSptLoadMod {
                                 modConfig.modules.seasons.useLength &&
                                 isHost
                             )
-                                this.WeatherSystem.decrementSeason(
+                                this.SeasonModule.decrementSeason(
                                     this.weatherSeasonValues
                                 );
                             if (
@@ -104,7 +110,7 @@ class TarkovWeatherSystem implements IPreSptLoadMod {
                                 modConfig.modules.weather.useLength &&
                                 isHost
                             )
-                                this.WeatherSystem.decrementWeather(
+                                this.WeatherModule.decrementWeather(
                                     this.weatherSeasonValues
                                 );
                             return output;
@@ -113,6 +119,7 @@ class TarkovWeatherSystem implements IPreSptLoadMod {
                 ],
                 "[TWS] /client/match/local/end"
             );
+
             // Generate weather and season values
             this.staticRouterModService.registerStaticRouter(
                 "[TWS] /client/weather",
@@ -121,11 +128,11 @@ class TarkovWeatherSystem implements IPreSptLoadMod {
                         url: "/client/weather",
                         action: async (_, __, ___, output) => {
                             modConfig.modules.seasons.enable &&
-                                this.WeatherSystem.setSeason(
+                                this.SeasonModule.setSeason(
                                     this.weatherSeasonValues
                                 );
                             modConfig.modules.weather.enable &&
-                                this.WeatherSystem.setWeather(
+                                this.WeatherModule.setWeather(
                                     this.weatherSeasonValues
                                 );
                             return output;
