@@ -1,0 +1,77 @@
+{
+    "____DESCRIPTION____": "'values' use a number array to indicate value intensitys to choose from",
+    "____DESCRIPTION2____": "'weights' use a number array to set weights for 'values' in the same index",
+    "____DESCRIPTION3____": "'weights' properties length must match 'values' length",
+    "____DESCRIPTION4____": "every 'values['weights']' is chosen randomly throughout the raid to make weather preset dynamic",
+    "____DESCRIPTION5____": "both 'values' and 'weights' can be any length but must be equal to each other",
+    "___INFO___": "name: Can be anything, must match weights.json definitions",
+    "name": "EXAMPLENAME",
+    "weather": {
+        "clouds": {
+            "___INFO___": "Modifies cloud intensity",
+            "___INFO2___": "Range: -1.0 - 1.0",
+            "values": [-1, 0, 1],
+            "___INFO3___": "[1, 1, 1] indicates all values have equal chance of being chosen",
+            "weights": [1, 1, 1]
+        },
+        "windSpeed": {
+            "___INFO___": "Modifies wind audio intensity",
+            "___INFO2___": "Range: 0, 1, 2, 3, 4",
+            "values": [0, 1, 2, 3, 4],
+            "___INFO3___": "[1, 1, 2, 1, 1] a weight of 2 means it has a 33.33~% chance of being selected",
+            "___INFO4___": "formula: 2 / ( 1 + 1 + 2 + 1 + 1 ) * 100 = 33.33~%",
+            "___INFO5___": "formula: selectedWeight / ( SUM(weights) ) * 100 = weightChance",
+            "weights": [1, 1, 2, 1, 1]
+        },
+        "windDirection": {
+            "___INFO___": "Modifies wind direction",
+            "___INFO2___": "Range: 1, 2, 3, 4, 5, 6, 7, 8",
+            "values": [1, 2, 3, 4, 5, 6, 7, 8],
+            "___INFO3___": "best to keep this as is unless a specific wind direction is wanted",
+            "weights": [1, 1, 1, 1, 1, 1, 1, 1]
+        },
+        "windGustiness": {
+            "___INFO___": "Modifies tree sway",
+            "___INFO2___": "Range: min/max: 0.0 - 1.0",
+            "___INFO3___": "min: 0, max: 1 means any value between 0 - 1 will be chosen",
+            "min": 0,
+            "max": 1
+        },
+        "rain": {
+            "___INFO___": "Modifies rain audio intensity",
+            "___INFO2___": "Range: 1, 2, 3, 4, 5 | 1 means no rain",
+            "values": [1, 2, 3, 4, 5],
+            "weights": [1, 1, 1, 1, 1]
+        },
+        "rainIntensity": {
+            "___INFO___": "Modifies visual rain amount",
+            "___INFO2___": "Range: min/max: 0.0 - 1.0",
+            "min": 0,
+            "max": 1
+        },
+        "fog": {
+            "___INFO___": "Modifies fog density",
+            "___INFO2___": "Range: 0.0000 - 1.0000",
+            "values": [0.0015, 0.002, 0.008, 0.35, 1],
+            "weights": [1, 1, 1, 1, 1]
+        },
+        "temp": {
+            "___INFO___": "Modifies temperature, unused unless xmas event is active",
+            "___INFO2___": "Range: min/max: -Infinity - Infinity",
+            "day": {
+                "min": 9,
+                "max": 32
+            },
+            "night": {
+                "min": 2,
+                "max": 16
+            }
+        },
+        "pressure": {
+            "___INFO___": "Modifies air pressure, unsure of purpose",
+            "___INFO2___": "Range: 0 - Infinity",
+            "min": 760,
+            "max": 780
+        }
+    }
+}

@@ -1,0 +1,25 @@
+{
+    "____DESCRIPTION____": "Here we define any custom weathers from the 'name' property in it's file",
+    "____DESCRIPTION2____": "All seasons must be defined to work. if they arent used, leave the object blank",
+    "____DESCRIPTION3____": "Don't add default weathers into this file unless they are copy pasted into the 'custom' folder",
+    "AUTUMN_LATE": {
+        "___INFO___": "Define the weight for the custom weather",
+        "___INFO2___": "Custom weather weights are added to the default weather weights",
+        "EXAMPLENAME": 10
+    },
+    "AUTUMN": {
+        "EXAMPLENAME": 10
+    },
+    "SPRING_EARLY": {
+        "EXAMPLENAME": 10
+    },
+    "SPRING": {
+        "EXAMPLENAME": 10
+    },
+    "SUMMER": {
+        "EXAMPLENAME": 10
+    },
+    "WINTER": {
+        "EXAMPLENAME": 10
+    }
+}

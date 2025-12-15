@@ -2,7 +2,7 @@
 import modConfig from "../config/config.json";
 import dbWeatherConfig from "../config/db/weather.json";
 import dbSeasonConfig from "../config/db/season.json";
-import seasonWeights from "../config/seasonWeights.json";
+import seasonWeights from "../config/season/weights.json";
 
 // General Imports
 import { seasonDates, SeasonName, seasonOrder } from "./models/seasons";
@@ -82,12 +82,12 @@ class WeatherSystem {
         // Load default weather
         this.weatherConfigs = await loadConfigs<WeatherConfig>(
             this.logger,
-            "defaultWeather",
+            "weather/default",
             ["weights.json"]
         );
 
         // Load default weather weights
-        this.weatherWeights = await loadWeights(this.logger, "defaultWeather");
+        this.weatherWeights = await loadWeights(this.logger, "weather/default");
 
         // Grab initial weather count
         weatherCount += this.weatherConfigs.length;
@@ -101,7 +101,7 @@ class WeatherSystem {
         if (modConfig.modules.weather.useCustom) {
             this.weatherConfigs = await loadConfigs<WeatherConfig>(
                 this.logger,
-                "customWeather",
+                "weather/custom",
                 ["weights.json", "example.json", "exampleWeights.json"],
                 this.weatherConfigs
             );
@@ -109,7 +109,7 @@ class WeatherSystem {
             // Load custom weather weights
             this.weatherWeights = await loadWeights(
                 this.logger,
-                "customWeather",
+                "weather/custom",
                 this.weatherWeights
             );
 
@@ -223,11 +223,8 @@ class WeatherSystem {
     }
 
     public decrementSeason(seasonValues: IWeatherConfig): void {
-        // sessionID check to only decrement by 1 instead of for each player
-        if (
-            this.dbSeason.seasonLeft > 0
-            // && modConfig.fikaAdjustmentID === this.fikaID
-        ) {
+        // Confirm seasondb has more raids left
+        if (this.dbSeason.seasonLeft > 0) {
             this.dbSeason.seasonLeft--;
             this.logger.logWithColor(
                 `[TWS] ${this.dbSeason.seasonLeft} raid(s) left for ${this.dbSeason.seasonName}`,
@@ -239,11 +236,8 @@ class WeatherSystem {
     }
 
     public decrementWeather(weatherValues: IWeatherConfig): void {
-        // sessionID check to only decrement by 1 instead of for each player
-        if (
-            this.dbWeather.weatherLeft > 0
-            // && modConfig.fikaAdjustmentID === this.fikaID
-        ) {
+        // Confirm weatherdb has more raids left
+        if (this.dbWeather.weatherLeft > 0) {
             this.dbWeather.weatherLeft--;
             this.logger.logWithColor(
                 `[TWS] ${this.dbWeather.weatherLeft} raid(s) left for ${this.dbWeather.weatherName}`,

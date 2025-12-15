@@ -1,0 +1,20 @@
+{
+    "AUTUMN_LATE": {
+        "HEAVYSTORM": 10
+    },
+    "AUTUMN": {
+        "HEAVYSTORM": 20
+    },
+    "SPRING_EARLY": {
+        "HEAVYSTORM": 30
+    },
+    "SPRING": {
+        "HEAVYSTORM": 40
+    },
+    "SUMMER": {
+        "HEAVYSTORM": 5
+    },
+    "WINTER": {
+        "HEAVYSTORM": 20
+    }
+}

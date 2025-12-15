@@ -1,32 +1,32 @@
 {
-    "name": "EXAMPLENAME",
+    "name": "HEAVYSTORM",
     "weather": {
         "clouds": {
-            "values": [0],
-            "weights": [1]
-        },
-        "windSpeed": {
-            "values": [0],
-            "weights": [1]
-        },
-        "windDirection": {
             "values": [1],
             "weights": [1]
         },
+        "windSpeed": {
+            "values": [0, 1, 2, 3, 4],
+            "weights": [0, 0, 0, 0, 1]
+        },
+        "windDirection": {
+            "values": [1, 2, 3, 4, 5, 6, 7, 8],
+            "weights": [1, 1, 1, 1, 1, 1, 1, 1]
+        },
         "windGustiness": {
-            "min": 0,
-            "max": 0
+            "min": 1,
+            "max": 1
         },
         "rain": {
-            "values": [0],
-            "weights": [1]
+            "values": [1, 2, 3, 4, 5],
+            "weights": [0, 0, 0, 0, 1]
         },
         "rainIntensity": {
-            "min": 0,
-            "max": 0
+            "min": 1,
+            "max": 1
         },
         "fog": {
-            "values": [0],
+            "values": [1],
             "weights": [1]
         },
         "temp": {
