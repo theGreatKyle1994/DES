@@ -1,13 +1,7 @@
 // SPT
 import type { ISeasonalValues } from "@spt/models/spt/config/IWeatherConfig";
 
-export interface WeatherDB {
-    weatherName: string;
-    weatherLength: number;
-    weatherLeft: number;
-}
-
-export interface WeatherConfig {
+export interface WeatherCustomConfig {
     name: string;
     weather: ISeasonalValues;
 }

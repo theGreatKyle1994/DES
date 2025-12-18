@@ -2,7 +2,7 @@
 import modConfig from "../config/config.json";
 
 // General
-import { DependencyContainer } from "tsyringe";
+import type { DependencyContainer } from "tsyringe";
 import WeatherModule from "./modules/WeatherModule";
 import SeasonModule from "./modules/SeasonModule";
 import FikaHandler from "./utilities/fikaHandler";
@@ -19,9 +19,10 @@ import type { IEndLocalRaidRequestData } from "@spt/models/eft/match/IEndLocalRa
 
 // Fika
 import type { IFikaRaidCreateRequestData } from "@spt/models/fika/routes/raid/create/IFikaRaidCreateRequestData";
+import type { IPostDBLoadMod } from "@spt/models/external/IPostDBLoadMod";
 
-class DynamicEnvironmentSystem implements IPreSptLoadMod {
-    private _FikaHostHandler = new FikaHandler();
+class DynamicEnvironmentSystem implements IPreSptLoadMod, IPostDBLoadMod {
+    private _FikaHandler = new FikaHandler();
     private _logger: ILogger;
     private _configServer: ConfigServer;
     private _staticRouterModService: StaticRouterModService;
@@ -31,18 +32,11 @@ class DynamicEnvironmentSystem implements IPreSptLoadMod {
 
     public preSptLoad(container: DependencyContainer): void {
         this._logger = container.resolve<ILogger>("WinstonLogger");
-        this._configServer = container.resolve<ConfigServer>("ConfigServer");
         this._staticRouterModService =
             container.resolve<StaticRouterModService>("StaticRouterModService");
-        this._weatherSeasonValues =
-            this._configServer.getConfig<IWeatherConfig>(ConfigTypes.WEATHER);
 
         if (modConfig.enable) {
-            // Enable modules
-            this._SeasonModule.enable(this._weatherSeasonValues, this._logger);
-            this._WeatherModule.enable(this._weatherSeasonValues, this._logger);
-
-            // Set host UID for config value changing
+            // Set host UID for config value changing when fika is enabled
             this._staticRouterModService.registerStaticRouter(
                 "[TWS] /fika/raid/create",
                 [
@@ -53,9 +47,7 @@ class DynamicEnvironmentSystem implements IPreSptLoadMod {
                             info: IFikaRaidCreateRequestData,
                             ___,
                             output
-                        ) => (
-                            this._FikaHostHandler.setHost(info.serverId), output
-                        ),
+                        ) => (this._FikaHandler.setHost(info.serverId), output),
                     },
                 ],
                 "[TWS] /fika/raid/create"
@@ -75,7 +67,7 @@ class DynamicEnvironmentSystem implements IPreSptLoadMod {
                         ) => {
                             const UID: string = info.results.profile._id;
                             const isHost: boolean =
-                                this._FikaHostHandler.isHost(UID);
+                                this._FikaHandler.isHost(UID);
                             // Only host can modify configs
                             if (
                                 modConfig.modules.seasons.enable &&
@@ -126,6 +118,19 @@ class DynamicEnvironmentSystem implements IPreSptLoadMod {
                 "[TWS] Mod has been disabled. Check config.",
                 LogTextColor.YELLOW
             );
+        }
+    }
+
+    public postDBLoad(container: DependencyContainer): void {
+        // Grab initial server config values
+        this._configServer = container.resolve<ConfigServer>("ConfigServer");
+        this._weatherSeasonValues =
+            this._configServer.getConfig<IWeatherConfig>(ConfigTypes.WEATHER);
+
+        // Enable modules
+        if (modConfig.enable) {
+            this._SeasonModule.enable(this._weatherSeasonValues, this._logger);
+            this._WeatherModule.enable(this._weatherSeasonValues, this._logger);
         }
     }
 }

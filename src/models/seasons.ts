@@ -1,12 +1,6 @@
 // SPT
 import type { ISeasonDateTimes } from "@spt/models/spt/config/IWeatherConfig";
 
-export interface SeasonDB {
-    seasonName: SeasonName;
-    seasonLength: number;
-    seasonLeft: number;
-}
-
 export interface SeasonWeights {
     SUMMER: number;
     AUTUMN: number;

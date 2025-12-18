@@ -1,0 +1,12 @@
+{
+    "season": {
+        "name": "SUMMER",
+        "length": 14,
+        "raidsRemaining": 14
+    },
+    "weather": {
+        "name": "SUNNY",
+        "length": 3,
+        "raidsRemaining": 3
+    }
+}

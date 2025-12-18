@@ -1,30 +1,36 @@
 // General
 import type { WeatherWeightsConfig } from "../models/weather";
+import type { Database } from "../models/database";
 import path from "path";
 import fs from "fs/promises";
 
 // SPT
 import type { ILogger } from "@spt/models/spt/utils/ILogger";
 
-export async function writeConfig<ConfigType>(
-    config: ConfigType,
-    fileName: string,
+export async function writeDatabase(
+    data: object,
+    dbIndex: string,
     logger: ILogger
 ): Promise<void> {
+    // Get previous db info
+    const prevDB: Database = await loadConfig<Database>(logger, "db/database");
+    // Merge old db with updated db
+    const currentDB: Database = { ...prevDB, [dbIndex]: data };
+    // Write new db data to file
     try {
         await fs.writeFile(
-            path.join(__dirname, "../../config/db/", `${fileName}.json`),
-            JSON.stringify(config, null, 2)
+            path.join(__dirname, "../../config/db/database.json"),
+            JSON.stringify(currentDB, null, 2)
         );
     } catch {
-        logger.error(`[TWS] Could not write to /config/db/${fileName}.json.`);
+        logger.error(`[TWS] Could not write to /config/db/database.json.`);
     }
 }
 
-export async function loadConfig<T>(
+export async function loadConfig<ConfigType>(
     logger: ILogger,
     filePath: string
-): Promise<T> {
+): Promise<ConfigType> {
     // Grab config in config/subPath
     try {
         return JSON.parse(
@@ -40,14 +46,14 @@ export async function loadConfig<T>(
     }
 }
 
-export async function loadConfigs<T = string>(
+export async function loadConfigs<ConfigType = string>(
     logger: ILogger,
     subPath: string,
     blacklist: string[] = [],
-    preConfig: T[] = []
-): Promise<T[]> {
+    preConfig: ConfigType[] = []
+): Promise<ConfigType[]> {
     let filePaths: string[] = [];
-    let configs: T[] = preConfig;
+    let configs: ConfigType[] = preConfig;
 
     // Grab all file paths in config/subPath
     try {
