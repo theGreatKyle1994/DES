@@ -24,7 +24,7 @@ export default class SeasonModule {
         // Setup season
         if (modConfig.modules.seasons.enable)
             this.enableSeasons(weatherSeasonValues);
-        else this._logger.log("[TWS] Season is disabled.", LogTextColor.YELLOW);
+        else this._logger.log("[DES] Season is disabled.", LogTextColor.YELLOW);
     }
 
     private enableSeasons(seasonValues: IWeatherConfig): void {
@@ -35,7 +35,7 @@ export default class SeasonModule {
         this.setSeason(seasonValues);
         modConfig.log.raidsRemaining &&
             this._logger.logWithColor(
-                `[TWS] ${this._seasonDB.remaining} raid(s) left for ${this._seasonDB.name}`,
+                `[DES] ${this._seasonDB.remaining} raid(s) left for ${this._seasonDB.name}`,
                 LogTextColor.CYAN
             );
     }
@@ -66,7 +66,7 @@ export default class SeasonModule {
             seasonValues.overrideSeason = Season[this._seasonDB.name];
             modConfig.log.onChange &&
                 this._logger.log(
-                    `[TWS] The season changed to: ${this._seasonDB.name}`,
+                    `[DES] The season changed to: ${this._seasonDB.name}`,
                     LogTextColor.BLUE
                 );
 
@@ -76,7 +76,7 @@ export default class SeasonModule {
             seasonValues.overrideSeason = Season[this._seasonDB.name];
             modConfig.log.current &&
                 this._logger.log(
-                    `[TWS] Season is: ${this._seasonDB.name}`,
+                    `[DES] Season is: ${this._seasonDB.name}`,
                     LogTextColor.CYAN
                 );
         }
@@ -88,7 +88,7 @@ export default class SeasonModule {
             this._seasonDB.remaining--;
             modConfig.log.raidsRemaining &&
                 this._logger.logWithColor(
-                    `[TWS] ${this._seasonDB.remaining} raid(s) left for ${this._seasonDB.name}`,
+                    `[DES] ${this._seasonDB.remaining} raid(s) left for ${this._seasonDB.name}`,
                     LogTextColor.CYAN
                 );
         } else this.setSeason(seasonValues);

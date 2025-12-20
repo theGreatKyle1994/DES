@@ -38,7 +38,7 @@ class DynamicEnvironmentSystem implements IPreSptLoadMod, IPostDBLoadMod {
         if (modConfig.enable) {
             // Set host UID for config value changing when fika is enabled
             this._staticRouterModService.registerStaticRouter(
-                "[TWS] /fika/raid/create",
+                "[DES] /fika/raid/create",
                 [
                     {
                         url: "/fika/raid/create",
@@ -50,12 +50,12 @@ class DynamicEnvironmentSystem implements IPreSptLoadMod, IPostDBLoadMod {
                         ) => (this._FikaHandler.setHost(info.serverId), output),
                     },
                 ],
-                "[TWS] /fika/raid/create"
+                "[DES] /fika/raid/create"
             );
 
             // Decrement weather and season config values after raid
             this._staticRouterModService.registerStaticRouter(
-                "[TWS] /client/match/local/end",
+                "[DES] /client/match/local/end",
                 [
                     {
                         url: "/client/match/local/end",
@@ -89,12 +89,12 @@ class DynamicEnvironmentSystem implements IPreSptLoadMod, IPostDBLoadMod {
                         },
                     },
                 ],
-                "[TWS] /client/match/local/end"
+                "[DES] /client/match/local/end"
             );
 
             // Generate weather and season values
             this._staticRouterModService.registerStaticRouter(
-                "[TWS] /client/weather",
+                "[DES] /client/weather",
                 [
                     {
                         url: "/client/weather",
@@ -111,11 +111,11 @@ class DynamicEnvironmentSystem implements IPreSptLoadMod, IPostDBLoadMod {
                         },
                     },
                 ],
-                "[TWS] /client/weather"
+                "[DES] /client/weather"
             );
         } else {
             this._logger.log(
-                "[TWS] Mod has been disabled. Check config.",
+                "[DES] Mod has been disabled. Check config.",
                 LogTextColor.YELLOW
             );
         }

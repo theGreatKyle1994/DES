@@ -46,7 +46,7 @@ export default class WeatherModule {
         if (modConfig.modules.weather.enable)
             this.enableWeather(weatherSeasonValues);
         else
-            this._logger.log("[TWS] Weather is disabled.", LogTextColor.YELLOW);
+            this._logger.log("[DES] Weather is disabled.", LogTextColor.YELLOW);
     }
 
     private async enableWeather(weatherValues: IWeatherConfig): Promise<void> {
@@ -68,7 +68,7 @@ export default class WeatherModule {
         // Grab initial weather count
         weatherCount += this._weatherConfigs.length;
         this._logger.logWithColor(
-            `[TWS] Loaded ${weatherCount} default weather pattern(s).`,
+            `[DES] Loaded ${weatherCount} default weather pattern(s).`,
             LogTextColor.CYAN
         );
 
@@ -91,7 +91,7 @@ export default class WeatherModule {
             // Find difference for custom config length
             weatherCount -= this._weatherConfigs.length;
             this._logger.logWithColor(
-                `[TWS] Loaded ${Math.abs(
+                `[DES] Loaded ${Math.abs(
                     weatherCount
                 )} custom weather pattern(s).`,
                 LogTextColor.CYAN
@@ -106,7 +106,7 @@ export default class WeatherModule {
         this.setWeather(weatherValues);
         modConfig.log.raidsRemaining &&
             this._logger.logWithColor(
-                `[TWS] ${this._dbWeather.remaining} raid(s) left for ${this._dbWeather.name}`,
+                `[DES] ${this._dbWeather.remaining} raid(s) left for ${this._dbWeather.name}`,
                 LogTextColor.CYAN
             );
     }
@@ -134,7 +134,7 @@ export default class WeatherModule {
 
             modConfig.log.onChange &&
                 this._logger.log(
-                    `[TWS] The weather changed to: ${this._dbWeather.name}`,
+                    `[DES] The weather changed to: ${this._dbWeather.name}`,
                     LogTextColor.BLUE
                 );
 
@@ -148,7 +148,7 @@ export default class WeatherModule {
 
             modConfig.log.current &&
                 this._logger.log(
-                    `[TWS] Weather is: ${this._dbWeather.name}`,
+                    `[DES] Weather is: ${this._dbWeather.name}`,
                     LogTextColor.CYAN
                 );
         }
@@ -166,7 +166,7 @@ export default class WeatherModule {
             this._dbWeather.remaining--;
             modConfig.log.raidsRemaining &&
                 this._logger.logWithColor(
-                    `[TWS] ${this._dbWeather.remaining} raid(s) left for ${this._dbWeather.name}`,
+                    `[DES] ${this._dbWeather.remaining} raid(s) left for ${this._dbWeather.name}`,
                     LogTextColor.CYAN
                 );
         } else this.setWeather(weatherValues);

@@ -23,7 +23,7 @@ export async function writeDatabase(
             JSON.stringify(currentDB, null, 2)
         );
     } catch {
-        logger.error(`[TWS] Could not write to /config/db/database.json.`);
+        logger.error(`[DES] Could not write to /config/db/database.json.`);
     }
 }
 
@@ -42,7 +42,7 @@ export async function loadConfig<ConfigType>(
             )
         );
     } catch {
-        logger.warning(`[TWS] Error reading /config/${filePath}.json.`);
+        logger.warning(`[DES] Error reading /config/${filePath}.json.`);
     }
 }
 
@@ -66,7 +66,7 @@ export async function loadConfigs<ConfigType = string>(
             }
         );
     } catch {
-        logger.warning(`[TWS] Error reading /config/${subPath} directory.`);
+        logger.warning(`[DES] Error reading /config/${subPath} directory.`);
     }
 
     // Remove blacklisted items from list
@@ -93,7 +93,7 @@ export async function loadConfigs<ConfigType = string>(
             );
         }
     } catch {
-        logger.warning(`[TWS] Problem reading file: ${filePaths[index]}`);
+        logger.warning(`[DES] Problem reading file: ${filePaths[index]}`);
     }
 
     return configs;
@@ -141,7 +141,7 @@ export async function loadWeights(
 
         return weights;
     } catch (err) {
-        logger.warning(`[TWS] Could not load: ${subPath}/weights.json.`);
+        logger.warning(`[DES] Could not load: ${subPath}/weights.json.`);
     }
 }
 
