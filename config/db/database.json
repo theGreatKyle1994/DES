@@ -2,16 +2,16 @@
     "season": {
         "name": "SUMMER",
         "length": 14,
-        "remaining": 14
+        "value": 14
     },
     "weather": {
         "name": "SUNNY",
         "length": 3,
-        "remaining": 3
+        "value": 3
     },
     "calendar": {
         "name": "JUN",
         "length": 30,
-        "remaining": 30
+        "value": 1
     }
 }

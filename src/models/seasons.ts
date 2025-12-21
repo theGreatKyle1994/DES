@@ -20,7 +20,7 @@ export enum SeasonName {
     STORM = "STORM",
 }
 
-export const seasonOrder: string[] = [
+export const seasonOrder: (keyof typeof SeasonName)[] = [
     "SUMMER",
     "AUTUMN",
     "AUTUMN_LATE",

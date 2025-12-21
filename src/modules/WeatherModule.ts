@@ -104,16 +104,16 @@ export default class WeatherModule {
 
         // Set initial weather
         this.setWeather(weatherValues);
-        modConfig.log.raidsRemaining &&
+        modConfig.log.value &&
             this._logger.logWithColor(
-                `[DES] ${this._dbWeather.remaining} raid(s) left for ${this._dbWeather.name}`,
+                `[DES] ${this._dbWeather.value} raid(s) left for ${this._dbWeather.name}`,
                 LogTextColor.CYAN
             );
     }
 
     public async setWeather(weatherValues: IWeatherConfig): Promise<void> {
         // Check if weather change is needed
-        if (this._dbWeather.remaining <= 0) {
+        if (this._dbWeather.value <= 0) {
             // Update local season values
             this._dbSeason = (
                 await loadConfig<Database>(this._logger, "db/database")
@@ -126,7 +126,7 @@ export default class WeatherModule {
 
             // Set local weather database
             this._dbWeather.name = weatherChoice;
-            this._dbWeather.remaining = this._dbWeather.length;
+            this._dbWeather.value = this._dbWeather.length;
 
             // Set chosen weather to game database
             weatherValues.weather.seasonValues["default"] =
@@ -162,11 +162,11 @@ export default class WeatherModule {
 
     public decrementWeather(weatherValues: IWeatherConfig): void {
         // Confirm weatherdb has more raids left
-        if (this._dbWeather.remaining > 0) {
-            this._dbWeather.remaining--;
-            modConfig.log.raidsRemaining &&
+        if (this._dbWeather.value > 0) {
+            this._dbWeather.value--;
+            modConfig.log.value &&
                 this._logger.logWithColor(
-                    `[DES] ${this._dbWeather.remaining} raid(s) left for ${this._dbWeather.name}`,
+                    `[DES] ${this._dbWeather.value} raid(s) left for ${this._dbWeather.name}`,
                     LogTextColor.CYAN
                 );
         } else this.setWeather(weatherValues);

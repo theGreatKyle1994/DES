@@ -5,6 +5,7 @@ import modConfig from "../config/config.json";
 import type { DependencyContainer } from "tsyringe";
 import WeatherModule from "./modules/WeatherModule";
 import SeasonModule from "./modules/SeasonModule";
+import CalendarModule from "./modules/CalendarModule";
 import FikaHandler from "./utilities/fikaHandler";
 
 // SPT
@@ -28,6 +29,7 @@ class DynamicEnvironmentSystem implements IPreSptLoadMod, IPostDBLoadMod {
     private _staticRouterModService: StaticRouterModService;
     private _SeasonModule = new SeasonModule();
     private _WeatherModule = new WeatherModule();
+    private _CalendarModule = new CalendarModule();
     private _weatherSeasonValues: IWeatherConfig;
 
     public preSptLoad(container: DependencyContainer): void {
@@ -65,26 +67,35 @@ class DynamicEnvironmentSystem implements IPreSptLoadMod, IPostDBLoadMod {
                             ___,
                             output
                         ) => {
-                            const UID: string = info.results.profile._id;
-                            const isHost: boolean =
-                                this._FikaHandler.isHost(UID);
-                            // Only host can modify configs
-                            if (
-                                modConfig.modules.seasons.enable &&
-                                modConfig.modules.seasons.duration.enable &&
-                                isHost
-                            )
-                                this._SeasonModule.decrementSeason(
-                                    this._weatherSeasonValues
-                                );
-                            if (
-                                modConfig.modules.weather.enable &&
-                                modConfig.modules.weather.duration.enable &&
-                                isHost
-                            )
-                                this._WeatherModule.decrementWeather(
-                                    this._weatherSeasonValues
-                                );
+                            // Only host can update database to prevent duplication
+                            const UID = info.results.profile._id;
+                            const isHost = this._FikaHandler.isHost(UID);
+
+                            // Check if calendar module is enabled
+                            if (isHost) {
+                                // Check if season module is enabled
+                                if (modConfig.modules.seasons.enable) {
+                                    if (modConfig.modules.calendar.enable)
+                                        this._CalendarModule.incrementCalendar();
+                                    else if (
+                                        modConfig.modules.seasons.duration
+                                            .enable
+                                    )
+                                        this._SeasonModule.decrementSeason(
+                                            this._weatherSeasonValues
+                                        );
+                                }
+
+                                // Check if weather module is enabled
+                                if (
+                                    modConfig.modules.weather.enable &&
+                                    modConfig.modules.weather.duration.enable
+                                )
+                                    this._WeatherModule.decrementWeather(
+                                        this._weatherSeasonValues
+                                    );
+                            }
+
                             return output;
                         },
                     },
@@ -99,14 +110,18 @@ class DynamicEnvironmentSystem implements IPreSptLoadMod, IPostDBLoadMod {
                     {
                         url: "/client/weather",
                         action: async (_, __, ___, output) => {
+                            // Check if season module is enabled
                             modConfig.modules.seasons.enable &&
                                 this._SeasonModule.setSeason(
                                     this._weatherSeasonValues
                                 );
+
+                            // Check if weather module is enabled
                             modConfig.modules.weather.enable &&
                                 this._WeatherModule.setWeather(
                                     this._weatherSeasonValues
                                 );
+
                             return output;
                         },
                     },
@@ -131,6 +146,7 @@ class DynamicEnvironmentSystem implements IPreSptLoadMod, IPostDBLoadMod {
         if (modConfig.enable) {
             this._SeasonModule.enable(this._weatherSeasonValues, this._logger);
             this._WeatherModule.enable(this._weatherSeasonValues, this._logger);
+            this._CalendarModule.enable(this._SeasonModule, this._logger);
         }
     }
 }

@@ -3,7 +3,7 @@
     "log": {
         "current": true,
         "onChange": true,
-        "raidsRemaining": true
+        "value": true
     },
     "modules": {
         "seasons": {
