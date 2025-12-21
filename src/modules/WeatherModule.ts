@@ -52,7 +52,7 @@ export default class WeatherModule {
     }
 
     private enableWeather(weatherValues: IWeatherConfig): void {
-        let weatherCount: number = 0;
+        let weatherCount = 0;
 
         // Load default weather
         this._weatherConfigs = loadConfigs<WeatherCustomConfig>(
@@ -127,10 +127,10 @@ export default class WeatherModule {
             // Set chosen weather to game database
             weatherValues.weather.seasonValues["default"] =
                 this.findWeather(weatherChoice);
-            this.logWeatherChange();
 
             // Write changes to local weatherdb
             writeDatabase(this._dbWeather, "weather", this._logger);
+            this.logWeatherChange();
         } else {
             // Enforce current values
             weatherValues.weather.seasonValues.default = this.findWeather(
@@ -151,9 +151,9 @@ export default class WeatherModule {
         if (this._dbWeather.value > 0) {
             this._dbWeather.value--;
             this.logWeatherRemaining();
+            writeDatabase(this._dbWeather, "weather", this._logger);
+            // Or set new weather data
         } else this.setWeather(weatherValues);
-
-        writeDatabase(this._dbWeather, "weather", this._logger);
     }
 
     public logWeather(): void {

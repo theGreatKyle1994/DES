@@ -23,9 +23,9 @@ export default class SeasonModule {
     }
 
     public enable(weatherSeasonValues: IWeatherConfig, logger: ILogger): void {
-        // Setup season
         this._logger = logger;
 
+        // Setup season
         modConfig.modules.seasons.enable
             ? this.enableSeasons(weatherSeasonValues)
             : this._logger.logWithColor(
@@ -53,7 +53,7 @@ export default class SeasonModule {
             // Use random seasons
             if (modConfig.modules.seasons.useRandom)
                 seasonChoice = chooseWeight(seasonWeights);
-            // Determine next season in queue
+            //  Or determine next season in queue
             else {
                 const seasonIndex: number = seasonOrder.indexOf(this.season);
                 if (seasonIndex === seasonOrder.length - 1)
@@ -68,8 +68,8 @@ export default class SeasonModule {
             // Set chosen season to game database
             seasonValues.overrideSeason = Season[this.season];
 
-            this.logSeasonChange();
             writeDatabase(this._seasonDB, "season", this._logger);
+            this.logSeasonChange();
         } else {
             // Enforce current values
             seasonValues.overrideSeason = Season[this.season];
@@ -77,16 +77,15 @@ export default class SeasonModule {
         }
     }
 
-    public forceSeason(
-        seasonName: keyof typeof SeasonName
-    ): keyof typeof SeasonName {
+    public forceSeason(seasonName: keyof typeof SeasonName): void {
+        // Manually set season to bypass internal system
         this._seasonDB.name = seasonName;
-        this.logSeasonChange();
         writeDatabase(this._seasonDB, "season", this._logger);
-        return this.season;
+        this.logSeasonChange();
     }
 
     public calcNewSeason(): void {
+        // Find next season in list
         const newSeason =
             seasonOrder.indexOf(this.season) === seasonOrder.length - 1
                 ? seasonOrder[0]
@@ -99,9 +98,9 @@ export default class SeasonModule {
         if (this._seasonDB.value > 0) {
             this._seasonDB.value--;
             this.logSeasonRemaining();
+            writeDatabase(this._seasonDB, "season", this._logger);
+            // Or set new season data
         } else this.setSeason(seasonValues);
-
-        writeDatabase(this._seasonDB, "season", this._logger);
     }
 
     public logSeason(): void {

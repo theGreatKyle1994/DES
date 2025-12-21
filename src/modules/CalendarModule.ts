@@ -28,25 +28,24 @@ export default class CalendarModule {
         this._logger = logger;
         this._SeasonModule = SeasonModule;
 
-        // Season module is required for calendar functionality
-        if (!modConfig.modules.seasons.enable) {
-            this._logger.logWithColor(
-                "[DES] Seasons are disabled. They must be enabled to use the calendar module.",
-                LogTextColor.YELLOW
-            );
-            // Setup calendar
-        } else if (modConfig.modules.calendar.enable) {
-            this.setCalendar();
-        } else {
+        // Setup calendar
+        if (modConfig.modules.calendar.enable) {
+            // Season module is required for calendar functionality
+            !modConfig.modules.seasons.enable
+                ? this._logger.logWithColor(
+                      "[DES] Seasons are disabled. They must be enabled to use the calendar module.",
+                      LogTextColor.YELLOW
+                  )
+                : this.setCalendar();
+        } else
             this._logger.logWithColor(
                 "[DES] Calendar is disabled.",
                 LogTextColor.YELLOW
             );
-        }
     }
 
     public setCalendar(): void {
-        // Check if calendar change is needed
+        // Check if calendar update is needed
         if (this._calendarDB.value > this._calendarDB.length) {
             // Determine next month in queue
             let monthIndex = this.getMonthIndex();
@@ -60,13 +59,12 @@ export default class CalendarModule {
             this._calendarDB.name = CalendarName[monthChoice];
             this._calendarDB.value = 1;
 
-            this.logDateChange();
-
             // Write changes to local db
             writeDatabase(this._calendarDB, "calendar", this._logger);
+            this.logDateChange();
         } else {
-            this.logDate();
             this._SeasonModule.logSeason();
+            this.logDate();
         }
         // Determine if season change is needed
         this.checkSeasonChange();
@@ -76,8 +74,8 @@ export default class CalendarModule {
         // Confirm calendardb has more raids left
         if (this._calendarDB.value < this._calendarDB.length) {
             this._calendarDB.value++;
-            this.logDate();
             writeDatabase(this._calendarDB, "calendar", this._logger);
+            this.logDate();
         }
         // Determine if season change is needed
         this.setCalendar();

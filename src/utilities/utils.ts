@@ -14,8 +14,10 @@ export function writeDatabase(
 ): void {
     // Get previous db info
     const prevDB: Database = loadConfig<Database>(logger, "db/database");
+    
     // Merge old db with updated db
     const currentDB: Database = { ...prevDB, [dbIndex]: data };
+
     // Write new db data to file
     try {
         fs.writeFileSync(
@@ -53,7 +55,7 @@ export function loadConfigs<ConfigType = string>(
     preConfig: ConfigType[] = []
 ): ConfigType[] {
     let filePaths: string[] = [];
-    let configs: ConfigType[] = preConfig;
+    const configs: ConfigType[] = preConfig;
 
     // Grab all file paths in config/subPath
     try {
@@ -76,6 +78,7 @@ export function loadConfigs<ConfigType = string>(
 
     // Index variale for error tracking
     let index: number = -1;
+    
     // Gather all configs from path array
     try {
         for (let filePath of filePaths) {
