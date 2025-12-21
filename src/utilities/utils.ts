@@ -2,23 +2,23 @@
 import type { WeatherWeightsConfig } from "../models/weather";
 import type { Database } from "../models/database";
 import path from "path";
-import fs from "fs/promises";
+import fs from "fs";
 
 // SPT
 import type { ILogger } from "@spt/models/spt/utils/ILogger";
 
-export async function writeDatabase(
+export function writeDatabase(
     data: object,
     dbIndex: string,
     logger: ILogger
-): Promise<void> {
+): void {
     // Get previous db info
-    const prevDB: Database = await loadConfig<Database>(logger, "db/database");
+    const prevDB: Database = loadConfig<Database>(logger, "db/database");
     // Merge old db with updated db
     const currentDB: Database = { ...prevDB, [dbIndex]: data };
     // Write new db data to file
     try {
-        await fs.writeFile(
+        fs.writeFileSync(
             path.join(__dirname, "../../config/db/database.json"),
             JSON.stringify(currentDB, null, 2)
         );
@@ -27,14 +27,14 @@ export async function writeDatabase(
     }
 }
 
-export async function loadConfig<ConfigType>(
+export function loadConfig<ConfigType>(
     logger: ILogger,
     filePath: string
-): Promise<ConfigType> {
+): ConfigType {
     // Grab config in config/subPath
     try {
         return JSON.parse(
-            await fs.readFile(
+            fs.readFileSync(
                 path.join(__dirname, `../../config/${filePath}.json`),
                 {
                     encoding: "utf-8",
@@ -46,18 +46,18 @@ export async function loadConfig<ConfigType>(
     }
 }
 
-export async function loadConfigs<ConfigType = string>(
+export function loadConfigs<ConfigType = string>(
     logger: ILogger,
     subPath: string,
     blacklist: string[] = [],
     preConfig: ConfigType[] = []
-): Promise<ConfigType[]> {
+): ConfigType[] {
     let filePaths: string[] = [];
     let configs: ConfigType[] = preConfig;
 
     // Grab all file paths in config/subPath
     try {
-        filePaths = await fs.readdir(
+        filePaths = fs.readdirSync(
             path.join(__dirname, `../../config/${subPath}`),
             {
                 encoding: "utf-8",
@@ -82,7 +82,7 @@ export async function loadConfigs<ConfigType = string>(
             index++;
             configs.push(
                 JSON.parse(
-                    await fs.readFile(
+                    fs.readFileSync(
                         path.join(
                             __dirname,
                             `../../config/${subPath}/${filePath}`
@@ -99,7 +99,7 @@ export async function loadConfigs<ConfigType = string>(
     return configs;
 }
 
-export async function loadWeights(
+export function loadWeights(
     logger: ILogger,
     subPath: string,
     weights: WeatherWeightsConfig = {
@@ -110,12 +110,12 @@ export async function loadWeights(
         AUTUMN_LATE: {},
         SPRING_EARLY: {},
     }
-): Promise<WeatherWeightsConfig> {
+): WeatherWeightsConfig {
     let weightsConfig: WeatherWeightsConfig;
     try {
         // Get weight config based on sub folder
         weightsConfig = JSON.parse(
-            await fs.readFile(
+            fs.readFileSync(
                 path.join(__dirname, `../../config/${subPath}/weights.json`),
                 {
                     encoding: "utf-8",

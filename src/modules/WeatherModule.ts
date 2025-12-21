@@ -49,21 +49,18 @@ export default class WeatherModule {
             this._logger.log("[DES] Weather is disabled.", LogTextColor.YELLOW);
     }
 
-    private async enableWeather(weatherValues: IWeatherConfig): Promise<void> {
+    private enableWeather(weatherValues: IWeatherConfig): void {
         let weatherCount: number = 0;
 
         // Load default weather
-        this._weatherConfigs = await loadConfigs<WeatherCustomConfig>(
+        this._weatherConfigs = loadConfigs<WeatherCustomConfig>(
             this._logger,
             "weather/default",
             ["weights.json"]
         );
 
         // Load default weather weights
-        this._weatherWeights = await loadWeights(
-            this._logger,
-            "weather/default"
-        );
+        this._weatherWeights = loadWeights(this._logger, "weather/default");
 
         // Grab initial weather count
         weatherCount += this._weatherConfigs.length;
@@ -74,7 +71,7 @@ export default class WeatherModule {
 
         // Load custom weather
         if (modConfig.modules.weather.useCustom) {
-            this._weatherConfigs = await loadConfigs<WeatherCustomConfig>(
+            this._weatherConfigs = loadConfigs<WeatherCustomConfig>(
                 this._logger,
                 "weather/custom",
                 ["weights.json", "example.json", "exampleWeights.json"],
@@ -82,7 +79,7 @@ export default class WeatherModule {
             );
 
             // Load custom weather weights
-            this._weatherWeights = await loadWeights(
+            this._weatherWeights = loadWeights(
                 this._logger,
                 "weather/custom",
                 this._weatherWeights
@@ -111,12 +108,13 @@ export default class WeatherModule {
             );
     }
 
-    public async setWeather(weatherValues: IWeatherConfig): Promise<void> {
+    public setWeather(weatherValues: IWeatherConfig): void {
         // Check if weather change is needed
         if (this._dbWeather.value <= 0) {
             // Update local season values
-            this._dbSeason = (
-                await loadConfig<Database>(this._logger, "db/database")
+            this._dbSeason = loadConfig<Database>(
+                this._logger,
+                "db/database"
             ).season;
 
             // Generate random weather choice

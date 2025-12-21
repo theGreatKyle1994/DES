@@ -88,7 +88,7 @@ export default class SeasonModule {
         return this._seasonDB.name as keyof typeof SeasonName;
     }
 
-    public async forceSeason(seasonName: keyof typeof SeasonName) {
+    public forceSeason(seasonName: keyof typeof SeasonName): void {
         this._seasonDB.name = seasonName;
 
         modConfig.log.onChange &&
@@ -97,7 +97,7 @@ export default class SeasonModule {
                 LogTextColor.BLUE
             );
 
-        await writeDatabase(this._seasonDB, "season", this._logger);
+        writeDatabase(this._seasonDB, "season", this._logger);
     }
 
     public decrementSeason(seasonValues: IWeatherConfig): void {

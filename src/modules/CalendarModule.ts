@@ -48,7 +48,7 @@ export default class CalendarModule {
             );
     }
 
-    public async setCalendar(): Promise<void> {
+    public setCalendar(): void {
         // Check if calendar change is needed
         if (this._calendarDB.value > this._calendarDB.length) {
             let monthChoice = "";
@@ -61,7 +61,7 @@ export default class CalendarModule {
             else monthChoice = calendarOrder[calendarIndex + 1];
 
             // Force season change to bypass season system
-            await this._SeasonModule.forceSeason(
+            this._SeasonModule.forceSeason(
                 this.checkSeasonChange(this._SeasonModule.getSeason())
             );
 
