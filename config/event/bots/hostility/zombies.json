@@ -1,0 +1,49 @@
+{
+    "name": "zombies",
+    "config": {
+        "default": [
+            {
+                "BotRole": "assault",
+                "AlwaysEnemies": [
+                    "infectedAssault",
+                    "infectedPmc",
+                    "infectedCivil",
+                    "infectedLaborant",
+                    "infectedTagilla",
+                    "bossBully"
+                ],
+                "ChancedEnemies": [
+                    {
+                        "EnemyChance": 75,
+                        "Role": "assault"
+                    }
+                ],
+                "SavageEnemyChance": 70,
+                "SavagePlayerBehaviour": "ChancedEnemies",
+                "BearPlayerBehaviour": "AlwaysEnemies",
+                "UsecPlayerBehaviour": "AlwaysEnemies"
+            },
+            {
+                "BotRole": "marksman",
+                "AlwaysEnemies": [
+                    "infectedAssault",
+                    "infectedPmc",
+                    "infectedCivil",
+                    "infectedLaborant",
+                    "infectedTagilla",
+                    "bossBully"
+                ],
+                "ChancedEnemies": [
+                    {
+                        "EnemyChance": 75,
+                        "Role": "assault"
+                    }
+                ],
+                "SavageEnemyChance": 70,
+                "SavagePlayerBehaviour": "ChancedEnemies",
+                "BearPlayerBehaviour": "AlwaysEnemies",
+                "UsecPlayerBehaviour": "AlwaysEnemies"
+            }
+        ]
+    }
+}

@@ -1,0 +1,934 @@
+{
+    "name": "zombies",
+    "config": {
+        "bigmap": {
+            "infectionRange": [10, 25],
+            "crowdAttackBlockRadius": 100,
+            "crowdCooldownPerPlayerSec": 300,
+            "crowdsLimit": 2,
+            "infectedLookCoeff": 0.5,
+            "minInfectionPercentage": 0,
+            "infectionPercentage": 0,
+            "maxCrowdAttackSpawnLimit": 18,
+            "minSpawnDistToPlayer": 50,
+            "targetPointSearchRadiusLimit": 200,
+            "zombieCallDeltaRadius": 20,
+            "zombieCallPeriodSec": 1,
+            "zombieCallRadiusLimit": 200,
+            "zombieMultiplier": 5,
+            "crowdAttackSpawnParams": [
+                {
+                    "difficulty": "easy",
+                    "role": "infectedAssault",
+                    "weight": 30
+                },
+                {
+                    "difficulty": "normal",
+                    "role": "infectedAssault",
+                    "weight": 110
+                },
+                {
+                    "difficulty": "hard",
+                    "role": "infectedAssault",
+                    "weight": 40
+                },
+                {
+                    "difficulty": "easy",
+                    "role": "infectedPmc",
+                    "weight": 15
+                },
+                {
+                    "difficulty": "normal",
+                    "role": "infectedPmc",
+                    "weight": 55
+                },
+                {
+                    "difficulty": "hard",
+                    "role": "infectedPmc",
+                    "weight": 20
+                },
+                {
+                    "difficulty": "easy",
+                    "role": "infectedCivil",
+                    "weight": 0
+                },
+                {
+                    "difficulty": "normal",
+                    "role": "infectedCivil",
+                    "weight": 0
+                },
+                {
+                    "difficulty": "hard",
+                    "role": "infectedCivil",
+                    "weight": 0
+                },
+                {
+                    "difficulty": "easy",
+                    "role": "infectedLaborant",
+                    "weight": 0
+                },
+                {
+                    "difficulty": "normal",
+                    "role": "infectedLaborant",
+                    "weight": 0
+                },
+                {
+                    "difficulty": "hard",
+                    "role": "infectedLaborant",
+                    "weight": 0
+                }
+            ]
+        },
+        "factory4_day": {
+            "infectionRange": [25, 50],
+            "crowdAttackBlockRadius": 100,
+            "crowdCooldownPerPlayerSec": 300,
+            "crowdsLimit": 2,
+            "infectedLookCoeff": 0.5,
+            "minInfectionPercentage": 0,
+            "infectionPercentage": 0,
+            "maxCrowdAttackSpawnLimit": 13,
+            "minSpawnDistToPlayer": 40,
+            "targetPointSearchRadiusLimit": 80,
+            "zombieCallDeltaRadius": 20,
+            "zombieCallPeriodSec": 1,
+            "zombieCallRadiusLimit": 50,
+            "zombieMultiplier": 5,
+            "crowdAttackSpawnParams": [
+                {
+                    "difficulty": "easy",
+                    "role": "infectedAssault",
+                    "weight": 30
+                },
+                {
+                    "difficulty": "normal",
+                    "role": "infectedAssault",
+                    "weight": 110
+                },
+                {
+                    "difficulty": "hard",
+                    "role": "infectedAssault",
+                    "weight": 40
+                },
+                {
+                    "difficulty": "easy",
+                    "role": "infectedPmc",
+                    "weight": 15
+                },
+                {
+                    "difficulty": "normal",
+                    "role": "infectedPmc",
+                    "weight": 55
+                },
+                {
+                    "difficulty": "hard",
+                    "role": "infectedPmc",
+                    "weight": 20
+                },
+                {
+                    "difficulty": "easy",
+                    "role": "infectedCivil",
+                    "weight": 0
+                },
+                {
+                    "difficulty": "normal",
+                    "role": "infectedCivil",
+                    "weight": 0
+                },
+                {
+                    "difficulty": "hard",
+                    "role": "infectedCivil",
+                    "weight": 0
+                },
+                {
+                    "difficulty": "easy",
+                    "role": "infectedLaborant",
+                    "weight": 0
+                },
+                {
+                    "difficulty": "normal",
+                    "role": "infectedLaborant",
+                    "weight": 0
+                },
+                {
+                    "difficulty": "hard",
+                    "role": "infectedLaborant",
+                    "weight": 0
+                }
+            ]
+        },
+        "factory4_night": {
+            "infectionRange": [50, 75],
+            "crowdAttackBlockRadius": 100,
+            "crowdCooldownPerPlayerSec": 300,
+            "crowdsLimit": 2,
+            "infectedLookCoeff": 0.5,
+            "minInfectionPercentage": 0,
+            "infectionPercentage": 0,
+            "maxCrowdAttackSpawnLimit": 13,
+            "minSpawnDistToPlayer": 40,
+            "targetPointSearchRadiusLimit": 80,
+            "zombieCallDeltaRadius": 20,
+            "zombieCallPeriodSec": 1,
+            "zombieCallRadiusLimit": 50,
+            "zombieMultiplier": 5,
+            "crowdAttackSpawnParams": [
+                {
+                    "difficulty": "easy",
+                    "role": "infectedAssault",
+                    "weight": 30
+                },
+                {
+                    "difficulty": "normal",
+                    "role": "infectedAssault",
+                    "weight": 110
+                },
+                {
+                    "difficulty": "hard",
+                    "role": "infectedAssault",
+                    "weight": 40
+                },
+                {
+                    "difficulty": "easy",
+                    "role": "infectedPmc",
+                    "weight": 15
+                },
+                {
+                    "difficulty": "normal",
+                    "role": "infectedPmc",
+                    "weight": 55
+                },
+                {
+                    "difficulty": "hard",
+                    "role": "infectedPmc",
+                    "weight": 20
+                },
+                {
+                    "difficulty": "easy",
+                    "role": "infectedCivil",
+                    "weight": 0
+                },
+                {
+                    "difficulty": "normal",
+                    "role": "infectedCivil",
+                    "weight": 0
+                },
+                {
+                    "difficulty": "hard",
+                    "role": "infectedCivil",
+                    "weight": 0
+                },
+                {
+                    "difficulty": "easy",
+                    "role": "infectedLaborant",
+                    "weight": 0
+                },
+                {
+                    "difficulty": "normal",
+                    "role": "infectedLaborant",
+                    "weight": 0
+                },
+                {
+                    "difficulty": "hard",
+                    "role": "infectedLaborant",
+                    "weight": 0
+                }
+            ]
+        },
+        "interchange": {
+            "infectionRange": [25, 50],
+            "crowdAttackBlockRadius": 100,
+            "crowdCooldownPerPlayerSec": 300,
+            "crowdsLimit": 2,
+            "infectedLookCoeff": 0.5,
+            "minInfectionPercentage": 0,
+            "infectionPercentage": 0,
+            "maxCrowdAttackSpawnLimit": 18,
+            "minSpawnDistToPlayer": 50,
+            "targetPointSearchRadiusLimit": 200,
+            "zombieCallDeltaRadius": 20,
+            "zombieCallPeriodSec": 1,
+            "zombieCallRadiusLimit": 125,
+            "zombieMultiplier": 5,
+            "crowdAttackSpawnParams": [
+                {
+                    "difficulty": "easy",
+                    "role": "infectedAssault",
+                    "weight": 30
+                },
+                {
+                    "difficulty": "normal",
+                    "role": "infectedAssault",
+                    "weight": 110
+                },
+                {
+                    "difficulty": "hard",
+                    "role": "infectedAssault",
+                    "weight": 40
+                },
+                {
+                    "difficulty": "easy",
+                    "role": "infectedPmc",
+                    "weight": 15
+                },
+                {
+                    "difficulty": "normal",
+                    "role": "infectedPmc",
+                    "weight": 55
+                },
+                {
+                    "difficulty": "hard",
+                    "role": "infectedPmc",
+                    "weight": 20
+                },
+                {
+                    "difficulty": "easy",
+                    "role": "infectedCivil",
+                    "weight": 0
+                },
+                {
+                    "difficulty": "normal",
+                    "role": "infectedCivil",
+                    "weight": 0
+                },
+                {
+                    "difficulty": "hard",
+                    "role": "infectedCivil",
+                    "weight": 0
+                },
+                {
+                    "difficulty": "easy",
+                    "role": "infectedLaborant",
+                    "weight": 0
+                },
+                {
+                    "difficulty": "normal",
+                    "role": "infectedLaborant",
+                    "weight": 0
+                },
+                {
+                    "difficulty": "hard",
+                    "role": "infectedLaborant",
+                    "weight": 0
+                }
+            ]
+        },
+        "laboratory": {
+            "infectionRange": [100, 100],
+            "crowdAttackBlockRadius": 100,
+            "crowdCooldownPerPlayerSec": 300,
+            "crowdsLimit": 2,
+            "infectedLookCoeff": 0.5,
+            "maxCrowdAttackSpawnLimit": 13,
+            "minInfectionPercentage": 0,
+            "minSpawnDistToPlayer": 50,
+            "targetPointSearchRadiusLimit": 80,
+            "zombieCallDeltaRadius": 20,
+            "zombieCallPeriodSec": 1,
+            "zombieCallRadiusLimit": 50,
+            "zombieMultiplier": 5,
+            "crowdAttackSpawnParams": [
+                {
+                    "difficulty": "easy",
+                    "role": "infectedAssault",
+                    "weight": 0
+                },
+                {
+                    "difficulty": "normal",
+                    "role": "infectedAssault",
+                    "weight": 0
+                },
+                {
+                    "difficulty": "hard",
+                    "role": "infectedAssault",
+                    "weight": 0
+                },
+                {
+                    "difficulty": "easy",
+                    "role": "infectedPmc",
+                    "weight": 22
+                },
+                {
+                    "difficulty": "normal",
+                    "role": "infectedPmc",
+                    "weight": 90
+                },
+                {
+                    "difficulty": "hard",
+                    "role": "infectedPmc",
+                    "weight": 60
+                },
+                {
+                    "difficulty": "easy",
+                    "role": "infectedCivil",
+                    "weight": 0
+                },
+                {
+                    "difficulty": "normal",
+                    "role": "infectedCivil",
+                    "weight": 0
+                },
+                {
+                    "difficulty": "hard",
+                    "role": "infectedCivil",
+                    "weight": 0
+                },
+                {
+                    "difficulty": "easy",
+                    "role": "infectedLaborant",
+                    "weight": 23
+                },
+                {
+                    "difficulty": "normal",
+                    "role": "infectedLaborant",
+                    "weight": 75
+                },
+                {
+                    "difficulty": "hard",
+                    "role": "infectedLaborant",
+                    "weight": 0
+                }
+            ]
+        },
+        "lighthouse": {
+            "infectionRange": [5, 10],
+            "crowdAttackBlockRadius": 100,
+            "crowdCooldownPerPlayerSec": 300,
+            "crowdsLimit": 2,
+            "infectedLookCoeff": 0.5,
+            "maxCrowdAttackSpawnLimit": 18,
+            "minInfectionPercentage": 0,
+            "minSpawnDistToPlayer": 50,
+            "targetPointSearchRadiusLimit": 200,
+            "zombieCallDeltaRadius": 20,
+            "zombieCallPeriodSec": 1,
+            "zombieCallRadiusLimit": 200,
+            "zombieMultiplier": 5,
+            "crowdAttackSpawnParams": [
+                {
+                    "difficulty": "easy",
+                    "role": "infectedAssault",
+                    "weight": 30
+                },
+                {
+                    "difficulty": "normal",
+                    "role": "infectedAssault",
+                    "weight": 110
+                },
+                {
+                    "difficulty": "hard",
+                    "role": "infectedAssault",
+                    "weight": 40
+                },
+                {
+                    "difficulty": "easy",
+                    "role": "infectedPmc",
+                    "weight": 15
+                },
+                {
+                    "difficulty": "normal",
+                    "role": "infectedPmc",
+                    "weight": 55
+                },
+                {
+                    "difficulty": "hard",
+                    "role": "infectedPmc",
+                    "weight": 20
+                },
+                {
+                    "difficulty": "easy",
+                    "role": "infectedCivil",
+                    "weight": 0
+                },
+                {
+                    "difficulty": "normal",
+                    "role": "infectedCivil",
+                    "weight": 0
+                },
+                {
+                    "difficulty": "hard",
+                    "role": "infectedCivil",
+                    "weight": 0
+                },
+                {
+                    "difficulty": "easy",
+                    "role": "infectedLaborant",
+                    "weight": 0
+                },
+                {
+                    "difficulty": "normal",
+                    "role": "infectedLaborant",
+                    "weight": 0
+                },
+                {
+                    "difficulty": "hard",
+                    "role": "infectedLaborant",
+                    "weight": 0
+                }
+            ]
+        },
+        "rezervbase": {
+            "infectionRange": [25, 50],
+            "crowdAttackBlockRadius": 100,
+            "crowdCooldownPerPlayerSec": 300,
+            "crowdsLimit": 2,
+            "infectedLookCoeff": 0.5,
+            "maxCrowdAttackSpawnLimit": 18,
+            "minInfectionPercentage": 0,
+            "minSpawnDistToPlayer": 50,
+            "targetPointSearchRadiusLimit": 150,
+            "zombieCallDeltaRadius": 20,
+            "zombieCallPeriodSec": 1,
+            "zombieCallRadiusLimit": 125,
+            "zombieMultiplier": 5,
+            "crowdAttackSpawnParams": [
+                {
+                    "difficulty": "easy",
+                    "role": "infectedAssault",
+                    "weight": 30
+                },
+                {
+                    "difficulty": "normal",
+                    "role": "infectedAssault",
+                    "weight": 110
+                },
+                {
+                    "difficulty": "hard",
+                    "role": "infectedAssault",
+                    "weight": 40
+                },
+                {
+                    "difficulty": "easy",
+                    "role": "infectedPmc",
+                    "weight": 15
+                },
+                {
+                    "difficulty": "normal",
+                    "role": "infectedPmc",
+                    "weight": 55
+                },
+                {
+                    "difficulty": "hard",
+                    "role": "infectedPmc",
+                    "weight": 20
+                },
+                {
+                    "difficulty": "easy",
+                    "role": "infectedCivil",
+                    "weight": 0
+                },
+                {
+                    "difficulty": "normal",
+                    "role": "infectedCivil",
+                    "weight": 0
+                },
+                {
+                    "difficulty": "hard",
+                    "role": "infectedCivil",
+                    "weight": 0
+                },
+                {
+                    "difficulty": "easy",
+                    "role": "infectedLaborant",
+                    "weight": 0
+                },
+                {
+                    "difficulty": "normal",
+                    "role": "infectedLaborant",
+                    "weight": 0
+                },
+                {
+                    "difficulty": "hard",
+                    "role": "infectedLaborant",
+                    "weight": 0
+                }
+            ]
+        },
+
+        "sandbox": {
+            "infectionRange": [15, 25],
+            "crowdAttackBlockRadius": 100,
+            "crowdCooldownPerPlayerSec": 300,
+            "crowdsLimit": 2,
+            "infectedLookCoeff": 0.5,
+            "maxCrowdAttackSpawnLimit": 18,
+            "minInfectionPercentage": 0,
+            "minSpawnDistToPlayer": 50,
+            "targetPointSearchRadiusLimit": 150,
+            "zombieCallDeltaRadius": 20,
+            "zombieCallPeriodSec": 1,
+            "zombieCallRadiusLimit": 100,
+            "zombieMultiplier": 5,
+            "crowdAttackSpawnParams": [
+                {
+                    "difficulty": "easy",
+                    "role": "infectedAssault",
+                    "weight": 20
+                },
+                {
+                    "difficulty": "normal",
+                    "role": "infectedAssault",
+                    "weight": 80
+                },
+                {
+                    "difficulty": "hard",
+                    "role": "infectedAssault",
+                    "weight": 40
+                },
+                {
+                    "difficulty": "easy",
+                    "role": "infectedPmc",
+                    "weight": 5
+                },
+                {
+                    "difficulty": "normal",
+                    "role": "infectedPmc",
+                    "weight": 35
+                },
+                {
+                    "difficulty": "hard",
+                    "role": "infectedPmc",
+                    "weight": 20
+                },
+                {
+                    "difficulty": "easy",
+                    "role": "infectedCivil",
+                    "weight": 15
+                },
+                {
+                    "difficulty": "normal",
+                    "role": "infectedCivil",
+                    "weight": 60
+                },
+                {
+                    "difficulty": "hard",
+                    "role": "infectedCivil",
+                    "weight": 0
+                },
+                {
+                    "difficulty": "easy",
+                    "role": "infectedLaborant",
+                    "weight": 0
+                },
+                {
+                    "difficulty": "normal",
+                    "role": "infectedLaborant",
+                    "weight": 0
+                },
+                {
+                    "difficulty": "hard",
+                    "role": "infectedLaborant",
+                    "weight": 0
+                }
+            ]
+        },
+        "sandbox_high": {
+            "infectionRange": [25, 50],
+            "crowdAttackBlockRadius": 100,
+            "crowdCooldownPerPlayerSec": 300,
+            "crowdsLimit": 2,
+            "infectedLookCoeff": 0.5,
+            "maxCrowdAttackSpawnLimit": 18,
+            "minInfectionPercentage": 0,
+            "minSpawnDistToPlayer": 50,
+            "targetPointSearchRadiusLimit": 150,
+            "zombieCallDeltaRadius": 20,
+            "zombieCallPeriodSec": 1,
+            "zombieCallRadiusLimit": 100,
+            "zombieMultiplier": 5,
+            "crowdAttackSpawnParams": [
+                {
+                    "difficulty": "easy",
+                    "role": "infectedAssault",
+                    "weight": 20
+                },
+                {
+                    "difficulty": "normal",
+                    "role": "infectedAssault",
+                    "weight": 80
+                },
+                {
+                    "difficulty": "hard",
+                    "role": "infectedAssault",
+                    "weight": 40
+                },
+                {
+                    "difficulty": "easy",
+                    "role": "infectedPmc",
+                    "weight": 5
+                },
+                {
+                    "difficulty": "normal",
+                    "role": "infectedPmc",
+                    "weight": 35
+                },
+                {
+                    "difficulty": "hard",
+                    "role": "infectedPmc",
+                    "weight": 20
+                },
+                {
+                    "difficulty": "easy",
+                    "role": "infectedCivil",
+                    "weight": 15
+                },
+                {
+                    "difficulty": "normal",
+                    "role": "infectedCivil",
+                    "weight": 60
+                },
+                {
+                    "difficulty": "hard",
+                    "role": "infectedCivil",
+                    "weight": 0
+                },
+                {
+                    "difficulty": "easy",
+                    "role": "infectedLaborant",
+                    "weight": 0
+                },
+                {
+                    "difficulty": "normal",
+                    "role": "infectedLaborant",
+                    "weight": 0
+                },
+                {
+                    "difficulty": "hard",
+                    "role": "infectedLaborant",
+                    "weight": 0
+                }
+            ]
+        },
+        "shoreline": {
+            "infectionRange": [5, 10],
+            "crowdAttackBlockRadius": 100,
+            "crowdCooldownPerPlayerSec": 300,
+            "crowdsLimit": 2,
+            "infectedLookCoeff": 0.5,
+            "maxCrowdAttackSpawnLimit": 18,
+            "minInfectionPercentage": 0,
+            "minSpawnDistToPlayer": 50,
+            "targetPointSearchRadiusLimit": 200,
+            "zombieCallDeltaRadius": 20,
+            "zombieCallPeriodSec": 1,
+            "zombieCallRadiusLimit": 200,
+            "zombieMultiplier": 5,
+            "crowdAttackSpawnParams": [
+                {
+                    "difficulty": "easy",
+                    "role": "infectedAssault",
+                    "weight": 30
+                },
+                {
+                    "difficulty": "normal",
+                    "role": "infectedAssault",
+                    "weight": 110
+                },
+                {
+                    "difficulty": "hard",
+                    "role": "infectedAssault",
+                    "weight": 40
+                },
+                {
+                    "difficulty": "easy",
+                    "role": "infectedPmc",
+                    "weight": 15
+                },
+                {
+                    "difficulty": "normal",
+                    "role": "infectedPmc",
+                    "weight": 55
+                },
+                {
+                    "difficulty": "hard",
+                    "role": "infectedPmc",
+                    "weight": 20
+                },
+                {
+                    "difficulty": "easy",
+                    "role": "infectedCivil",
+                    "weight": 0
+                },
+                {
+                    "difficulty": "normal",
+                    "role": "infectedCivil",
+                    "weight": 0
+                },
+                {
+                    "difficulty": "hard",
+                    "role": "infectedCivil",
+                    "weight": 0
+                },
+                {
+                    "difficulty": "easy",
+                    "role": "infectedLaborant",
+                    "weight": 0
+                },
+                {
+                    "difficulty": "normal",
+                    "role": "infectedLaborant",
+                    "weight": 0
+                },
+                {
+                    "difficulty": "hard",
+                    "role": "infectedLaborant",
+                    "weight": 0
+                }
+            ]
+        },
+        "tarkovstreets": {
+            "infectionRange": [50, 75],
+            "crowdAttackBlockRadius": 100,
+            "crowdCooldownPerPlayerSec": 300,
+            "crowdsLimit": 2,
+            "infectedLookCoeff": 0.5,
+            "maxCrowdAttackSpawnLimit": 18,
+            "minInfectionPercentage": 0,
+            "minSpawnDistToPlayer": 50,
+            "targetPointSearchRadiusLimit": 200,
+            "zombieCallDeltaRadius": 20,
+            "zombieCallPeriodSec": 1,
+            "zombieCallRadiusLimit": 200,
+            "zombieMultiplier": 5,
+            "crowdAttackSpawnParams": [
+                {
+                    "difficulty": "easy",
+                    "role": "infectedAssault",
+                    "weight": 20
+                },
+                {
+                    "difficulty": "normal",
+                    "role": "infectedAssault",
+                    "weight": 80
+                },
+                {
+                    "difficulty": "hard",
+                    "role": "infectedAssault",
+                    "weight": 40
+                },
+                {
+                    "difficulty": "easy",
+                    "role": "infectedPmc",
+                    "weight": 5
+                },
+                {
+                    "difficulty": "normal",
+                    "role": "infectedPmc",
+                    "weight": 35
+                },
+                {
+                    "difficulty": "hard",
+                    "role": "infectedPmc",
+                    "weight": 20
+                },
+                {
+                    "difficulty": "easy",
+                    "role": "infectedCivil",
+                    "weight": 15
+                },
+                {
+                    "difficulty": "normal",
+                    "role": "infectedCivil",
+                    "weight": 60
+                },
+                {
+                    "difficulty": "hard",
+                    "role": "infectedCivil",
+                    "weight": 0
+                },
+                {
+                    "difficulty": "easy",
+                    "role": "infectedLaborant",
+                    "weight": 0
+                },
+                {
+                    "difficulty": "normal",
+                    "role": "infectedLaborant",
+                    "weight": 0
+                },
+                {
+                    "difficulty": "hard",
+                    "role": "infectedLaborant",
+                    "weight": 0
+                }
+            ]
+        },
+        "woods": {
+            "infectionRange": [5, 10],
+            "crowdAttackBlockRadius": 100,
+            "crowdCooldownPerPlayerSec": 300,
+            "crowdsLimit": 2,
+            "infectedLookCoeff": 0.5,
+            "maxCrowdAttackSpawnLimit": 18,
+            "minInfectionPercentage": 0,
+            "minSpawnDistToPlayer": 50,
+            "targetPointSearchRadiusLimit": 200,
+            "zombieCallDeltaRadius": 20,
+            "zombieCallPeriodSec": 1,
+            "zombieCallRadiusLimit": 200,
+            "zombieMultiplier": 5,
+            "crowdAttackSpawnParams": [
+                {
+                    "difficulty": "easy",
+                    "role": "infectedAssault",
+                    "weight": 30
+                },
+                {
+                    "difficulty": "normal",
+                    "role": "infectedAssault",
+                    "weight": 110
+                },
+                {
+                    "difficulty": "hard",
+                    "role": "infectedAssault",
+                    "weight": 40
+                },
+                {
+                    "difficulty": "easy",
+                    "role": "infectedPmc",
+                    "weight": 15
+                },
+                {
+                    "difficulty": "normal",
+                    "role": "infectedPmc",
+                    "weight": 55
+                },
+                {
+                    "difficulty": "hard",
+                    "role": "infectedPmc",
+                    "weight": 20
+                },
+                {
+                    "difficulty": "easy",
+                    "role": "infectedCivil",
+                    "weight": 0
+                },
+                {
+                    "difficulty": "normal",
+                    "role": "infectedCivil",
+                    "weight": 0
+                },
+                {
+                    "difficulty": "hard",
+                    "role": "infectedCivil",
+                    "weight": 0
+                },
+                {
+                    "difficulty": "easy",
+                    "role": "infectedLaborant",
+                    "weight": 0
+                },
+                {
+                    "difficulty": "normal",
+                    "role": "infectedLaborant",
+                    "weight": 0
+                },
+                {
+                    "difficulty": "hard",
+                    "role": "infectedLaborant",
+                    "weight": 0
+                }
+            ]
+        }
+    }
+}

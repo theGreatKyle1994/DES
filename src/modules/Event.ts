@@ -12,10 +12,15 @@ import { ConfigTypes } from "@spt/models/enums/ConfigTypes";
 import type { ISeasonalEventConfig } from "@spt/models/spt/config/ISeasonalEventConfig";
 import type { ILogger } from "@spt/models/spt/utils/ILogger";
 import type { IGlobals } from "@spt/models/eft/common/IGlobals";
+import type { IBots } from "@spt/models/spt/bots/IBots";
+import type { ILocations } from "@spt/models/spt/server/ILocations";
+import type { ILocationBase } from "@spt/models/eft/common/ILocationBase";
 
 export default class EventModule extends Module {
+    private _globalValues: IGlobals;
     private _eventValues: ISeasonalEventConfig;
-    private _globals: IGlobals;
+    private _botValues: IBots;
+    private _locationValues: ILocations;
     private readonly _eventConfig: EventConfig = eventConfig;
     private readonly _coreEventNames: string[] = [];
     private readonly _additiveEventNames: string[] = [];
@@ -34,7 +39,9 @@ export default class EventModule extends Module {
     }
 
     public initialize(): void {
-        this._globals = this._gameConfigs.database.getGlobals();
+        this._globalValues = this._gameConfigs.database.getGlobals();
+        this._botValues = this._gameConfigs.database.getBots();
+        this._locationValues = this._gameConfigs.database.getLocations();
 
         for (let event in this._eventConfig.core)
             this._coreEventNames.push(event);
@@ -43,15 +50,46 @@ export default class EventModule extends Module {
     }
 
     public enable(): void {
+        this._logger.success(
+            JSON.stringify(this._eventValues.eventWaves, null, 4)
+        );
+
+        this.removeEventData();
         this.update();
     }
 
-    public update(): void {
-        // Controls hideout appearance
-        // this._globals.config.EventType = [];
+    public update(): void {}
 
-        // this._logger.warning(
-        //     JSON.stringify(this._globals.config.EventType, null, 4)
-        // );
+    private removeEventData(): void {
+        this.resetHideout();
+        this.resetGifter();
+    }
+
+    private resetHideout(): void {
+        // Remove hideout definitions
+        this._globalValues.config.EventType = [];
+    }
+
+    private resetGifter(): void {
+        // Remove spawn data
+        for (let location in this._locationValues) {
+            const locBase: ILocationBase = this._locationValues[location].base;
+            if (locBase?.BossLocationSpawn) {
+                for (let boss of locBase.BossLocationSpawn) {
+                    if (boss.BossName === "gifter") {
+                        locBase?.BossLocationSpawn.splice(
+                            locBase?.BossLocationSpawn.indexOf(boss),
+                            1
+                        );
+                    }
+                }
+            }
+        }
+        // Remove any item drop data
+        for (let diff in this._botValues.types["gifter"].difficulty) {
+            this._botValues.types["gifter"].difficulty[diff].Patrol[
+                "ITEMS_TO_DROP"
+            ] = [];
+        }
     }
 }

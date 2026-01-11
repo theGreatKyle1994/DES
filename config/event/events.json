@@ -3,7 +3,6 @@
         "aprilFools": {
             "enabled": true,
             "name": "April Fools",
-            "eventTypes": ["Halloween", "HalloweenIllumination", "Christmas"],
             "timeFrame": {
                 "month": {
                     "start": 4,
@@ -15,12 +14,24 @@
                 }
             },
             "forceSeason": "",
-            "forceWeather": ""
+            "forceWeather": "",
+            "settings": {
+                "hideoutTypes": [
+                    "Halloween",
+                    "HalloweenIllumination",
+                    "Christmas"
+                ],
+                "santaConfig": "xmas",
+                "botConfig": "aprilfools",
+                "spawnsConfig": "halloween",
+                "zombiesConfig": "halloween",
+                "summonConfig": "halloween",
+                "hostilityConfig": "aprilfools"
+            }
         },
         "halloween": {
             "enabled": true,
             "name": "Halloween",
-            "eventTypes": ["Halloween", "HalloweenIllumination"],
             "timeFrame": {
                 "month": {
                     "start": 10,
@@ -31,13 +42,20 @@
                     "end": 15
                 }
             },
-            "forceSeason": "",
-            "forceWeather": ""
+            "forceSeason": "autumn",
+            "forceWeather": "foggy",
+            "settings": {
+                "hideoutTypes": ["Halloween", "HalloweenIllumination"],
+                "botConfig": "halloween",
+                "spawnsConfig": "halloween",
+                "zombiesConfig": "halloween",
+                "summonConfig": "halloween",
+                "hostilityConfig": "halloween"
+            }
         },
         "xmas": {
             "enabled": true,
             "name": "Xmas",
-            "eventTypes": ["Christmas"],
             "timeFrame": {
                 "month": {
                     "start": 11,
@@ -48,15 +66,19 @@
                     "end": 25
                 }
             },
-            "forceSeason": "",
-            "forceWeather": ""
+            "forceSeason": "winter",
+            "forceWeather": "stormy",
+            "settings": {
+                "hideoutTypes": ["Christmas"],
+                "santaConfig": "xmas",
+                "botConfig": "xmas"
+            }
         }
     },
     "additive": {
         "zombies": {
             "enabled": true,
             "name": "Zombies",
-            "eventTypes": [],
             "timeFrame": {
                 "month": {
                     "start": 1,
@@ -68,7 +90,12 @@
                 }
             },
             "forceSeason": "",
-            "forceWeather": ""
+            "forceWeather": "heavyStorm",
+            "settings": {
+                "spawnsConfig": "zombies",
+                "zombiesConfig": "zombies",
+                "hostilityConfig": "zombies"
+            }
         }
     }
 }
