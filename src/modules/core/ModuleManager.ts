@@ -16,6 +16,7 @@ import type { ILogger } from "@spt/models/spt/utils/ILogger";
 import type { DependencyContainer } from "tsyringe";
 import type { DatabaseService } from "@spt/services/DatabaseService";
 import type { ConfigServer } from "@spt/servers/ConfigServer";
+import { LogTextColor } from "@spt/models/spt/logging/LogTextColor";
 
 export default class ModuleManager {
     protected readonly _db: Database = db;
@@ -44,11 +45,11 @@ export default class ModuleManager {
             this._db,
             this._logger
         );
-        this._Event = new EventModule(
-            this._gameConfigs,
-            this._db,
-            this._logger
-        );
+        // this._Event = new EventModule(
+        //     this._gameConfigs,
+        //     this._db,
+        //     this._logger
+        // );
         this._Season = new SeasonModule(
             this._gameConfigs,
             this._db,
@@ -62,28 +63,50 @@ export default class ModuleManager {
     }
 
     public preSPTConfig(): void {
-        this._Event.preInitialize();
+        // this._Event.preInitialize();
     }
 
     public postDBConfig(): void {
-        this._Event.initialize();
+        // this._Event.initialize();
         this._Season.initialize();
         this._Weather.initialize();
     }
 
     public enable(): void {
         this._Calendar.enable();
-        this._Event.enable();
+        // this._Event.enable();
         this._Season.enable();
         this._Weather.enable();
         Utilities.writeDatabase(this._db, this._logger);
+        this.logDatabase();
     }
 
     public update(): void {
         this._Calendar.update();
-        this._Event.update();
+        // this._Event.update();
         this._Season.update();
         this._Weather.update();
         Utilities.writeDatabase(this._db, this._logger);
+        this.logDatabase();
+    }
+
+    private logDatabase(): void {
+        this._logger.logWithColor(`[DES]`, LogTextColor.MAGENTA);
+        this._logger.logWithColor(
+            `       Date: ${this._db.date.name.alpha}`,
+            LogTextColor.MAGENTA
+        );
+        this._logger.logWithColor(
+            `       Season: ${this._db.season.name}`,
+            LogTextColor.MAGENTA
+        );
+        this._logger.logWithColor(
+            `       Weather: ${this._db.weather.name}`,
+            LogTextColor.MAGENTA
+        );
+        // this._logger.logWithColor(
+        //     `       Event: ${this._db.event.name}`,
+        //     LogTextColor.MAGENTA
+        // );
     }
 }

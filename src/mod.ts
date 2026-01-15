@@ -7,6 +7,7 @@ import FikaHandler from "./utilities/fikaHandler";
 
 // SPT
 import { LogTextColor } from "@spt/models/spt/logging/LogTextColor";
+import { RouteAction } from "@spt/di/Router";
 import type { DependencyContainer } from "tsyringe";
 import type { ILogger } from "@spt/models/spt/utils/ILogger";
 import type { StaticRouterModService } from "@spt/services/mod/staticRouter/StaticRouterModService";
@@ -40,26 +41,20 @@ class DynamicEnvironmentSystem implements IPreSptLoadMod, IPostDBLoadMod {
                 );
 
             this._staticRouterModService.registerStaticRouter(
-                "[DES] /fika/raid/create",
+                "[DES] /routes",
                 [
-                    {
-                        url: "/fika/raid/create",
-                        action: async (
+                    new RouteAction(
+                        "/fika/raid/create",
+                        async (
                             _,
                             info: IFikaRaidCreateRequestData,
                             ___,
                             output
-                        ) => (this._FikaHandler.setHost(info.serverId), output),
-                    },
-                ],
-                "[DES] /fika/raid/create"
-            );
-            this._staticRouterModService.registerStaticRouter(
-                "[DES] /client/match/local/end",
-                [
-                    {
-                        url: "/client/match/local/end",
-                        action: async (
+                        ) => (this._FikaHandler.setHost(info.serverId), output)
+                    ),
+                    new RouteAction(
+                        "/client/match/local/end",
+                        async (
                             _,
                             info: IEndLocalRaidRequestData,
                             ___,
@@ -69,10 +64,10 @@ class DynamicEnvironmentSystem implements IPreSptLoadMod, IPostDBLoadMod {
                                 info.results.profile._id
                             ) && this._ModuleManager.update(),
                             output
-                        ),
-                    },
+                        )
+                    ),
                 ],
-                "[DES] /client/match/local/end"
+                "[DES] /routes"
             );
         } else
             this._logger.logWithColor(
