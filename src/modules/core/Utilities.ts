@@ -58,9 +58,9 @@ export default class Utilities {
 
     static loadConfigs<ConfigType = string>(
         subPath: string,
+        logger: ILogger,
         blacklist: string[] = [],
-        preConfig: ConfigType[] = [],
-        logger: ILogger
+        preConfig: ConfigType[] = []
     ): ConfigType[] {
         let filePaths: string[] = [];
         const configs: ConfigType[] = preConfig;

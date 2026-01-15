@@ -16,6 +16,21 @@ export type MapNames =
     | "tarkovstreets"
     | "woods";
 
+export const mapNames: MapNames[] = [
+    "bigmap",
+    "factory4_day",
+    "factory4_night",
+    "interchange",
+    "laboratory",
+    "lighthouse",
+    "rezervbase",
+    "sandbox",
+    "sandbox_high",
+    "shoreline",
+    "tarkovstreets",
+    "woods",
+];
+
 export type ZombieNames =
     | "infectedAssault"
     | "infectedPmc"

@@ -21,19 +21,19 @@
         },
         "gear": {
             "bossgluhar": {
-                "faceCover": {
+                "FaceCover": {
                     "5c1a1e3f2e221602b66cc4c2": 5
                 },
-                "headwear": {
+                "Headwear": {
                     "5a43943586f77416ad2f06e2": 500,
                     "5a43957686f7742a2c2f11b0": 500
                 }
             },
             "bossbully": {
-                "faceCover": {
+                "FaceCover": {
                     "5c1a1e3f2e221602b66cc4c2": 120
                 },
-                "headwear": {
+                "Headwear": {
                     "5a43943586f77416ad2f06e2": 150,
                     "5a43957686f7742a2c2f11b0": 150
                 }
@@ -42,159 +42,159 @@
                 "armorVest": {
                     "674d91ce6e862d5a95059ed6": 200
                 },
-                "headwear": {
+                "Headwear": {
                     "6759af0f9c8a538dd70bfae6": 200
                 }
             },
             "bossknight": {
-                "faceCover": {
+                "FaceCover": {
                     "5c1a1e3f2e221602b66cc4c2": 1500
                 },
-                "headwear": {
+                "Headwear": {
                     "5a43943586f77416ad2f06e2": 3,
                     "5a43957686f7742a2c2f11b0": 3
                 }
             },
             "bosssanitar": {
-                "faceCover": {
+                "FaceCover": {
                     "5c1a1e3f2e221602b66cc4c2": 600
                 },
-                "headwear": {
+                "Headwear": {
                     "5a43943586f77416ad2f06e2": 3,
                     "5a43957686f7742a2c2f11b0": 3
                 }
             },
             "bossboar": {
-                "faceCover": {
+                "FaceCover": {
                     "5c1a1e3f2e221602b66cc4c2": 1
                 },
-                "headwear": {
+                "Headwear": {
                     "5a43943586f77416ad2f06e2": 1,
                     "5a43957686f7742a2c2f11b0": 1
                 }
             },
             "exusec": {
-                "faceCover": {
+                "FaceCover": {
                     "5c1a1e3f2e221602b66cc4c2": 1200
                 },
-                "headwear": {
+                "Headwear": {
                     "5a43943586f77416ad2f06e2": 500,
                     "5a43957686f7742a2c2f11b0": 500
                 }
             },
             "followerbigpipe": {
-                "headwear": {
+                "Headwear": {
                     "5a43943586f77416ad2f06e2": 3,
                     "5a43957686f7742a2c2f11b0": 3
                 }
             },
             "followerbirdeye": {
-                "headwear": {
+                "Headwear": {
                     "5a43943586f77416ad2f06e2": 1,
                     "5a43957686f7742a2c2f11b0": 1
                 }
             },
             "followerbully": {
-                "headwear": {
+                "Headwear": {
                     "5a43943586f77416ad2f06e2": 600,
                     "5a43957686f7742a2c2f11b0": 600
                 }
             },
             "followerboar": {
-                "faceCover": {
+                "FaceCover": {
                     "5c1a1e3f2e221602b66cc4c2": 250
                 },
-                "headwear": {
+                "Headwear": {
                     "5a43943586f77416ad2f06e2": 3,
                     "5a43957686f7742a2c2f11b0": 3
                 }
             },
             "followergluharassault": {
-                "faceCover": {
+                "FaceCover": {
                     "5c1a1e3f2e221602b66cc4c2": 550
                 },
-                "headwear": {
+                "Headwear": {
                     "5a43943586f77416ad2f06e2": 700,
                     "5a43957686f7742a2c2f11b0": 700
                 }
             },
             "followergluharscout": {
-                "faceCover": {
+                "FaceCover": {
                     "5c1a1e3f2e221602b66cc4c2": 5
                 },
-                "headwear": {
+                "Headwear": {
                     "5a43943586f77416ad2f06e2": 3,
                     "5a43957686f7742a2c2f11b0": 3
                 }
             },
             "followergluharsecurity": {
-                "faceCover": {
+                "FaceCover": {
                     "5c1a1e3f2e221602b66cc4c2": 5
                 },
-                "headwear": {
+                "Headwear": {
                     "5a43943586f77416ad2f06e2": 3,
                     "5a43957686f7742a2c2f11b0": 3
                 }
             },
             "followerkojaniy": {
-                "headwear": {
+                "Headwear": {
                     "5a43943586f77416ad2f06e2": 3,
                     "5a43957686f7742a2c2f11b0": 3
                 }
             },
             "followersanitar": {
-                "faceCover": {
+                "FaceCover": {
                     "5c1a1e3f2e221602b66cc4c2": 5
                 },
-                "headwear": {
+                "Headwear": {
                     "5a43943586f77416ad2f06e2": 1,
                     "5a43957686f7742a2c2f11b0": 1
                 }
             },
             "marksman": {
-                "faceCover": {
+                "FaceCover": {
                     "5c1a1e3f2e221602b66cc4c2": 400
                 },
-                "headwear": {
+                "Headwear": {
                     "5a43943586f77416ad2f06e2": 1400,
                     "5a43957686f7742a2c2f11b0": 1400
                 }
             },
             "pmcbot": {
-                "faceCover": {
+                "FaceCover": {
                     "5c1a1e3f2e221602b66cc4c2": 1200
                 },
-                "headwear": {
+                "Headwear": {
                     "5a43943586f77416ad2f06e2": 600,
                     "5a43957686f7742a2c2f11b0": 600
                 }
             },
             "sectantpriest": {
-                "faceCover": {
+                "FaceCover": {
                     "5c1a1e3f2e221602b66cc4c2": 5
                 }
             },
             "sectantwarrior": {
-                "faceCover": {
+                "FaceCover": {
                     "5c1a1e3f2e221602b66cc4c2": 5
                 }
             },
             "bear": {
-                "faceCover": {
+                "FaceCover": {
                     "5c1a1e3f2e221602b66cc4c2": 30,
                     "675ac888803644528007b3f6": 30
                 },
-                "headwear": {
+                "Headwear": {
                     "5a43957686f7742a2c2f11b0": 80,
                     "5a43943586f77416ad2f06e2": 80
                 }
             },
             "usec": {
-                "faceCover": {
+                "FaceCover": {
                     "5c1a1e3f2e221602b66cc4c2": 30,
                     "675ac888803644528007b3f6": 30
                 },
-                "headwear": {
+                "Headwear": {
                     "5a43957686f7742a2c2f11b0": 80,
                     "5a43943586f77416ad2f06e2": 80
                 }
@@ -202,19 +202,19 @@
         },
         "loot": {
             "assault": {
-                "pockets": {
+                "Pockets": {
                     "5df8a6a186f77412640e2e80": 2200,
                     "5df8a72c86f77412640e2e83": 2200,
                     "5df8a77486f77412672a1e3f": 2200
                 },
-                "backpack": {
+                "Backpack": {
                     "5df8a6a186f77412640e2e80": 2200,
                     "5df8a72c86f77412640e2e83": 2200,
                     "5df8a77486f77412672a1e3f": 2200,
                     "63a8970d7108f713591149f5": 250,
                     "675ea3d6312c0a5c4e04e317": 1500
                 },
-                "tacticalVest": {
+                "TacticalVest": {
                     "5df8a6a186f77412640e2e80": 2200,
                     "5df8a72c86f77412640e2e83": 2200,
                     "5df8a77486f77412672a1e3f": 2200

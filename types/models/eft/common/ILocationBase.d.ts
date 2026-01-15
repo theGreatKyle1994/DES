@@ -201,7 +201,7 @@ export interface IBossSupport {
 }
 export interface IBotLocationModifier {
   AccuracySpeed: number;
-  AdditionalHostilitySettings: IAdditionalHostilitySettings[];
+  AdditionalHostilitySettings: {default: IAdditionalHostilitySettings[]};
   DistToActivate: number;
   DistToActivatePvE: number;
   DistToPersueAxemanCoef: number;

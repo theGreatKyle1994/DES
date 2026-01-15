@@ -8,6 +8,19 @@ import type {
     IAdditionalHostilitySettings,
     IBossLocationSpawn,
 } from "@spt/models/eft/common/ILocationBase";
+import type { EquipmentChances } from "@spt/models/eft/common/tables/IBotType";
+import type { IHalloween2024 } from "@spt/models/eft/common/ILocationBase";
+
+export interface EventSubConfigs {
+    gear: EventSubConfig<BotConfig>[];
+    hostility: EventSubConfig<HostilityConfig>[];
+    spawns: {
+        general: EventSubConfig<SpawnsConfig>[];
+        santa: EventSubConfig<SantaConfig>[];
+        summon: EventSubConfig<SpawnsConfig>[];
+        zombies: EventSubConfig<ZombiesConfig>[];
+    };
+}
 
 export interface EventSubConfig<ConfigType> {
     name: string;
@@ -26,6 +39,7 @@ export interface EventConfigEntry {
         botConfig?: string;
         spawnsConfig?: string;
         zombiesConfig?: string;
+        summonConfig?: string;
         hostilityConfig?: string;
     };
 }
@@ -45,23 +59,7 @@ export interface ZombieCrowdEntry {
     weight: number;
 }
 
-export interface ZombiesConfigEntry {
-    infectionRange: [number, number];
-    crowdAttackBlockRadius: number;
-    crowdCooldownPerPlayerSec: number;
-    crowdsLimit: number;
-    infectedLookCoeff: number;
-    minInfectionPercentage: number;
-    infectionPercentage: number;
-    maxCrowdAttackSpawnLimit: number;
-    minSpawnDistToPlayer: number;
-    targetPointSearchRadiusLimit: number;
-    zombieCallDeltaRadius: number;
-    zombieCallPeriodSec: number;
-    zombieCallRadiusLimit: number;
-    zombieMultiplier: number;
-    crowdAttackSpawnParams: ZombieCrowdEntry[];
-}
+export type ZombiesConfigEntry = IHalloween2024;
 
 export type ZombiesConfig = Record<MapNames, ZombiesConfigEntry>;
 
@@ -70,13 +68,11 @@ export interface BotConfig {
         body: Record<string, number>;
         feet: Record<string, number>;
     };
-    gear: { [key: string]: IEquipment };
+    gear: EquipmentChances;
     loot: { [key: string]: IEquipment };
 }
 
-export interface HostilityConfig {
-    default: IAdditionalHostilitySettings[];
-}
+export type HostilityConfig = IAdditionalHostilitySettings[];
 
 export type SpawnsConfig = Record<MapNames, IBossLocationSpawn[]>;
 
