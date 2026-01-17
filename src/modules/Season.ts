@@ -4,7 +4,6 @@ import seasonConfig from "../../config/season/seasons.json";
 // General
 import Module from "./core/Module";
 import { seasonDates } from "../models/seasons";
-import type { GameConfigs } from "../models/mod";
 import type { SeasonConfig, SeasonConfigEntry } from "../models/seasons";
 import type { Database } from "../models/database";
 
@@ -12,73 +11,73 @@ import type { Database } from "../models/database";
 import { ConfigTypes } from "@spt/models/enums/ConfigTypes";
 import type { ILogger } from "@spt/models/spt/utils/ILogger";
 import type { IWeatherConfig } from "@spt/models/spt/config/IWeatherConfig";
+import type { DependencyContainer } from "tsyringe";
 
 export default class SeasonModule extends Module {
-    private _seasonValues: IWeatherConfig;
-    private readonly _seasonConfig: SeasonConfig = seasonConfig;
-    private readonly _seasonNames: string[] = [];
+    private seasonValues: IWeatherConfig;
+    private readonly seasonConfig: SeasonConfig = seasonConfig;
+    private readonly seasonNames: string[] = [];
 
-    constructor(gameConfigs: GameConfigs, db: Database, logger: ILogger) {
-        super(gameConfigs, db, logger);
+    constructor(container: DependencyContainer, db: Database, logger: ILogger) {
+        super(container, db, logger);
     }
 
     private get season(): number {
-        return this._seasonConfig[this._db.season.value].value;
+        return this.seasonConfig[this.db.season.value].value;
     }
 
     private get seasonEntry(): SeasonConfigEntry {
-        return this._seasonConfig[this._db.season.value];
+        return this.seasonConfig[this.db.season.value];
     }
 
     public initialize(): void {
-        this._seasonValues =
-            this._gameConfigs.configs.getConfig<IWeatherConfig>(
-                ConfigTypes.WEATHER
-            );
-        this._seasonValues.seasonDates = seasonDates;
-        for (let season in this._seasonConfig) this._seasonNames.push(season);
+        this.seasonValues = this.configServer.getConfig<IWeatherConfig>(
+            ConfigTypes.WEATHER,
+        );
+        this.seasonValues.seasonDates = seasonDates;
+        for (let season in this.seasonConfig) this.seasonNames.push(season);
     }
 
     public enable(): void {
-        if (!this._seasonNames.includes(this._db.season.value))
-            this._db.season.value = "summer";
-        if (this._db.season.name !== this.seasonEntry.name)
-            this._db.season.name = this.seasonEntry.name;
-        this._seasonValues.overrideSeason = this.season;
+        if (!this.seasonNames.includes(this.db.season.value))
+            this.db.season.value = "summer";
+        if (this.db.season.name !== this.seasonEntry.name)
+            this.db.season.name = this.seasonEntry.name;
+        this.seasonValues.overrideSeason = this.season;
         this.update();
     }
 
     public update(): void {
-        if (!this._db.event.season) {
+        if (!this.db.event.season) {
             if (
                 !this.Utilities.checkWithinDateRange(
-                    this._db.date.day,
-                    this._db.date.month,
-                    this.seasonEntry.timeFrame
+                    this.db.date.day,
+                    this.db.date.month,
+                    this.seasonEntry.timeFrame,
                 )
             ) {
-                for (let key in this._seasonConfig) {
+                for (let key in this.seasonConfig) {
                     if (
                         this.Utilities.checkWithinDateRange(
-                            this._db.date.day,
-                            this._db.date.month,
-                            this._seasonConfig[key].timeFrame
+                            this.db.date.day,
+                            this.db.date.month,
+                            this.seasonConfig[key].timeFrame,
                         )
                     ) {
-                        this._db.season.name = this._seasonConfig[key].name;
-                        this._db.season.value = key;
-                        this._seasonValues.overrideSeason = this.season;
+                        this.db.season.name = this.seasonConfig[key].name;
+                        this.db.season.value = key;
+                        this.seasonValues.overrideSeason = this.season;
                     }
                 }
             }
         } else {
-            if (this._seasonNames.includes(this._db.event.season)) {
-                this._seasonValues.overrideSeason =
-                    this._seasonConfig[this._db.event.season].value;
+            if (this.seasonNames.includes(this.db.event.season)) {
+                this.seasonValues.overrideSeason =
+                    this.seasonConfig[this.db.event.season].value;
             } else {
-                this._seasonValues.overrideSeason = this.season;
-                this._logger.warning(
-                    `[DES] Invalid season override found in event: '${this._db.event.name}' value: '${this._db.event.season}'. Using calendar season.`
+                this.seasonValues.overrideSeason = this.season;
+                this.logger.warning(
+                    `[DES] Invalid season override found in event: '${this.db.event.name}' value: '${this.db.event.season}'. Using calendar season.`,
                 );
             }
         }

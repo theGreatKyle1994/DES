@@ -1,7 +1,3 @@
-// SPT
-import type { DatabaseService } from "@spt/services/DatabaseService";
-import type { ConfigServer } from "@spt/servers/ConfigServer";
-
 export type MapNames =
     | "bigmap"
     | "factory4_day"
@@ -38,16 +34,20 @@ export type ZombieNames =
     | "infectedLaborant";
 
 export type BossNames =
-    | "bossboar"
-    | "bossgluhar"
-    | "bosskilla"
-    | "bosskolontay"
-    | "bossknight"
-    | "bosspartisan"
-    | "bosskojaniy"
-    | "bosssanitar"
-    | "bosszryachiy"
-    | "bosstagilla";
+    | "bossBully"
+    | "bossGluhar"
+    | "bossKilla"
+    | "bossKojaniy"
+    | "bossSanitar"
+    | "bossTagilla"
+    | "bossKnight"
+    | "bossZryachiy"
+    | "bossBoar"
+    | "bossBoarSniper"
+    | "bossKolontay"
+    | "bossPartisan"
+    | "followerBigPipe"
+    | "followerBirdEye";
 
 export type BotNames =
     | "arenafighter"
@@ -115,11 +115,6 @@ export type BotNames =
     | "usec";
 
 export type DifficultyNames = "easy" | "normal" | "hard" | "impossible";
-
-export interface GameConfigs {
-    database?: DatabaseService;
-    configs?: ConfigServer;
-}
 
 export interface ModConfig {
     enable: boolean;

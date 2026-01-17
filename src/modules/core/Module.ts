@@ -3,22 +3,31 @@ import db from "../../../config/database/database.json";
 
 // General
 import Utilities from "./Utilities";
-import type { GameConfigs } from "../../models/mod";
 import type { Database } from "../../models/database";
 
 // SPT
+import type { DependencyContainer } from "tsyringe";
 import type { ILogger } from "@spt/models/spt/utils/ILogger";
+import type { ConfigServer } from "@spt/servers/ConfigServer";
+import { DatabaseServer } from "@spt/servers/DatabaseServer";
 
 export default abstract class Module {
     protected readonly Utilities = Utilities;
-    protected readonly _logger: ILogger;
-    protected _db: Database = db;
-    protected _gameConfigs: GameConfigs;
+    protected readonly container: DependencyContainer;
+    protected readonly configServer: ConfigServer;
+    protected readonly databaseServer: DatabaseServer;
+    protected readonly logger: ILogger;
+    protected db: Database = db;
 
-    constructor(gameConfigs: GameConfigs, db: Database, logger: ILogger) {
-        this._gameConfigs = gameConfigs;
-        this._db = db;
-        this._logger = logger;
+    constructor(container: DependencyContainer, db: Database, logger: ILogger) {
+        this.container = container;
+        this.configServer =
+            this.container.resolve<ConfigServer>("ConfigServer");
+        this.databaseServer =
+            this.container.resolve<DatabaseServer>("DatabaseServer");
+        
+        this.db = db;
+        this.logger = logger;
     }
 
     public preInitialize(): void {}

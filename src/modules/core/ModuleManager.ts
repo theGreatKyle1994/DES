@@ -7,105 +7,96 @@ import CalendarModule from "../Calendar";
 import EventModule from "../Event";
 import SeasonModule from "../Season";
 import WeatherModule from "../Weather";
+import BotWaveGenerator from "../bots/BotWaveGenerator";
 import type { ModConfig } from "../../models/mod";
-import type { GameConfigs } from "../../models/mod";
 import type { Database } from "../../models/database";
 
 // SPT
 import type { ILogger } from "@spt/models/spt/utils/ILogger";
 import type { DependencyContainer } from "tsyringe";
-import type { DatabaseService } from "@spt/services/DatabaseService";
-import type { ConfigServer } from "@spt/servers/ConfigServer";
 import { LogTextColor } from "@spt/models/spt/logging/LogTextColor";
 
 export default class ModuleManager {
-    protected readonly _db: Database = db;
-    private readonly _logger: ILogger;
-    private readonly _modConfig: ModConfig;
-    private readonly _gameConfigs: GameConfigs;
-    private readonly _Calendar: CalendarModule;
-    private readonly _Event: EventModule;
-    private readonly _Season: SeasonModule;
-    private readonly _Weather: WeatherModule;
+    protected readonly db: Database = db;
+    private readonly logger: ILogger;
+    private readonly modConfig: ModConfig;
+    private readonly Calendar: CalendarModule;
+    private readonly Event: EventModule;
+    private readonly Season: SeasonModule;
+    private readonly Weather: WeatherModule;
+    private readonly BotWaveGenerator: BotWaveGenerator;
 
     constructor(
         container: DependencyContainer,
         modConfig: ModConfig,
-        logger: ILogger
+        logger: ILogger,
     ) {
-        this._logger = logger;
-        this._modConfig = modConfig;
-        this._gameConfigs = {
-            database: container.resolve<DatabaseService>("DatabaseService"),
-            configs: container.resolve<ConfigServer>("ConfigServer"),
-        };
+        this.logger = logger;
+        this.modConfig = modConfig;
 
-        this._Calendar = new CalendarModule(
-            this._gameConfigs,
-            this._db,
-            this._logger
-        );
-        // this._Event = new EventModule(
-        //     this._gameConfigs,
-        //     this._db,
-        //     this._logger
-        // );
-        this._Season = new SeasonModule(
-            this._gameConfigs,
-            this._db,
-            this._logger
-        );
-        this._Weather = new WeatherModule(
-            this._gameConfigs,
-            this._db,
-            this._logger
+        this.Calendar = new CalendarModule(container, this.db, this.logger);
+        this.Event = new EventModule(container, this.db, this.logger);
+        this.Season = new SeasonModule(container, this.db, this.logger);
+        this.Weather = new WeatherModule(container, this.db, this.logger);
+        this.BotWaveGenerator = new BotWaveGenerator(
+            container,
+            this.db,
+            this.logger,
         );
     }
 
     public preSPTConfig(): void {
-        // this._Event.preInitialize();
+        // this.Event.preInitialize();
     }
 
     public postDBConfig(): void {
-        // this._Event.initialize();
-        this._Season.initialize();
-        this._Weather.initialize();
+        // this.Event.initialize();
+        this.Season.initialize();
+        this.Weather.initialize();
+        this.BotWaveGenerator.initialize();
     }
 
     public enable(): void {
-        this._Calendar.enable();
-        // this._Event.enable();
-        this._Season.enable();
-        this._Weather.enable();
-        Utilities.writeDatabase(this._db, this._logger);
+        this.Calendar.enable();
+        // this.Event.enable();
+        this.Season.enable();
+        this.Weather.enable();
+        this.BotWaveGenerator.enable();
+        Utilities.writeDatabase(this.db, this.logger);
         this.logDatabase();
     }
 
-    public update(): void {
-        this._Calendar.update();
-        // this._Event.update();
-        this._Season.update();
-        this._Weather.update();
-        Utilities.writeDatabase(this._db, this._logger);
+    public update(url: string): void {
+        switch (url) {
+            case "/client/match/local/end": {
+                this.Calendar.update();
+                // this.Event.update();
+                this.Season.update();
+                this.Weather.update();
+                this.BotWaveGenerator.update();
+                break;
+            }
+        }
+        Utilities.writeDatabase(this.db, this.logger);
         this.logDatabase();
     }
 
     private logDatabase(): void {
-        this._logger.logWithColor(`[DES]`, LogTextColor.MAGENTA);
-        this._logger.logWithColor(
-            `       Date: ${this._db.date.name.alpha}`,
-            LogTextColor.MAGENTA
+        this.logger.logWithColor(`[DES]`, LogTextColor.MAGENTA);
+        this.logger.logWithColor(
+            `       Date: ${this.db.date.name.alpha}`,
+            LogTextColor.MAGENTA,
         );
-        this._logger.logWithColor(
-            `       Season: ${this._db.season.name}`,
-            LogTextColor.MAGENTA
+        this.logger.logWithColor(
+            `       Season: ${this.db.season.name}`,
+            LogTextColor.MAGENTA,
         );
-        this._logger.logWithColor(
-            `       Weather: ${this._db.weather.name}`,
-            LogTextColor.MAGENTA
+        this.logger.logWithColor(
+            `       Weather: ${this.db.weather.name}`,
+            LogTextColor.MAGENTA,
         );
-        // this._logger.logWithColor(
-        //     `       Event: ${this._db.event.name}`,
+        // this.logger.logWithColor(
+        //     `       Event: ${this.db.event.name}`,
         //     LogTextColor.MAGENTA
         // );
     }

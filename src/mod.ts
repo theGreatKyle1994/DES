@@ -6,7 +6,6 @@ import ModuleManager from "./modules/core/ModuleManager";
 import FikaHandler from "./utilities/fikaHandler";
 
 // SPT
-import { LogTextColor } from "@spt/models/spt/logging/LogTextColor";
 import { RouteAction } from "@spt/di/Router";
 import type { DependencyContainer } from "tsyringe";
 import type { ILogger } from "@spt/models/spt/utils/ILogger";
@@ -19,29 +18,29 @@ import type { IEndLocalRaidRequestData } from "@spt/models/eft/match/IEndLocalRa
 import type { IFikaRaidCreateRequestData } from "@spt/models/fika/routes/raid/create/IFikaRaidCreateRequestData";
 
 class DynamicEnvironmentSystem implements IPreSptLoadMod, IPostDBLoadMod {
-    private _logger: ILogger;
-    private _staticRouterModService: StaticRouterModService;
-    private _ModuleManager: ModuleManager;
-    private _FikaHandler = new FikaHandler();
+    private logger: ILogger;
+    private staticRouterModService: StaticRouterModService;
+    private ModuleManager: ModuleManager;
+    private FikaHandler = new FikaHandler();
 
     public preSptLoad(container: DependencyContainer): void {
-        this._logger = container.resolve<ILogger>("WinstonLogger");
+        this.logger = container.resolve<ILogger>("WinstonLogger");
 
         if (modConfig.enable) {
-            this._ModuleManager = new ModuleManager(
+            this.ModuleManager = new ModuleManager(
                 container,
                 modConfig,
-                this._logger
+                this.logger,
             );
-            this._ModuleManager.preSPTConfig();
+            this.ModuleManager.preSPTConfig();
 
-            this._staticRouterModService =
+            this.staticRouterModService =
                 container.resolve<StaticRouterModService>(
-                    "StaticRouterModService"
+                    "StaticRouterModService",
                 );
 
-            this._staticRouterModService.registerStaticRouter(
-                "[DES] /routes",
+            this.staticRouterModService.registerStaticRouter(
+                "des/routes",
                 [
                     new RouteAction(
                         "/fika/raid/create",
@@ -49,37 +48,33 @@ class DynamicEnvironmentSystem implements IPreSptLoadMod, IPostDBLoadMod {
                             _,
                             info: IFikaRaidCreateRequestData,
                             ___,
-                            output
-                        ) => (this._FikaHandler.setHost(info.serverId), output)
+                            output,
+                        ) => (this.FikaHandler.setHost(info.serverId), output),
                     ),
                     new RouteAction(
                         "/client/match/local/end",
                         async (
-                            _,
+                            url: string,
                             info: IEndLocalRaidRequestData,
                             ___,
-                            output
+                            output,
                         ) => (
-                            this._FikaHandler.isHost(
-                                info.results.profile._id
-                            ) && this._ModuleManager.update(),
+                            this.FikaHandler.isHost(info.results.profile._id) &&
+                                this.ModuleManager.update(url),
                             output
-                        )
+                        ),
                     ),
                 ],
-                "[DES] /routes"
+                "des",
             );
         } else
-            this._logger.logWithColor(
-                "[DES] Mod has been disabled. Check config.",
-                LogTextColor.YELLOW
-            );
+            this.logger.warning("[DES] Mod has been disabled. Check config.");
     }
 
     public postDBLoad(): void {
         if (modConfig.enable) {
-            this._ModuleManager.postDBConfig();
-            this._ModuleManager.enable();
+            this.ModuleManager.postDBConfig();
+            this.ModuleManager.enable();
         }
     }
 }
