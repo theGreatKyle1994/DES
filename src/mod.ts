@@ -4,6 +4,7 @@ import modConfig from "../config/config.json";
 // General
 import ModuleManager from "./modules/core/ModuleManager";
 import FikaHandler from "./utilities/fikaHandler";
+import type { ModConfig } from "./models/mod";
 
 // SPT
 import { RouteAction } from "@spt/di/Router";
@@ -19,6 +20,7 @@ import type { IFikaRaidCreateRequestData } from "@spt/models/fika/routes/raid/cr
 
 class DynamicEnvironmentSystem implements IPreSptLoadMod, IPostDBLoadMod {
     private logger: ILogger;
+    private readonly modConfig = modConfig as ModConfig;
     private staticRouterModService: StaticRouterModService;
     private ModuleManager: ModuleManager;
     private FikaHandler = new FikaHandler();
@@ -27,11 +29,7 @@ class DynamicEnvironmentSystem implements IPreSptLoadMod, IPostDBLoadMod {
         this.logger = container.resolve<ILogger>("WinstonLogger");
 
         if (modConfig.enable) {
-            this.ModuleManager = new ModuleManager(
-                container,
-                modConfig,
-                this.logger,
-            );
+            this.ModuleManager = new ModuleManager(container, this.logger);
             this.ModuleManager.preSPTConfig();
 
             this.staticRouterModService =

@@ -1,13 +1,14 @@
 // Configs
 import db from "../../../config/database/database.json";
+import modConfig from "../../../config/config.json";
 
 // General
 import Utilities from "./Utilities";
 import CalendarModule from "../Calendar";
-import EventModule from "../Event";
+// import EventModule from "../Event";
 import SeasonModule from "../Season";
 import WeatherModule from "../Weather";
-import BotWaveGenerator from "../bots/BotWaveGenerator";
+import BotWave from "../bots/BotWave";
 import type { ModConfig } from "../../models/mod";
 import type { Database } from "../../models/database";
 
@@ -17,32 +18,24 @@ import type { DependencyContainer } from "tsyringe";
 import { LogTextColor } from "@spt/models/spt/logging/LogTextColor";
 
 export default class ModuleManager {
+    private readonly modConfig = modConfig as ModConfig;
     protected readonly db: Database = db;
+    private readonly Utilities: Utilities;
     private readonly logger: ILogger;
-    private readonly modConfig: ModConfig;
     private readonly Calendar: CalendarModule;
-    private readonly Event: EventModule;
+    // private readonly Event: EventModule;
     private readonly Season: SeasonModule;
     private readonly Weather: WeatherModule;
-    private readonly BotWaveGenerator: BotWaveGenerator;
+    private readonly BotWave: BotWave;
 
-    constructor(
-        container: DependencyContainer,
-        modConfig: ModConfig,
-        logger: ILogger,
-    ) {
+    constructor(container: DependencyContainer, logger: ILogger) {
         this.logger = logger;
-        this.modConfig = modConfig;
-
+        this.Utilities = new Utilities(container, logger);
         this.Calendar = new CalendarModule(container, this.db, this.logger);
-        this.Event = new EventModule(container, this.db, this.logger);
+        // this.Event = new EventModule(container, this.db, this.logger);
         this.Season = new SeasonModule(container, this.db, this.logger);
         this.Weather = new WeatherModule(container, this.db, this.logger);
-        this.BotWaveGenerator = new BotWaveGenerator(
-            container,
-            this.db,
-            this.logger,
-        );
+        this.BotWave = new BotWave(container, this.db, this.logger);
     }
 
     public preSPTConfig(): void {
@@ -53,7 +46,7 @@ export default class ModuleManager {
         // this.Event.initialize();
         this.Season.initialize();
         this.Weather.initialize();
-        this.BotWaveGenerator.initialize();
+        this.BotWave.initialize();
     }
 
     public enable(): void {
@@ -61,8 +54,8 @@ export default class ModuleManager {
         // this.Event.enable();
         this.Season.enable();
         this.Weather.enable();
-        this.BotWaveGenerator.enable();
-        Utilities.writeDatabase(this.db, this.logger);
+        this.BotWave.enable();
+        this.Utilities.writeDatabase(this.db);
         this.logDatabase();
     }
 
@@ -73,13 +66,13 @@ export default class ModuleManager {
                 // this.Event.update();
                 this.Season.update();
                 this.Weather.update();
-                this.BotWaveGenerator.update();
-                Utilities.writeDatabase(this.db, this.logger);
+                this.BotWave.update();
+                this.Utilities.writeDatabase(this.db);
                 this.logDatabase();
                 break;
             }
             case "/client/raid/configuration": {
-                this.BotWaveGenerator.setMapCaps();
+                this.BotWave.setMapCaps();
                 break;
             }
         }

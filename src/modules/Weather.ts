@@ -1,6 +1,6 @@
 // Configs
-import weatherConfig from "../../config/season/weather.json";
-import seasonConfig from "../../config/season/seasons.json";
+import weatherModuleConfig from "../../config/season/weather.json";
+import seasonModuleConfig from "../../config/season/seasons.json";
 
 // General
 import Module from "./core/Module";
@@ -16,9 +16,9 @@ import type { ISeasonalValues } from "@spt/models/spt/config/IWeatherConfig";
 import type { DependencyContainer } from "tsyringe";
 
 export default class WeatherModule extends Module {
-    private weatherValues: IWeatherConfig;
-    private readonly weatherConfig = weatherConfig as WeatherConfig;
-    private readonly seasonConfig = seasonConfig as SeasonConfig;
+    private weatherGameConfig: IWeatherConfig;
+    private readonly weatherModuleConfig = weatherModuleConfig as WeatherConfig;
+    private readonly seasonModuleConfig = seasonModuleConfig as SeasonConfig;
     private readonly weatherNames: string[] = [];
 
     constructor(container: DependencyContainer, db: Database, logger: ILogger) {
@@ -26,23 +26,24 @@ export default class WeatherModule extends Module {
     }
 
     private get weather(): ISeasonalValues {
-        return this.weatherConfig[this.db.weather.value].weather;
+        return this.weatherModuleConfig[this.db.weather.value].weather;
     }
 
     private get weatherWeights(): Record<string, number> {
-        return this.seasonConfig[this.db.season.value].weather;
+        return this.seasonModuleConfig[this.db.season.value].weather;
     }
 
     private get weatherEntry(): WeatherConfigEntry {
-        return this.weatherConfig[this.db.weather.value];
+        return this.weatherModuleConfig[this.db.weather.value];
     }
 
     public initialize(): void {
-        this.weatherValues = this.configServer.getConfig<IWeatherConfig>(
+        this.weatherGameConfig = this.configServer.getConfig<IWeatherConfig>(
             ConfigTypes.WEATHER,
         );
-        this.weatherValues.weather.generateWeatherAmountHours = 5;
-        for (let weather in this.weatherConfig) this.weatherNames.push(weather);
+        this.weatherGameConfig.weather.generateWeatherAmountHours = 5;
+        for (let weather in this.weatherModuleConfig)
+            this.weatherNames.push(weather);
     }
 
     public enable(): void {
@@ -62,12 +63,12 @@ export default class WeatherModule extends Module {
             const weatherChoice: string = this.Utilities.chooseWeight(weights);
             this.db.weather.value = weatherChoice;
             this.db.weather.name =
-                this.weatherConfig[this.db.weather.value].name;
-            this.applyWeather(this.weatherConfig[weatherChoice].weather);
+                this.weatherModuleConfig[this.db.weather.value].name;
+            this.applyWeather(this.weatherModuleConfig[weatherChoice].weather);
         } else {
             if (this.weatherNames.includes(this.db.event.weather)) {
                 this.applyWeather(
-                    this.weatherConfig[this.db.event.weather].weather,
+                    this.weatherModuleConfig[this.db.event.weather].weather,
                 );
             } else {
                 this.applyWeather(this.weather);
@@ -81,11 +82,11 @@ export default class WeatherModule extends Module {
     private applyWeather(
         weather: ISeasonalValues = this.weatherEntry.weather,
     ): void {
-        this.weatherValues.weather.timePeriod = {
+        this.weatherGameConfig.weather.timePeriod = {
             values: [this.weatherEntry.changeInterval],
             weights: [1],
         };
-        for (let key in this.weatherValues.weather.seasonValues)
-            this.weatherValues.weather.seasonValues[key] = weather;
+        for (let key in this.weatherGameConfig.weather.seasonValues)
+            this.weatherGameConfig.weather.seasonValues[key] = weather;
     }
 }

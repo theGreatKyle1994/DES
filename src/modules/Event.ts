@@ -1,5 +1,5 @@
 // Configs
-import eventConfig from "../../config/event/events.json";
+import eventModuleConfig from "../../config/event/events.json";
 
 // General
 import Module from "./core/Module";
@@ -23,12 +23,12 @@ import type { ILocationBase } from "@spt/models/eft/common/ILocationBase";
 import type { DependencyContainer } from "tsyringe";
 
 export default class EventModule extends Module {
-    private globalValues: IGlobals;
-    private eventValues: ISeasonalEventConfig;
-    private botValues: IBots;
-    private locationValues: ILocations;
-    private readonly eventConfig = eventConfig as EventConfig;
-    private eventSubConfigs: EventSubConfigs;
+    private readonly eventModuleConfig = eventModuleConfig as EventConfig;
+    private eventModuleSubConfigs: EventSubConfigs;
+    private globalGameConfig: IGlobals;
+    private seasonalEventGameConfig: ISeasonalEventConfig;
+    private botsGameConfig: IBots;
+    private locationsGameConfig: ILocations;
     private readonly coreEventNames: string[] = [];
     private readonly additiveEventNames: string[] = [];
 
@@ -37,56 +37,42 @@ export default class EventModule extends Module {
     }
 
     public preInitialize(): void {
-        this.eventValues = this.configServer.getConfig(
+        this.seasonalEventGameConfig = this.configServer.getConfig(
             ConfigTypes.SEASONAL_EVENT,
         );
 
-        this.eventValues.enableSeasonalEventDetection = false;
-        for (let event of this.eventValues.events) event.enabled = false;
+        this.seasonalEventGameConfig.enableSeasonalEventDetection = false;
+        for (let event of this.seasonalEventGameConfig.events)
+            event.enabled = false;
     }
 
     public initialize(): void {
         const { globals, bots, locations } = this.databaseServer.getTables();
-        this.globalValues = globals;
-        this.botValues = bots;
-        this.locationValues = locations;
+        this.globalGameConfig = globals;
+        this.botsGameConfig = bots;
+        this.locationsGameConfig = locations;
 
-        this.eventSubConfigs = {
-            gear:
-                this.Utilities.loadConfigs("event/bots/gear", this.logger) ??
-                [],
-            hostility:
-                this.Utilities.loadConfigs(
-                    "event/bots/hostility",
-                    this.logger,
-                ) ?? [],
+        this.eventModuleSubConfigs = {
+            gear: this.Utilities.loadConfigs("event/bots/gear") ?? [],
+            hostility: this.Utilities.loadConfigs("event/bots/hostility") ?? [],
             spawns: {
                 general:
-                    this.Utilities.loadConfigs(
-                        "event/bots/spawns/general",
-                        this.logger,
-                    ) ?? [],
+                    this.Utilities.loadConfigs("event/bots/spawns/general") ??
+                    [],
                 santa:
-                    this.Utilities.loadConfigs(
-                        "event/bots/spawns/santa",
-                        this.logger,
-                    ) ?? [],
+                    this.Utilities.loadConfigs("event/bots/spawns/santa") ?? [],
                 summon:
-                    this.Utilities.loadConfigs(
-                        "event/bots/spawns/summon",
-                        this.logger,
-                    ) ?? [],
+                    this.Utilities.loadConfigs("event/bots/spawns/summon") ??
+                    [],
                 zombies:
-                    this.Utilities.loadConfigs(
-                        "event/bots/spawns/zombies",
-                        this.logger,
-                    ) ?? [],
+                    this.Utilities.loadConfigs("event/bots/spawns/zombies") ??
+                    [],
             },
         };
 
-        for (let event in this.eventConfig.core)
+        for (let event in this.eventModuleConfig.core)
             this.coreEventNames.push(event);
-        for (let event in this.eventConfig.additive)
+        for (let event in this.eventModuleConfig.additive)
             this.additiveEventNames.push(event);
     }
 
@@ -105,13 +91,14 @@ export default class EventModule extends Module {
 
     private resetHideout(): void {
         // Remove hideout definitions
-        this.globalValues.config.EventType = [];
+        this.globalGameConfig.config.EventType = [];
     }
 
     private resetGifter(): void {
         // Remove spawn data
-        for (let location in this.locationValues) {
-            const locBase: ILocationBase = this.locationValues[location].base;
+        for (let location in this.locationsGameConfig) {
+            const locBase: ILocationBase =
+                this.locationsGameConfig[location].base;
             if (locBase?.BossLocationSpawn) {
                 for (let boss of locBase.BossLocationSpawn) {
                     if (boss.BossName === "gifter") {
@@ -124,43 +111,43 @@ export default class EventModule extends Module {
             }
         }
         // Remove any item drop data
-        for (let diff in this.botValues.types["gifter"].difficulty) {
-            this.botValues.types["gifter"].difficulty[diff].Patrol[
+        for (let diff in this.botsGameConfig.types["gifter"].difficulty) {
+            this.botsGameConfig.types["gifter"].difficulty[diff].Patrol[
                 "ITEMSTODROP"
             ] = [];
         }
     }
 
     private activateZombies(): void {
-        this.botValues.core.ACTIVE_HALLOWEEN_ZOMBIES_EVENT = true;
-        this.globalValues.config.SeasonActivity.InfectionHalloween.DisplayUIEnabled = true;
-        this.globalValues.config.SeasonActivity.InfectionHalloween.Enabled = true;
+        this.botsGameConfig.core.ACTIVE_HALLOWEEN_ZOMBIES_EVENT = true;
+        this.globalGameConfig.config.SeasonActivity.InfectionHalloween.DisplayUIEnabled = true;
+        this.globalGameConfig.config.SeasonActivity.InfectionHalloween.Enabled = true;
 
-        this.globalValues.LocationInfection.Interchange = 75;
-        this.globalValues.LocationInfection.Lighthouse = 25;
-        this.globalValues.LocationInfection.RezervBase = 75;
-        this.globalValues.LocationInfection.Sandbox = 50;
-        this.globalValues.LocationInfection.Shoreline = 25;
-        this.globalValues.LocationInfection.TarkovStreets = 100;
-        this.globalValues.LocationInfection.Woods = 25;
-        this.globalValues.LocationInfection.bigmap = 50;
-        this.globalValues.LocationInfection.factory4 = 100;
-        this.globalValues.LocationInfection.laboratory = 100;
+        this.globalGameConfig.LocationInfection.Interchange = 75;
+        this.globalGameConfig.LocationInfection.Lighthouse = 25;
+        this.globalGameConfig.LocationInfection.RezervBase = 75;
+        this.globalGameConfig.LocationInfection.Sandbox = 50;
+        this.globalGameConfig.LocationInfection.Shoreline = 25;
+        this.globalGameConfig.LocationInfection.TarkovStreets = 100;
+        this.globalGameConfig.LocationInfection.Woods = 25;
+        this.globalGameConfig.LocationInfection.bigmap = 50;
+        this.globalGameConfig.LocationInfection.factory4 = 100;
+        this.globalGameConfig.LocationInfection.laboratory = 100;
 
-        const zombieSpawns = this.eventSubConfigs.spawns.general.filter(
+        const zombieSpawns = this.eventModuleSubConfigs.spawns.general.filter(
             (config) => config.name === "zombies",
         )[0];
 
-        const hostility = this.eventSubConfigs.hostility.filter(
+        const hostility = this.eventModuleSubConfigs.hostility.filter(
             (config) => config.name === "zombies",
         )[0];
 
-        const zombieConfig = this.eventSubConfigs.spawns.zombies.filter(
+        const zombieConfig = this.eventModuleSubConfigs.spawns.zombies.filter(
             (config) => config.name === "zombies",
         )[0];
 
         for (let map in zombieSpawns.config) {
-            const currentMap = this.locationValues[map] as ILocation;
+            const currentMap = this.locationsGameConfig[map] as ILocation;
             const zombieSettings =
                 zombieConfig.config[map as keyof ZombiesConfig];
             // Add Zombie Spawns
@@ -177,7 +164,7 @@ export default class EventModule extends Module {
 
         // this.logger.success(
         //     JSON.stringify(
-        //         this.locationValues.woods.base.Events.Halloween2024,
+        //         this.locations.woods.base.Events.Halloween2024,
         //         null,
         //         4
         //     )
