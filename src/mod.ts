@@ -64,6 +64,13 @@ class DynamicEnvironmentSystem implements IPreSptLoadMod, IPostDBLoadMod {
                             output
                         ),
                     ),
+                    new RouteAction(
+                        "/client/raid/configuration",
+                        async (url: string, __, ___, output) => (
+                            this.ModuleManager.update(url),
+                            output
+                        ),
+                    ),
                 ],
                 "des",
             );

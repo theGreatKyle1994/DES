@@ -1,0 +1,112 @@
+{
+    "maxBots": {
+        "day": {
+            "Customs": 30,
+            "Factory": 15,
+            "Interchange": 30,
+            "Laboratory": 20,
+            "Lighthouse": 30,
+            "Reserve": 20,
+            "GroundZero": 15,
+            "GroundZeroHigh": 20,
+            "Shoreline": 30,
+            "Streets": 30,
+            "Woods": 30
+        },
+        "night": {
+            "Customs": 15,
+            "FactoryNight": 7,
+            "Interchange": 15,
+            "Laboratory": 10,
+            "Lighthouse": 15,
+            "Reserve": 10,
+            "GroundZero": 7,
+            "GroundZeroHigh": 10,
+            "Shoreline": 15,
+            "Streets": 15,
+            "Woods": 15
+        }
+    },
+    "limits": {
+        "enabled": true,
+        "typeLimits": {
+            "Customs": [
+                {
+                    "type": "marksman",
+                    "min": 2,
+                    "max": 4
+                }
+            ],
+            "Factory": [],
+            "FactoryNight": [],
+            "Interchange": [],
+            "Laboratory": [],
+            "Lighthouse": [],
+            "Reserve": [],
+            "GroundZero": [],
+            "GroundZeroHigh": [],
+            "Shoreline": [],
+            "Streets": [
+                {
+                    "type": "marksman",
+                    "min": 2,
+                    "max": 4
+                }
+            ],
+            "Woods": [
+                {
+                    "type": "marksman",
+                    "min": 2,
+                    "max": 5
+                }
+            ]
+        }
+    },
+    "variants": {
+        "enabled": true,
+        "genLimits": {
+            "arenaFighter": 15,
+            "arenaFighterEvent": 15,
+            "assault": 45,
+            "bossBoar": 5,
+            "bossBoarSniper": 5,
+            "bossBully": 5,
+            "bossGluhar": 5,
+            "bossKilla": 5,
+            "bossKnight": 5,
+            "bossKojaniy": 5,
+            "bossKolontay": 5,
+            "bossPartisan": 5,
+            "bossSanitar": 5,
+            "bossTagilla": 5,
+            "bossZryachiy": 5,
+            "crazyAssaultEvent": 15,
+            "exUsec": 15,
+            "followerBigPipe": 5,
+            "followerBirdEye": 5,
+            "followerBoar": 15,
+            "followerBoarClose1": 10,
+            "followerBoarClose2": 10,
+            "followerBully": 5,
+            "followerGluharAssault": 5,
+            "followerGluharScout": 5,
+            "followerGluharSecurity": 5,
+            "followerGluharSnipe": 5,
+            "followerKojaniy": 5,
+            "followerKolontayAssault": 10,
+            "followerKolontaySecurity": 10,
+            "followerSanitar": 5,
+            "followerTagilla": 5,
+            "followerZryachiy": 10,
+            "marksman": 30,
+            "pmcBEAR": 20,
+            "pmcBot": 40,
+            "pmcUSEC": 20,
+            "sectantOni": 10,
+            "sectantPredvestnik": 10,
+            "sectantPriest": 10,
+            "sectantPrizrak": 10,
+            "sectantWarrior": 10
+        }
+    }
+}

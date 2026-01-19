@@ -313,6 +313,7 @@ export interface IWave {
   BotPreset: string;
   BotSide: string;
   SpawnPoints: string;
+  OpenZones: string;
   WildSpawnType: WildSpawnType;
   isPlayers: boolean;
   number: number;

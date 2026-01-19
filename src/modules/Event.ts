@@ -27,7 +27,7 @@ export default class EventModule extends Module {
     private eventValues: ISeasonalEventConfig;
     private botValues: IBots;
     private locationValues: ILocations;
-    private readonly eventConfig: EventConfig = eventConfig;
+    private readonly eventConfig = eventConfig as EventConfig;
     private eventSubConfigs: EventSubConfigs;
     private readonly coreEventNames: string[] = [];
     private readonly additiveEventNames: string[] = [];

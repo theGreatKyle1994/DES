@@ -74,11 +74,15 @@ export default class ModuleManager {
                 this.Season.update();
                 this.Weather.update();
                 this.BotWaveGenerator.update();
+                Utilities.writeDatabase(this.db, this.logger);
+                this.logDatabase();
+                break;
+            }
+            case "/client/raid/configuration": {
+                this.BotWaveGenerator.setMapCaps();
                 break;
             }
         }
-        Utilities.writeDatabase(this.db, this.logger);
-        this.logDatabase();
     }
 
     private logDatabase(): void {

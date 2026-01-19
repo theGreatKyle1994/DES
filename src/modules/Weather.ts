@@ -17,8 +17,8 @@ import type { DependencyContainer } from "tsyringe";
 
 export default class WeatherModule extends Module {
     private weatherValues: IWeatherConfig;
-    private readonly weatherConfig: WeatherConfig = weatherConfig;
-    private readonly seasonConfig: SeasonConfig = seasonConfig;
+    private readonly weatherConfig = weatherConfig as WeatherConfig;
+    private readonly seasonConfig = seasonConfig as SeasonConfig;
     private readonly weatherNames: string[] = [];
 
     constructor(container: DependencyContainer, db: Database, logger: ILogger) {

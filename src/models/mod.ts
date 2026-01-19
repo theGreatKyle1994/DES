@@ -1,16 +1,9 @@
-export type MapNames =
-    | "bigmap"
-    | "factory4_day"
-    | "factory4_night"
-    | "interchange"
-    | "laboratory"
-    | "lighthouse"
-    | "rezervbase"
-    | "sandbox"
-    | "sandbox_high"
-    | "shoreline"
-    | "tarkovstreets"
-    | "woods";
+export const difficultyNames: DifficultyNames[] = [
+    "easy",
+    "normal",
+    "hard",
+    "impossible",
+];
 
 export const mapNames: MapNames[] = [
     "bigmap",
@@ -27,11 +20,89 @@ export const mapNames: MapNames[] = [
     "woods",
 ];
 
+export const bossNames: BossNames[] = [
+    "bossBully",
+    "bossGluhar",
+    "bossKilla",
+    "bossKojaniy",
+    "bossSanitar",
+    "bossTagilla",
+    "bossKnight",
+    "bossZryachiy",
+    "bossBoar",
+    "bossBoarSniper",
+    "bossKolontay",
+    "bossPartisan",
+    "followerBigPipe",
+    "followerBirdEye",
+    "sectantPriest",
+    "sectantOni",
+    "sectantPredvestnik",
+    "sectantPrizrak",
+];
+
+export const botNames: BotNames[] = [
+    "pmcUSEC",
+    "pmcBEAR",
+    "pmcBot",
+    "assault",
+    "crazyAssaultEvent",
+    "marksman",
+    "exUsec",
+    "arenaFighter",
+    "arenaFighterEvent",
+    "sectantWarrior",
+];
+
+export const realMapNames: Record<RealMapNames, string> = {
+    Customs: "bigmap",
+    Factory: "factory4_day",
+    FactoryNight: "factory4_night",
+    Interchange: "interchange",
+    Laboratory: "laboratory",
+    Lighthouse: "lighthouse",
+    Reserve: "rezervbase",
+    GroundZero: "sandbox",
+    GroundZeroHigh: "sandbox_high",
+    Shoreline: "shoreline",
+    Streets: "tarkovstreets",
+    Woods: "woods",
+};
+
+export type RealMapNames =
+    | "Customs"
+    | "Factory"
+    | "FactoryNight"
+    | "Interchange"
+    | "Laboratory"
+    | "Lighthouse"
+    | "Reserve"
+    | "GroundZero"
+    | "GroundZeroHigh"
+    | "Shoreline"
+    | "Streets"
+    | "Woods";
+
+export type MapNames =
+    | "bigmap"
+    | "factory4_day"
+    | "factory4_night"
+    | "interchange"
+    | "laboratory"
+    | "lighthouse"
+    | "rezervbase"
+    | "sandbox"
+    | "sandbox_high"
+    | "shoreline"
+    | "tarkovstreets"
+    | "woods";
+
 export type ZombieNames =
     | "infectedAssault"
     | "infectedPmc"
     | "infectedCivil"
-    | "infectedLaborant";
+    | "infectedLaborant"
+    | "infectedtagilla";
 
 export type BossNames =
     | "bossBully"
@@ -47,9 +118,91 @@ export type BossNames =
     | "bossKolontay"
     | "bossPartisan"
     | "followerBigPipe"
-    | "followerBirdEye";
+    | "followerBirdEye"
+    | "sectantPriest"
+    | "sectantOni"
+    | "sectantPredvestnik"
+    | "sectantPrizrak";
+
+export type BossFollowerNames =
+    | "bossBoarSniper"
+    | "followerBigPipe"
+    | "followerBirdEye"
+    | "followerBoar"
+    | "followerBoarClose1"
+    | "followerBoarClose2"
+    | "followerBully"
+    | "followerGluharAssault"
+    | "followerGluharScout"
+    | "followerGluharSecurity"
+    | "followerGluharSnipe"
+    | "followerKojaniy"
+    | "followerKolontayAssault"
+    | "followerKolontaySecurity"
+    | "followerSanitar"
+    | "followerTagilla"
+    | "followerZryachiy"
+    | "sectantWarrior"
+    | "sectantPredvestnik"
+    | "sectantPrizrak";
 
 export type BotNames =
+    | "pmcUSEC"
+    | "pmcBEAR"
+    | "assault"
+    | "crazyAssaultEvent"
+    | "marksman"
+    | "exUsec"
+    | "arenaFighter"
+    | "arenaFighterEvent"
+    | "pmcBot"
+    | "sectantWarrior";
+
+export type BotNamesAll =
+    | "arenaFighter"
+    | "arenaFighterEvent"
+    | "assault"
+    | "bossBoar"
+    | "bossBoarSniper"
+    | "bossBully"
+    | "bossGluhar"
+    | "bossKilla"
+    | "bossKnight"
+    | "bossKojaniy"
+    | "bossKolontay"
+    | "bossPartisan"
+    | "bossSanitar"
+    | "bossTagilla"
+    | "bossZryachiy"
+    | "crazyAssaultEvent"
+    | "exUsec"
+    | "followerBigPipe"
+    | "followerBirdEye"
+    | "followerBoar"
+    | "followerBoarClose1"
+    | "followerBoarClose2"
+    | "followerBully"
+    | "followerGluharAssault"
+    | "followerGluharScout"
+    | "followerGluharSecurity"
+    | "followerGluharSnipe"
+    | "followerKojaniy"
+    | "followerKolontayAssault"
+    | "followerKolontaySecurity"
+    | "followerSanitar"
+    | "followerTagilla"
+    | "followerZryachiy"
+    | "marksman"
+    | "pmcBEAR"
+    | "pmcBot"
+    | "pmcUSEC"
+    | "sectantOni"
+    | "sectantPredvestnik"
+    | "sectantPriest"
+    | "sectantPrizrak"
+    | "sectantWarrior";
+
+export type BotNamesDebug =
     | "arenafighter"
     | "arenafighterevent"
     | "bossboar"

@@ -25,7 +25,7 @@ export default abstract class Module {
             this.container.resolve<ConfigServer>("ConfigServer");
         this.databaseServer =
             this.container.resolve<DatabaseServer>("DatabaseServer");
-        
+
         this.db = db;
         this.logger = logger;
     }
@@ -34,4 +34,8 @@ export default abstract class Module {
     public initialize(): void {}
     public abstract enable(): void;
     public abstract update(): void;
+
+    protected logDebug(input: any): void {
+        this.logger.warning(JSON.stringify(input, null, 4));
+    }
 }
