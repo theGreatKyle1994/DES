@@ -21,6 +21,10 @@ export default class Utilities {
         this.logger = logger;
     }
 
+    public genNumberInRange(min: number, max: number): number {
+        return Math.floor(Math.random() * max + min);
+    }
+
     public getIsRaidDayOrNight(): string {
         // Get current raid configuration
         const { timeVariant, location } = this.container

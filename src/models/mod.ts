@@ -54,6 +54,51 @@ export const botNames: BotNames[] = [
     "sectantWarrior",
 ];
 
+export const realBotName: Record<RealBotNames, string> = {
+    Usec: "pmcUSEC",
+    Bear: "pmcBEAR",
+    Sniper: "marksman",
+    Scav: "assault",
+    ScavGroup: "crazyAssaultEvent",
+    Rogue: "exUsec",
+    Raider: "pmcBot",
+    Smuggler: "arenaFighter",
+    SmugglerGroup: "arenaFighterEvent",
+    Kaban: "bossBoar",
+    KabanSniper: "bossBoarSniper",
+    KabanAssault: "followerBoar",
+    KabanClose1: "followerBoarClose1",
+    KabanClose2: "followerBoarClose2",
+    Reshala: "bossBully",
+    ReshalaAssault: "followerBully",
+    Glukhar: "bossGluhar",
+    GlukharAssault: "followerGluharAssault",
+    GlukharScout: "followerGluharScout",
+    GlukharSecurity: "followerGluharSecurity",
+    GlukharSniper: "followerGluharSnipe",
+    Knight: "bossKnight",
+    BigPipe: "followerBigPipe",
+    BirdEye: "followerBirdEye",
+    Shturman: "bossKojaniy",
+    ShturmanAssault: "followerKojaniy",
+    ShturmanAssault2: "followerKolontayAssault",
+    ShturmanSecurity: "followerKolontaySecurity",
+    Kolontay: "bossKolontay",
+    Partisan: "bossPartisan",
+    Sanitar: "bossSanitar",
+    SanitarAssault: "followerSanitar",
+    Killa: "bossKilla",
+    Tagilla: "bossTagilla",
+    TagillaAssault: "followerTagilla",
+    Zryachiy: "bossZryachiy",
+    ZryachiyAssault: "followerZryachiy",
+    CultistPriest: "sectantPriest",
+    Cultist: "sectantWarrior",
+    CultistOni: "sectantOni",
+    CultistPredvestni: "sectantPredvestnik",
+    CultistPrizrak: "sectantPrizrak",
+};
+
 export const realMapNames: Record<RealMapNames, string> = {
     Customs: "bigmap",
     Factory: "factory4_day",
@@ -68,6 +113,50 @@ export const realMapNames: Record<RealMapNames, string> = {
     Streets: "tarkovstreets",
     Woods: "woods",
 };
+
+export type RealBotNames =
+    | "Usec"
+    | "Bear"
+    | "Sniper"
+    | "Scav"
+    | "ScavGroup"
+    | "Rogue"
+    | "Raider"
+    | "Smuggler"
+    | "SmugglerGroup"
+    | "Kaban"
+    | "KabanSniper"
+    | "KabanAssault"
+    | "KabanClose1"
+    | "KabanClose2"
+    | "Reshala"
+    | "ReshalaAssault"
+    | "Glukhar"
+    | "GlukharAssault"
+    | "GlukharScout"
+    | "GlukharSecurity"
+    | "GlukharSniper"
+    | "Knight"
+    | "BigPipe"
+    | "BirdEye"
+    | "Shturman"
+    | "ShturmanAssault"
+    | "ShturmanAssault2"
+    | "ShturmanSecurity"
+    | "Kolontay"
+    | "Partisan"
+    | "Sanitar"
+    | "SanitarAssault"
+    | "Killa"
+    | "Tagilla"
+    | "TagillaAssault"
+    | "Zryachiy"
+    | "ZryachiyAssault"
+    | "CultistPriest"
+    | "Cultist"
+    | "CultistOni"
+    | "CultistPredvestni"
+    | "CultistPrizrak";
 
 export type RealMapNames =
     | "Customs"

@@ -1,4 +1,48 @@
 {
+    "generation": {
+        "pmc": {
+            "difficulty": {
+                "easy": 25,
+                "normal": 60,
+                "hard": 10,
+                "impossible": 5
+            },
+            "group": {
+                "min": 2,
+                "max": 3,
+                "chance": 25
+            },
+            "conversion": {
+                "Usec": 50,
+                "Bear": 50
+            },
+            "waves": 15,
+            "distribution": 0.33,
+            "clusterIntensity": 0.25
+        },
+        "scav": {
+            "difficulty": {
+                "easy": 25,
+                "normal": 60,
+                "hard": 10,
+                "impossible": 5
+            },
+            "group": {
+                "min": 2,
+                "max": 5,
+                "chance": 50
+            },
+            "conversion": {
+                "Scav": 70,
+                "Raider": 10,
+                "Rogue": 10,
+                "Smuggler": 10
+            },
+            "waves": 30,
+            "distribution": 0.66,
+            "clusterIntensity": 0.25
+        }
+    },
     "maxBots": {
         "day": {
             "Customs": 30,
