@@ -38,6 +38,12 @@ export interface BotGeneration {
         chance: number;
     };
     conversion: Record<RealBotNames, number>;
+    starting: {
+        min: number;
+        max: number;
+        useGroups: boolean;
+        ignoreBotCap: boolean;
+    };
     waves: number;
     distribution: number;
     clusterIntensity: number;
@@ -56,8 +62,7 @@ export interface DayNight<KeyType extends string, ValueType> {
 
 export interface BotsConfig {
     generation: {
-        starting: {};
-        waveLayers: BotGeneration[];
+        waveGroups: BotGeneration[];
     };
     maxBots: DayNight<RealMapNames, number>;
     limits: Record<RealMapNames, BotLimitsEntry[]>;

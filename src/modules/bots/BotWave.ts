@@ -46,8 +46,8 @@ export default class BotWave extends Module {
 
     public enable(): void {
         this.update();
-        this.logDebug(this.botWaves);
-        // this.logDebug(this.locationsGameConfig["woods"].base.BossLocationSpawn);
+        // this.logDebug(this.botWaves);
+        this.logDebug(this.locationsGameConfig["woods"].base.BossLocationSpawn);
     }
 
     public update(): void {
@@ -78,29 +78,47 @@ export default class BotWave extends Module {
 
     private generateSpawns(mapName: string): IBossLocationSpawn[] {
         const spawns: IBossLocationSpawn[] = [];
-        const waveLayers = this.botWaveModuleConfig.generation.waveLayers;
-        for (let j = 0; j < waveLayers.length; j++) {
-            const genConfig = waveLayers[j];
-            const groupName = waveLayers[j].name;
+        const waveGroups = this.botWaveModuleConfig.generation.waveGroups;
+        for (let j = 0; j < waveGroups.length; j++) {
+            const genConfig = waveGroups[j];
+            const groupName = waveGroups[j].name;
             const timerGroup: number[] =
                 this.botWaves.timers[mapName][groupName];
             for (let i = 0; i < timerGroup.length; i++) {
-                const spawnTime = timerGroup[i];
+                const isStarting = timerGroup[i] === 0;
+
+                const spawnTime = isStarting ? -1 : timerGroup[i];
+
                 const botType =
                     realBotName[
                         this.Utilities.chooseWeight(genConfig.conversion)
                     ];
+
                 const botDiff = this.Utilities.chooseWeight(
                     genConfig.difficulty,
                 );
-                const botGroupSize = this.Utilities.useChance(
+
+                const useGroups = this.Utilities.useChance(
                     genConfig.group.chance,
-                )
-                    ? this.Utilities.genNumberInRange(
-                          genConfig.group.min,
-                          genConfig.group.max,
-                      ).toString()
-                    : "0";
+                );
+
+                let botGroupSize = "";
+
+                if (
+                    (isStarting && !genConfig.starting.useGroups) ||
+                    !useGroups
+                ) {
+                    botGroupSize = "0";
+                } else {
+                    botGroupSize = this.Utilities.genNumberInRange(
+                        genConfig.group.min,
+                        genConfig.group.max,
+                    ).toString();
+                }
+
+                const useIgnoreCount =
+                    isStarting && genConfig.starting.ignoreBotCap;
+
                 const spawn: IBossLocationSpawn = {
                     BossChance: 100,
                     BossDifficult: botDiff,
@@ -112,7 +130,7 @@ export default class BotWave extends Module {
                     BossZone: "",
                     Time: spawnTime,
                     RandomTimeSpawn: false,
-                    IgnoreMaxBots: false,
+                    IgnoreMaxBots: useIgnoreCount,
                     TriggerId: "",
                     TriggerName: "",
                     Supports: null,
@@ -125,21 +143,28 @@ export default class BotWave extends Module {
     }
 
     private generateWaveDist(): void {
-        const waveLayers = this.botWaveModuleConfig.generation.waveLayers;
-        for (let i = 0; i < waveLayers.length; i++) {
-            const groupName = waveLayers[i].name;
-            for (let j = 0; j < waveLayers[i].waves; j++) {
+        const waveGroups = this.botWaveModuleConfig.generation.waveGroups;
+        for (let i = 0; i < waveGroups.length; i++) {
+            const groupName = waveGroups[i].name;
+            for (let j = 0; j < waveGroups[i].waves; j++) {
                 if (!this.botWaves.dist[groupName])
                     this.botWaves.dist[groupName] = [];
                 this.botWaves.dist[groupName].push(
                     this.calculateDistribution(
                         0,
                         1,
-                        waveLayers[i].distribution,
-                        waveLayers[i].clusterIntensity,
+                        waveGroups[i].distribution,
+                        waveGroups[i].clusterIntensity,
                     ),
                 );
             }
+            // Generate starting spawn times
+            const startingCount = this.Utilities.genNumberInRange(
+                waveGroups[i].starting.min,
+                waveGroups[i].starting.max,
+            );
+            for (let i = 0; i < startingCount; i++)
+                this.botWaves.dist[groupName].push(0);
         }
         for (let key in this.botWaves.dist)
             this.botWaves.dist[key].sort((a: number, b: number) => a - b);

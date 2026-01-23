@@ -1,7 +1,6 @@
 {
     "generation": {
-        "starting": {},
-        "waveLayers": [
+        "waveGroups": [
             {
                 "name": "pmcs",
                 "difficulty": {
@@ -18,6 +17,12 @@
                 "conversion": {
                     "Usec": 50,
                     "Bear": 50
+                },
+                "starting": {
+                    "min": 3,
+                    "max": 5,
+                    "useGroups": true,
+                    "ignoreBotCap": true
                 },
                 "waves": 15,
                 "distribution": 0.33,
@@ -42,9 +47,15 @@
                     "Rogue": 5,
                     "Smuggler": 5
                 },
+                "starting": {
+                    "min": 6,
+                    "max": 8,
+                    "useGroups": false,
+                    "ignoreBotCap": false
+                },
                 "waves": 30,
                 "distribution": 0.66,
-                "clusterIntensity": 0.25
+                "clusterIntensity": 0.1
             }
         ]
     },
