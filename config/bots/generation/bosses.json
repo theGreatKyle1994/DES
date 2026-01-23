@@ -1,0 +1,333 @@
+{
+    "difficulty": {
+        "easy": 15,
+        "normal": 25,
+        "hard": 50,
+        "impossible": 10
+    },
+    "maps": {
+        "Customs": [
+            {
+                "boss": "Reshala",
+                "chance": 30,
+                "minGuards": 1,
+                "maxGuards": 1,
+                "guards": [
+                    {
+                        "type": "ReshalaAssault",
+                        "weight": 3,
+                        "min": 2,
+                        "max": 5
+                    },
+                    {
+                        "type": "Scav",
+                        "weight": 1,
+                        "min": 3,
+                        "max": 6
+                    }
+                ]
+            },
+            {
+                "boss": "Knight",
+                "chance": 30,
+                "minGuards": 1,
+                "maxGuards": 2,
+                "guards": [
+                    {
+                        "type": "BigPipe",
+                        "weight": 5,
+                        "min": 1,
+                        "max": 1
+                    },
+                    {
+                        "type": "BirdEye",
+                        "weight": 5,
+                        "min": 1,
+                        "max": 1
+                    },
+                    {
+                        "type": "Rogue",
+                        "weight": 2,
+                        "min": 2,
+                        "max": 4
+                    }
+                ]
+            },
+            {
+                "boss": "Partisan",
+                "chance": 15,
+                "minGuards": 0,
+                "maxGuards": 0,
+                "guards": []
+            }
+        ],
+        "Factory": [
+            {
+                "boss": "Tagilla",
+                "chance": 30,
+                "minGuards": 0,
+                "maxGuards": 1,
+                "guards": [
+                    {
+                        "type": "TagillaAssault",
+                        "weight": 3,
+                        "min": 2,
+                        "max": 3
+                    },
+                    {
+                        "type": "Scav",
+                        "weight": 1,
+                        "min": 3,
+                        "max": 5
+                    }
+                ]
+            }
+        ],
+        "FactoryNight": [
+            {
+                "boss": "Tagilla",
+                "chance": 30,
+                "minGuards": 0,
+                "maxGuards": 1,
+                "guards": [
+                    {
+                        "type": "TagillaAssault",
+                        "weight": 3,
+                        "min": 1,
+                        "max": 3
+                    },
+                    {
+                        "type": "Scav",
+                        "weight": 1,
+                        "min": 3,
+                        "max": 5
+                    }
+                ]
+            }
+        ],
+        "Interchange": [
+            {
+                "boss": "Killa",
+                "chance": 30,
+                "minGuards": 0,
+                "maxGuards": 1,
+                "guards": [
+                    {
+                        "type": "Scav",
+                        "weight": 1,
+                        "min": 3,
+                        "max": 5
+                    }
+                ]
+            }
+        ],
+        "Laboratory": [],
+        "Lighthouse": [
+            {
+                "boss": "Zryachiy",
+                "chance": 100,
+                "minGuards": 1,
+                "maxGuards": 1,
+                "guards": [
+                    {
+                        "type": "ZryachiyAssault",
+                        "weight": 1,
+                        "min": 3,
+                        "max": 4
+                    }
+                ]
+            },
+            {
+                "boss": "Partisan",
+                "chance": 15,
+                "minGuards": 1,
+                "maxGuards": 0,
+                "guards": []
+            }
+        ],
+        "Reserve": [
+            {
+                "boss": "Glukhar",
+                "chance": 30,
+                "minGuards": 2,
+                "maxGuards": 3,
+                "guards": [
+                    {
+                        "type": "GlukharAssault",
+                        "weight": 3,
+                        "min": 2,
+                        "max": 2
+                    },
+                    {
+                        "type": "GlukharScout",
+                        "weight": 2,
+                        "min": 1,
+                        "max": 2
+                    },
+                    {
+                        "type": "GlukharSecurity",
+                        "weight": 2,
+                        "min": 2,
+                        "max": 2
+                    },
+                    {
+                        "type": "GlukharSniper",
+                        "weight": 1,
+                        "min": 1,
+                        "max": 1
+                    }
+                ]
+            }
+        ],
+        "GroundZero": [
+            {
+                "boss": "Kolontay",
+                "chance": 30,
+                "minGuards": 1,
+                "maxGuards": 2,
+                "guards": [
+                    {
+                        "type": "KolontayAssault",
+                        "weight": 1,
+                        "min": 2,
+                        "max": 2
+                    },
+                    {
+                        "type": "KolontaySecurity",
+                        "weight": 1,
+                        "min": 2,
+                        "max": 2
+                    }
+                ]
+            }
+        ],
+        "GroundZeroHigh": [
+            {
+                "boss": "Kolontay",
+                "chance": 30,
+                "minGuards": 1,
+                "maxGuards": 2,
+                "guards": [
+                    {
+                        "type": "KolontayAssault",
+                        "weight": 1,
+                        "min": 2,
+                        "max": 2
+                    },
+                    {
+                        "type": "KolontaySecurity",
+                        "weight": 1,
+                        "min": 2,
+                        "max": 2
+                    }
+                ]
+            }
+        ],
+        "Shoreline": [
+            {
+                "boss": "Sanitar",
+                "chance": 30,
+                "minGuards": 1,
+                "maxGuards": 1,
+                "guards": [
+                    {
+                        "type": "SanitarAssault",
+                        "weight": 1,
+                        "min": 3,
+                        "max": 5
+                    }
+                ]
+            },
+            {
+                "boss": "Partisan",
+                "chance": 15,
+                "minGuards": 0,
+                "maxGuards": 0,
+                "guards": []
+            }
+        ],
+        "Streets": [
+            {
+                "boss": "Kaban",
+                "chance": 75,
+                "minGuards": 3,
+                "maxGuards": 4,
+                "guards": [
+                    {
+                        "type": "KabanSniper",
+                        "weight": 1,
+                        "min": 1,
+                        "max": 2
+                    },
+                    {
+                        "type": "KabanAssault",
+                        "weight": 3,
+                        "min": 3,
+                        "max": 4
+                    },
+                    {
+                        "type": "KabanClose1",
+                        "weight": 2,
+                        "min": 1,
+                        "max": 1
+                    },
+                    {
+                        "type": "KabanClose2",
+                        "weight": 2,
+                        "min": 1,
+                        "max": 1
+                    }
+                ]
+            }
+        ],
+        "Woods": [
+            {
+                "boss": "Shturman",
+                "chance": 30,
+                "minGuards": 1,
+                "maxGuards": 1,
+                "guards": [
+                    {
+                        "type": "ShturmanAssault",
+                        "weight": 1,
+                        "min": 3,
+                        "max": 5
+                    }
+                ]
+            },
+            {
+                "boss": "Knight",
+                "chance": 30,
+                "minGuards": 1,
+                "maxGuards": 2,
+                "guards": [
+                    {
+                        "type": "BigPipe",
+                        "weight": 5,
+                        "min": 1,
+                        "max": 1
+                    },
+                    {
+                        "type": "BirdEye",
+                        "weight": 5,
+                        "min": 1,
+                        "max": 1
+                    },
+                    {
+                        "type": "Rogue",
+                        "weight": 2,
+                        "min": 2,
+                        "max": 4
+                    }
+                ]
+            },
+            {
+                "boss": "Partisan",
+                "chance": 15,
+                "minGuards": 0,
+                "maxGuards": 0,
+                "guards": []
+            }
+        ]
+    }
+}

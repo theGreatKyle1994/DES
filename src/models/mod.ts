@@ -81,9 +81,9 @@ export const realBotName: Record<RealBotNames, string> = {
     BirdEye: "followerBirdEye",
     Shturman: "bossKojaniy",
     ShturmanAssault: "followerKojaniy",
-    ShturmanAssault2: "followerKolontayAssault",
-    ShturmanSecurity: "followerKolontaySecurity",
     Kolontay: "bossKolontay",
+    KolontayAssault: "followerKolontayAssault",
+    KolontaySecurity: "followerKolontaySecurity",
     Partisan: "bossPartisan",
     Sanitar: "bossSanitar",
     SanitarAssault: "followerSanitar",
@@ -141,9 +141,9 @@ export type RealBotNames =
     | "BirdEye"
     | "Shturman"
     | "ShturmanAssault"
-    | "ShturmanAssault2"
-    | "ShturmanSecurity"
     | "Kolontay"
+    | "KolontayAssault"
+    | "KolontaySecurity"
     | "Partisan"
     | "Sanitar"
     | "SanitarAssault"

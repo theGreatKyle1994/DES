@@ -24,6 +24,26 @@ export const botWavesDefault: BotWaves = {
     },
 };
 
+export interface GuardEntry {
+    type: RealBotNames;
+    weight: number;
+    min: number;
+    max: number;
+}
+
+export interface BossConfigEntry {
+    boss: RealBotNames;
+    chance: number;
+    minGuards: number;
+    maxGuards: number;
+    guards: GuardEntry[];
+}
+
+export interface BossesConfig {
+    difficulty: Record<DifficultyNames, number>;
+    maps: Record<RealMapNames, BossConfigEntry[]>;
+}
+
 export interface BotWaves {
     dist: Record<string, number[]>;
     timers: Record<MapNames, Record<string, number[]>>;

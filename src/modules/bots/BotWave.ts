@@ -1,10 +1,11 @@
 // Configs
 import botWaveModuleConfig from "../../../config/bots/generation/bots.json";
+import bossesConfig from "../../../config/bots/generation/bosses.json";
 
 // General
 import { mapNames, realMapNames, realBotName } from "../../models/mod";
 import Module from "../core/Module";
-import type { BotsConfig, BotWaves } from "../../models/bots";
+import type { BotsConfig, BossesConfig, BotWaves } from "../../models/bots";
 import { botWavesDefault } from "../../models/bots";
 import type { Database } from "../../models/database";
 
@@ -22,6 +23,7 @@ import type { IBossLocationSpawn } from "@spt/models/eft/common/ILocationBase";
 
 export default class BotWave extends Module {
     private readonly botWaveModuleConfig = botWaveModuleConfig as BotsConfig;
+    private readonly bossesConfig = bossesConfig as BossesConfig;
     private locationGameConfig: ILocationConfig;
     private locationsGameConfig: ILocations;
     private botGameConfig: IBotConfig;
