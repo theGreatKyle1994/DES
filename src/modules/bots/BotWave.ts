@@ -4,7 +4,7 @@ import botWaveModuleConfig from "../../../config/bots/generation/bots.json";
 // General
 import { mapNames, realMapNames, realBotName } from "../../models/mod";
 import Module from "../core/Module";
-import type { BotGeneration, BotsConfig, BotWaves } from "../../models/bots";
+import type { BotsConfig, BotWaves } from "../../models/bots";
 import { botWavesDefault } from "../../models/bots";
 import type { Database } from "../../models/database";
 
@@ -46,14 +46,14 @@ export default class BotWave extends Module {
 
     public enable(): void {
         this.update();
+        this.logDebug(this.botWaves);
+        // this.logDebug(this.locationsGameConfig["woods"].base.BossLocationSpawn);
     }
 
     public update(): void {
         this.resetWaves();
         this.setBotLimits();
-        this.setBotVariants();
         this.setLocationSpawns();
-        this.logDebug(this.botWaves.timers);
     }
 
     private resetWaves(): void {
@@ -76,59 +76,94 @@ export default class BotWave extends Module {
         }
     }
 
-    private generateWaves(): void {
-        for (let type in this.botWaves.dist) {
-            for (
-                let i = 0;
-                i < this.botWaveModuleConfig.generation[type].waves;
-                i++
-            ) {
-                this.botWaves.dist[type].push(
+    private generateSpawns(mapName: string): IBossLocationSpawn[] {
+        const spawns: IBossLocationSpawn[] = [];
+        const waveLayers = this.botWaveModuleConfig.generation.waveLayers;
+        for (let j = 0; j < waveLayers.length; j++) {
+            const genConfig = waveLayers[j];
+            const groupName = waveLayers[j].name;
+            const timerGroup: number[] =
+                this.botWaves.timers[mapName][groupName];
+            for (let i = 0; i < timerGroup.length; i++) {
+                const spawnTime = timerGroup[i];
+                const botType =
+                    realBotName[
+                        this.Utilities.chooseWeight(genConfig.conversion)
+                    ];
+                const botDiff = this.Utilities.chooseWeight(
+                    genConfig.difficulty,
+                );
+                const botGroupSize = this.Utilities.useChance(
+                    genConfig.group.chance,
+                )
+                    ? this.Utilities.genNumberInRange(
+                          genConfig.group.min,
+                          genConfig.group.max,
+                      ).toString()
+                    : "0";
+                const spawn: IBossLocationSpawn = {
+                    BossChance: 100,
+                    BossDifficult: botDiff,
+                    BossEscortAmount: botGroupSize,
+                    BossEscortDifficult: botDiff,
+                    BossEscortType: botType,
+                    BossName: botType,
+                    BossPlayer: false,
+                    BossZone: "",
+                    Time: spawnTime,
+                    RandomTimeSpawn: false,
+                    IgnoreMaxBots: false,
+                    TriggerId: "",
+                    TriggerName: "",
+                    Supports: null,
+                    SpawnMode: ["pve", "regular"],
+                };
+                spawns.push(spawn);
+            }
+        }
+        return spawns;
+    }
+
+    private generateWaveDist(): void {
+        const waveLayers = this.botWaveModuleConfig.generation.waveLayers;
+        for (let i = 0; i < waveLayers.length; i++) {
+            const groupName = waveLayers[i].name;
+            for (let j = 0; j < waveLayers[i].waves; j++) {
+                if (!this.botWaves.dist[groupName])
+                    this.botWaves.dist[groupName] = [];
+                this.botWaves.dist[groupName].push(
                     this.calculateDistribution(
                         0,
                         1,
-                        this.botWaveModuleConfig.generation[type].distribution,
-                        this.botWaveModuleConfig.generation[type]
-                            .clusterIntensity,
+                        waveLayers[i].distribution,
+                        waveLayers[i].clusterIntensity,
                     ),
                 );
             }
-            this.botWaves.dist[type].sort((a: number, b: number) => a - b);
         }
+        for (let key in this.botWaves.dist)
+            this.botWaves.dist[key].sort((a: number, b: number) => a - b);
     }
 
     private setLocationSpawns(): void {
-        this.generateWaves();
+        this.generateWaveDist();
         for (let map of mapNames) {
             const loc = (this.locationsGameConfig[map] as ILocation).base;
-            for (let type in this.botWaves.dist) {
-                for (let i = 0; i < this.botWaves.dist[type].length; i++) {
-                    this.botWaves.timers[map][type].push(
+            for (let groupName in this.botWaves.dist) {
+                const timerMap = this.botWaves.timers[map];
+                if (!timerMap[groupName]) timerMap[groupName] = [];
+                for (let i = 0; i < this.botWaves.dist[groupName].length; i++) {
+                    timerMap[groupName].push(
                         Math.round(
                             loc.EscapeTimeLimit *
-                                this.botWaves.dist[type][i] *
+                                this.botWaves.dist[groupName][i] *
                                 100,
                         ),
                     );
                 }
+                timerMap[groupName].sort((a: number, b: number) => a - b);
             }
-            loc.BossLocationSpawn = this.generateBossSpawns(map);
-            // loc.waves = [
-            //     {
-            //         BotPreset: "normal",
-            //         OpenZones: "",
-            //         BotSide: "Savage",
-            //         SpawnPoints: "",
-            //         WildSpawnType: "bossBully" as WildSpawnType,
-            //         isPlayers: false,
-            //         number: 1,
-            //         slots_max: 3,
-            //         slots_min: 3,
-            //         time_max: -1,
-            //         time_min: -1,
-            //         SpawnMode: ["pve", "regular"],
-            //     },
-            // ];
+            loc.BossLocationSpawn = this.generateSpawns(map);
         }
     }
 
@@ -140,12 +175,20 @@ export default class BotWave extends Module {
     }
 
     private setBotLimits(): void {
-        if (this.botWaveModuleConfig.limits.enabled) {
-            this.locationGameConfig.enableBotTypeLimits = true;
-            this.locationGameConfig.botTypeLimits = {};
-            for (let map in realMapNames)
-                this.locationGameConfig.botTypeLimits[realMapNames[map]] =
-                    botWaveModuleConfig.limits.typeLimits[map];
+        this.locationGameConfig.enableBotTypeLimits = true;
+        this.locationGameConfig.botTypeLimits = {};
+        const limits = this.botWaveModuleConfig.limits;
+        for (let mapKey in limits) {
+            const map = realMapNames[mapKey];
+            this.locationGameConfig.botTypeLimits[map] = [];
+            for (let i = 0; i < limits[mapKey].length; i++) {
+                const entry = limits[mapKey][i];
+                this.locationGameConfig.botTypeLimits[map].push({
+                    type: realBotName[entry.type] ?? realBotName.Sniper,
+                    min: entry.min ?? 0,
+                    max: entry.max ?? 1,
+                });
+            }
         }
     }
 
@@ -158,58 +201,5 @@ export default class BotWave extends Module {
         const t = Math.pow(Math.random(), Math.abs(intensity - 1));
         const range = Math.random() > 0.5 ? max - target : min - target;
         return parseFloat((target + range * (1 - t)).toFixed(3));
-    }
-
-    private generateBossSpawns(mapName: string): IBossLocationSpawn[] {
-        const spawns: IBossLocationSpawn[] = [];
-        for (let type in this.botWaves.dist) {
-            for (let spawnTime of this.botWaves.timers[mapName][type]) {
-                const genConfig = this.botWaveModuleConfig.generation[
-                    type
-                ] as BotGeneration;
-                const botType =
-                    realBotName[
-                        this.Utilities.chooseWeight(genConfig.conversion)
-                    ];
-                const botDiff = this.Utilities.chooseWeight(
-                    genConfig.difficulty,
-                );
-                const spawn: IBossLocationSpawn = {
-                    BossChance: 100,
-                    BossDifficult: botDiff,
-                    BossEscortAmount: "0",
-                    BossEscortDifficult: botDiff,
-                    BossEscortType: botType,
-                    BossName: botType,
-                    BossPlayer: false,
-                    BossZone: "",
-                    RandomTimeSpawn: false,
-                    ForceSpawn: false,
-                    Time: spawnTime,
-                    TriggerId: "",
-                    TriggerName: "",
-                    Delay: 0,
-                    IgnoreMaxBots: false,
-                    Supports: null,
-                    // [
-                    // {
-                    //     BossEscortAmount: "1,2,3",
-                    //     BossEscortDifficult: ["normal"],
-                    //     BossEscortType: realBotName.test,
-                    // },
-                    // ],
-                    SpawnMode: ["pve", "regular"],
-                };
-                spawns.push(spawn);
-            }
-        }
-        return spawns;
-    }
-
-    private setBotVariants(): void {
-        if (this.botWaveModuleConfig.variants.enabled)
-            for (let type in this.botWaveModuleConfig.variants.genLimits)
-                this.botGameConfig.presetBatch[type] =
-                    this.botWaveModuleConfig.variants.genLimits[type];
     }
 }

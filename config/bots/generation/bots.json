@@ -1,47 +1,52 @@
 {
     "generation": {
-        "pmc": {
-            "difficulty": {
-                "easy": 25,
-                "normal": 60,
-                "hard": 10,
-                "impossible": 5
+        "starting": {},
+        "waveLayers": [
+            {
+                "name": "pmcs",
+                "difficulty": {
+                    "easy": 25,
+                    "normal": 60,
+                    "hard": 10,
+                    "impossible": 5
+                },
+                "group": {
+                    "min": 2,
+                    "max": 3,
+                    "chance": 20
+                },
+                "conversion": {
+                    "Usec": 50,
+                    "Bear": 50
+                },
+                "waves": 15,
+                "distribution": 0.33,
+                "clusterIntensity": 0.25
             },
-            "group": {
-                "min": 2,
-                "max": 3,
-                "chance": 25
-            },
-            "conversion": {
-                "Usec": 50,
-                "Bear": 50
-            },
-            "waves": 15,
-            "distribution": 0.33,
-            "clusterIntensity": 0.25
-        },
-        "scav": {
-            "difficulty": {
-                "easy": 25,
-                "normal": 60,
-                "hard": 10,
-                "impossible": 5
-            },
-            "group": {
-                "min": 2,
-                "max": 5,
-                "chance": 50
-            },
-            "conversion": {
-                "Scav": 70,
-                "Raider": 10,
-                "Rogue": 10,
-                "Smuggler": 10
-            },
-            "waves": 30,
-            "distribution": 0.66,
-            "clusterIntensity": 0.25
-        }
+            {
+                "name": "scavs",
+                "difficulty": {
+                    "easy": 25,
+                    "normal": 60,
+                    "hard": 10,
+                    "impossible": 5
+                },
+                "group": {
+                    "min": 2,
+                    "max": 5,
+                    "chance": 20
+                },
+                "conversion": {
+                    "Scav": 85,
+                    "Raider": 5,
+                    "Rogue": 5,
+                    "Smuggler": 5
+                },
+                "waves": 30,
+                "distribution": 0.66,
+                "clusterIntensity": 0.25
+            }
+        ]
     },
     "maxBots": {
         "day": {
@@ -72,85 +77,35 @@
         }
     },
     "limits": {
-        "enabled": true,
-        "typeLimits": {
-            "Customs": [
-                {
-                    "type": "marksman",
-                    "min": 2,
-                    "max": 4
-                }
-            ],
-            "Factory": [],
-            "FactoryNight": [],
-            "Interchange": [],
-            "Laboratory": [],
-            "Lighthouse": [],
-            "Reserve": [],
-            "GroundZero": [],
-            "GroundZeroHigh": [],
-            "Shoreline": [],
-            "Streets": [
-                {
-                    "type": "marksman",
-                    "min": 2,
-                    "max": 4
-                }
-            ],
-            "Woods": [
-                {
-                    "type": "marksman",
-                    "min": 2,
-                    "max": 5
-                }
-            ]
-        }
-    },
-    "variants": {
-        "enabled": true,
-        "genLimits": {
-            "arenaFighter": 15,
-            "arenaFighterEvent": 15,
-            "assault": 45,
-            "bossBoar": 5,
-            "bossBoarSniper": 5,
-            "bossBully": 5,
-            "bossGluhar": 5,
-            "bossKilla": 5,
-            "bossKnight": 5,
-            "bossKojaniy": 5,
-            "bossKolontay": 5,
-            "bossPartisan": 5,
-            "bossSanitar": 5,
-            "bossTagilla": 5,
-            "bossZryachiy": 5,
-            "crazyAssaultEvent": 15,
-            "exUsec": 15,
-            "followerBigPipe": 5,
-            "followerBirdEye": 5,
-            "followerBoar": 15,
-            "followerBoarClose1": 10,
-            "followerBoarClose2": 10,
-            "followerBully": 5,
-            "followerGluharAssault": 5,
-            "followerGluharScout": 5,
-            "followerGluharSecurity": 5,
-            "followerGluharSnipe": 5,
-            "followerKojaniy": 5,
-            "followerKolontayAssault": 10,
-            "followerKolontaySecurity": 10,
-            "followerSanitar": 5,
-            "followerTagilla": 5,
-            "followerZryachiy": 10,
-            "marksman": 30,
-            "pmcBEAR": 20,
-            "pmcBot": 40,
-            "pmcUSEC": 20,
-            "sectantOni": 10,
-            "sectantPredvestnik": 10,
-            "sectantPriest": 10,
-            "sectantPrizrak": 10,
-            "sectantWarrior": 10
-        }
+        "Customs": [
+            {
+                "type": "Sniper",
+                "min": 2,
+                "max": 4
+            }
+        ],
+        "Factory": [],
+        "FactoryNight": [],
+        "Interchange": [],
+        "Laboratory": [],
+        "Lighthouse": [],
+        "Reserve": [],
+        "GroundZero": [],
+        "GroundZeroHigh": [],
+        "Shoreline": [],
+        "Streets": [
+            {
+                "type": "Sniper",
+                "min": 2,
+                "max": 4
+            }
+        ],
+        "Woods": [
+            {
+                "type": "Sniper",
+                "min": 2,
+                "max": 5
+            }
+        ]
     }
 }

@@ -1,6 +1,5 @@
 // General
 import type {
-    BotNamesAll,
     DifficultyNames,
     MapNames,
     RealBotNames,
@@ -8,34 +7,30 @@ import type {
 } from "./mod";
 
 export const botWavesDefault: BotWaves = {
-    dist: { pmc: [], scav: [] },
+    dist: {},
     timers: {
-        bigmap: { pmc: [], scav: [] },
-        factory4_day: { pmc: [], scav: [] },
-        factory4_night: { pmc: [], scav: [] },
-        interchange: { pmc: [], scav: [] },
-        laboratory: { pmc: [], scav: [] },
-        lighthouse: { pmc: [], scav: [] },
-        rezervbase: { pmc: [], scav: [] },
-        sandbox: { pmc: [], scav: [] },
-        sandbox_high: { pmc: [], scav: [] },
-        shoreline: { pmc: [], scav: [] },
-        tarkovstreets: { pmc: [], scav: [] },
-        woods: { pmc: [], scav: [] },
+        bigmap: {},
+        factory4_day: {},
+        factory4_night: {},
+        interchange: {},
+        laboratory: {},
+        lighthouse: {},
+        rezervbase: {},
+        sandbox: {},
+        sandbox_high: {},
+        shoreline: {},
+        tarkovstreets: {},
+        woods: {},
     },
 };
 
-export interface BotCoreList {
-    pmc: number[];
-    scav: number[];
-}
-
 export interface BotWaves {
-    dist: BotCoreList;
-    timers: Record<MapNames, BotCoreList>;
+    dist: Record<string, number[]>;
+    timers: Record<MapNames, Record<string, number[]>>;
 }
 
 export interface BotGeneration {
+    name: string;
     difficulty: Record<DifficultyNames, number>;
     group: {
         min: number;
@@ -49,7 +44,7 @@ export interface BotGeneration {
 }
 
 export interface BotLimitsEntry {
-    type: BotNamesAll;
+    type: RealBotNames;
     min: number;
     max: number;
 }
@@ -61,16 +56,9 @@ export interface DayNight<KeyType extends string, ValueType> {
 
 export interface BotsConfig {
     generation: {
-        pmc: BotGeneration;
-        scav: BotGeneration;
+        starting: {};
+        waveLayers: BotGeneration[];
     };
     maxBots: DayNight<RealMapNames, number>;
-    limits: {
-        enabled: boolean;
-        typeLimits: Record<RealMapNames, BotLimitsEntry[]>;
-    };
-    variants: {
-        enabled: boolean;
-        genLimits: Partial<Record<BotNamesAll, number>>;
-    };
+    limits: Record<RealMapNames, BotLimitsEntry[]>;
 }

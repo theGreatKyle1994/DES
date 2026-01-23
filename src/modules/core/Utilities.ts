@@ -21,8 +21,12 @@ export default class Utilities {
         this.logger = logger;
     }
 
+    public useChance(target: number): boolean {
+        return Math.random() * 100 <= target;
+    }
+
     public genNumberInRange(min: number, max: number): number {
-        return Math.floor(Math.random() * max + min);
+        return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 
     public getIsRaidDayOrNight(): string {
