@@ -1,89 +1,83 @@
 // General
-import type {
-    DifficultyNames,
-    MapNames,
-    RealBotNames,
-    RealMapNames,
-} from "./mod";
+import type { MapNames } from "./common";
+
+// SPT
+import type { IBossLocationSpawn } from "@spt/models/eft/common/ILocationBase";
 
 export const botWavesDefault: BotWaves = {
     dist: {},
     timers: {
-        bigmap: {},
-        factory4_day: {},
-        factory4_night: {},
-        interchange: {},
-        laboratory: {},
-        lighthouse: {},
-        rezervbase: {},
-        sandbox: {},
-        sandbox_high: {},
-        shoreline: {},
-        tarkovstreets: {},
-        woods: {},
+        bigmap: { day: {}, night: {} },
+        factory4_day: { day: {} },
+        factory4_night: { night: {} },
+        interchange: { day: {}, night: {} },
+        laboratory: { day: {}, night: {} },
+        lighthouse: { day: {}, night: {} },
+        rezervbase: { day: {}, night: {} },
+        sandbox: { day: {}, night: {} },
+        sandbox_high: { day: {}, night: {} },
+        shoreline: { day: {}, night: {} },
+        tarkovstreets: { day: {}, night: {} },
+        woods: { day: {}, night: {} },
+    },
+    spawns: {
+        bigmap: {
+            day: { waves: [], bosses: [] },
+            night: { waves: [], bosses: [] },
+        },
+        factory4_day: { day: { waves: [], bosses: [] } },
+        factory4_night: { night: { waves: [], bosses: [] } },
+        interchange: {
+            day: { waves: [], bosses: [] },
+            night: { waves: [], bosses: [] },
+        },
+        laboratory: {
+            day: { waves: [], bosses: [] },
+            night: { waves: [], bosses: [] },
+        },
+        lighthouse: {
+            day: { waves: [], bosses: [] },
+            night: { waves: [], bosses: [] },
+        },
+        rezervbase: {
+            day: { waves: [], bosses: [] },
+            night: { waves: [], bosses: [] },
+        },
+        sandbox: {
+            day: { waves: [], bosses: [] },
+            night: { waves: [], bosses: [] },
+        },
+        sandbox_high: {
+            day: { waves: [], bosses: [] },
+            night: { waves: [], bosses: [] },
+        },
+        shoreline: {
+            day: { waves: [], bosses: [] },
+            night: { waves: [], bosses: [] },
+        },
+        tarkovstreets: {
+            day: { waves: [], bosses: [] },
+            night: { waves: [], bosses: [] },
+        },
+        woods: {
+            day: { waves: [], bosses: [] },
+            night: { waves: [], bosses: [] },
+        },
     },
 };
 
-export interface GuardEntry {
-    type: RealBotNames;
-    weight: number;
-    min: number;
-    max: number;
+export interface DayNight<T> {
+    day?: T;
+    night?: T;
 }
 
-export interface BossConfigEntry {
-    boss: RealBotNames;
-    chance: number;
-    minGuards: number;
-    maxGuards: number;
-    guards: GuardEntry[];
-}
-
-export interface BossesConfig {
-    difficulty: Record<DifficultyNames, number>;
-    maps: Record<RealMapNames, BossConfigEntry[]>;
+export interface SpawnEntry<T> {
+    waves: T[];
+    bosses: T[];
 }
 
 export interface BotWaves {
     dist: Record<string, number[]>;
-    timers: Record<MapNames, Record<string, number[]>>;
-}
-
-export interface BotGeneration {
-    name: string;
-    difficulty: Record<DifficultyNames, number>;
-    group: {
-        min: number;
-        max: number;
-        chance: number;
-    };
-    conversion: Record<RealBotNames, number>;
-    starting: {
-        min: number;
-        max: number;
-        useGroups: boolean;
-        ignoreBotCap: boolean;
-    };
-    waves: number;
-    distribution: number;
-    clusterIntensity: number;
-}
-
-export interface BotLimitsEntry {
-    type: RealBotNames;
-    min: number;
-    max: number;
-}
-
-export interface DayNight<KeyType extends string, ValueType> {
-    day: Partial<Record<KeyType, ValueType>>;
-    night: Partial<Record<KeyType, ValueType>>;
-}
-
-export interface BotsConfig {
-    generation: {
-        waveGroups: BotGeneration[];
-    };
-    maxBots: DayNight<RealMapNames, number>;
-    limits: Record<RealMapNames, BotLimitsEntry[]>;
+    timers: Record<MapNames, DayNight<Record<string, number[]>>>;
+    spawns: Record<MapNames, DayNight<SpawnEntry<IBossLocationSpawn>>>;
 }

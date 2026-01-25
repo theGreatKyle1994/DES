@@ -1,0 +1,137 @@
+{
+    "mapGroups": {
+        "day": {
+            "Customs": ["pmcsDay", "scavsDay"],
+            "Factory": ["pmcsDay", "scavsDay"],
+            "Interchange": ["pmcsDay", "scavsDay"],
+            "Laboratory": ["pmcsDay", "scavsDay"],
+            "Lighthouse": ["pmcsDay", "scavsDay"],
+            "Reserve": ["pmcsDay", "scavsDay"],
+            "GroundZero": ["pmcsDay", "scavsDay"],
+            "GroundZeroHigh": ["pmcsDay", "scavsDay"],
+            "Shoreline": ["pmcsDay", "scavsDay"],
+            "Streets": ["pmcsDay", "scavsDay"],
+            "Woods": ["pmcsDay", "scavsDay"]
+        },
+        "night": {
+            "Customs": ["pmcsNight", "scavsNight"],
+            "FactoryNight": ["pmcsNight", "scavsNight"],
+            "Interchange": ["pmcsNight", "scavsNight"],
+            "Laboratory": ["pmcsNight", "scavsNight"],
+            "Lighthouse": ["pmcsNight", "scavsNight"],
+            "Reserve": ["pmcsNight", "scavsNight"],
+            "GroundZero": ["pmcsNight", "scavsNight"],
+            "GroundZeroHigh": ["pmcsNight", "scavsNight"],
+            "Shoreline": ["pmcsNight", "scavsNight"],
+            "Streets": ["pmcsNight", "scavsNight"],
+            "Woods": ["pmcsNight", "scavsNight"]
+        }
+    },
+    "spawnGroups": {
+        "pmcsDay": {
+            "difficulty": {
+                "easy": 25,
+                "normal": 60,
+                "hard": 10,
+                "impossible": 5
+            },
+            "group": {
+                "min": 2,
+                "max": 3,
+                "chance": 20
+            },
+            "conversion": {
+                "Usec": 50,
+                "Bear": 50
+            },
+            "starting": {
+                "min": 3,
+                "max": 5,
+                "useGroups": true,
+                "ignoreBotCap": true
+            },
+            "waves": 15,
+            "distribution": 0.33,
+            "clusterIntensity": 0.25
+        },
+        "pmcsNight": {
+            "difficulty": {
+                "easy": 25,
+                "normal": 60,
+                "hard": 10,
+                "impossible": 5
+            },
+            "group": {
+                "min": 2,
+                "max": 2,
+                "chance": 5
+            },
+            "conversion": {
+                "Usec": 50,
+                "Bear": 50
+            },
+            "starting": {
+                "min": 1,
+                "max": 2,
+                "useGroups": true,
+                "ignoreBotCap": false
+            },
+            "waves": 7,
+            "distribution": 0.2,
+            "clusterIntensity": 0.25
+        },
+        "scavsDay": {
+            "difficulty": {
+                "easy": 25,
+                "normal": 60,
+                "hard": 10,
+                "impossible": 5
+            },
+            "group": {
+                "min": 2,
+                "max": 5,
+                "chance": 20
+            },
+            "conversion": {
+                "Scav": 85,
+                "Raider": 5,
+                "Rogue": 5,
+                "Smuggler": 5
+            },
+            "starting": {
+                "min": 6,
+                "max": 8,
+                "useGroups": false,
+                "ignoreBotCap": false
+            },
+            "waves": 30,
+            "distribution": 0.66,
+            "clusterIntensity": 0.1
+        },
+        "scavsNight": {
+            "difficulty": {
+                "easy": 25,
+                "normal": 60,
+                "hard": 10,
+                "impossible": 5
+            },
+            "group": {
+                "min": 2,
+                "max": 2,
+                "chance": 10
+            },
+            "conversion": {
+                "Scav": 1
+            },
+            "starting": {
+                "min": 3,
+                "max": 6,
+                "useGroups": true,
+                "ignoreBotCap": false
+            },
+            "waves": 15,
+            "distribution": 0.5,
+            "clusterIntensity": 0
+        }
+    }
+}

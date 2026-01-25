@@ -1,0 +1,62 @@
+{
+    "maxBots": {
+        "day": {
+            "Customs": 30,
+            "Factory": 15,
+            "Interchange": 30,
+            "Laboratory": 20,
+            "Lighthouse": 30,
+            "Reserve": 20,
+            "GroundZero": 15,
+            "GroundZeroHigh": 20,
+            "Shoreline": 30,
+            "Streets": 30,
+            "Woods": 30
+        },
+        "night": {
+            "Customs": 15,
+            "FactoryNight": 7,
+            "Interchange": 15,
+            "Laboratory": 10,
+            "Lighthouse": 15,
+            "Reserve": 10,
+            "GroundZero": 7,
+            "GroundZeroHigh": 10,
+            "Shoreline": 15,
+            "Streets": 15,
+            "Woods": 15
+        }
+    },
+    "limits": {
+        "Customs": [
+            {
+                "type": "Sniper",
+                "min": 2,
+                "max": 4
+            }
+        ],
+        "Factory": [],
+        "FactoryNight": [],
+        "Interchange": [],
+        "Laboratory": [],
+        "Lighthouse": [],
+        "Reserve": [],
+        "GroundZero": [],
+        "GroundZeroHigh": [],
+        "Shoreline": [],
+        "Streets": [
+            {
+                "type": "Sniper",
+                "min": 2,
+                "max": 4
+            }
+        ],
+        "Woods": [
+            {
+                "type": "Sniper",
+                "min": 2,
+                "max": 5
+            }
+        ]
+    }
+}

@@ -9,23 +9,28 @@
         "Customs": [
             {
                 "boss": "Reshala",
-                "chance": 30,
-                "minGuards": 1,
-                "maxGuards": 1,
-                "guards": [
-                    {
-                        "type": "ReshalaAssault",
-                        "weight": 3,
-                        "min": 2,
-                        "max": 5
-                    },
-                    {
-                        "type": "Scav",
-                        "weight": 1,
-                        "min": 3,
-                        "max": 6
-                    }
-                ]
+                "chance": {
+                    "day": 30,
+                    "night": 15
+                },
+                "guards": {
+                    "min": 1,
+                    "max": 1,
+                    "groups": [
+                        {
+                            "type": "ReshalaAssault",
+                            "weight": 3,
+                            "min": 2,
+                            "max": 5
+                        },
+                        {
+                            "type": "Scav",
+                            "weight": 1,
+                            "min": 3,
+                            "max": 6
+                        }
+                    ]
+                }
             },
             {
                 "boss": "Knight",
