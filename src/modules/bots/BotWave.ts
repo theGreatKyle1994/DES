@@ -157,6 +157,19 @@ export default class BotWave extends Module {
                             const timeMapGroup = (this.botWaves.timers[map][
                                 timeOfDay
                             ][groupName] = []);
+
+                            // Add starting spawn timers
+                            const startRng =
+                                wavesConfig.spawnGroups[groupName].starting;
+                            const count = this.Utilities.genNumberInRange(
+                                startRng.min,
+                                startRng.max,
+                            );
+                            this.Utilities.repeat(count, () => {
+                                timeMapGroup.push(-1);
+                            });
+
+                            // Add group timers
                             this.botWaves.dist[groupName].forEach((dist) => {
                                 timeMapGroup.push(Math.round(mapTime * dist));
                             });

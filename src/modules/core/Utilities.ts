@@ -21,6 +21,10 @@ export default class Utilities {
         this.logger = logger;
     }
 
+    public repeat(count: number, callbackfn: (index: number) => void) {
+        for (let i = 0; i < count; i++) callbackfn(i);
+    }
+
     public useChance(target: number): boolean {
         return Math.random() * 100 <= target;
     }
