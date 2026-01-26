@@ -1,7 +1,7 @@
 {
     "mapGroups": {
         "day": {
-            "Customs": ["pmcsDay", "scavsDay", "rogues", "smugglers"],
+            "Customs": ["pmcsDay", "scavsDay", "smugglers"],
             "Factory": ["pmcsDay", "scavsDay"],
             "Interchange": ["pmcsDay", "scavsDay", "smugglers"],
             "Laboratory": ["pmcsDay", "raiders"],
@@ -14,11 +14,11 @@
             "Woods": ["pmcsDay", "scavsDay", "smugglers"]
         },
         "night": {
-            "Customs": ["pmcsNight", "scavsNight", "rogues", "cultists"],
+            "Customs": ["pmcsNight", "scavsNight", "cultists"],
             "FactoryNight": ["pmcsNight", "scavsNight", "cultists"],
             "Interchange": ["pmcsNight", "scavsNight", "cultists"],
-            "Laboratory": ["pmcsNight", "raiders"],
-            "Lighthouse": ["pmcsNight", "scavsNight", "rogues", "cultists"],
+            "Laboratory": ["pmcsNight", "raiders", "cultists"],
+            "Lighthouse": ["pmcsNight", "cultists"],
             "Reserve": ["pmcsNight", "scavsNight", "raiders"],
             "GroundZero": ["pmcsNight", "scavsNight"],
             "GroundZeroHigh": ["pmcsNight", "scavsNight"],
@@ -93,9 +93,8 @@
                 "chance": 20
             },
             "botTypes": {
-                "Scav": 85,
-                "Rogue": 5,
-                "Smuggler": 5
+                "Scav": 90,
+                "ScavEvent": 10
             },
             "starting": {
                 "min": 6,
@@ -120,7 +119,8 @@
                 "chance": 10
             },
             "botTypes": {
-                "Scav": 1
+                "Scav": 90,
+                "ScavEvent": 10
             },
             "starting": {
                 "min": 3,
@@ -215,8 +215,8 @@
                 "impossible": 20
             },
             "group": {
-                "min": 4,
-                "max": 8,
+                "min": 2,
+                "max": 3,
                 "chance": 100
             },
             "botTypes": {
@@ -229,8 +229,8 @@
                 "ignoreBotCap": true
             },
             "waves": 3,
-            "distribution": 0.1,
-            "clusterIntensity": 0.9
+            "distribution": 0.5,
+            "clusterIntensity": 0
         }
     }
 }

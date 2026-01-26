@@ -1,81 +1,134 @@
 {
-    "difficulty": {
-        "easy": 15,
-        "normal": 25,
-        "hard": 50,
-        "impossible": 10
+    "mapGroups": {
+        "day": {
+            "Customs": ["reshala", "goons", "partisan"],
+            "Factory": ["tagilla"],
+            "Interchange": ["killa"],
+            "Laboratory": [],
+            "Lighthouse": ["zryachiy", "goons", "partisan"],
+            "Reserve": ["glukhar"],
+            "GroundZero": ["kolontay"],
+            "GroundZeroHigh": ["kolontay"],
+            "Shoreline": ["sanitar", "goons", "partisan"],
+            "Streets": ["kaban"],
+            "Woods": ["shturman", "goons", "partisan"]
+        },
+        "night": {
+            "Customs": ["goons", "cultistPriest"],
+            "FactoryNight": ["tagilla", "cultistPriest"],
+            "Interchange": ["killa", "cultistPriest"],
+            "Laboratory": ["cultistPriest", "cultistOni"],
+            "Lighthouse": ["zryachiy", "cultistPriest", "cultistOni"],
+            "Reserve": ["glukhar"],
+            "GroundZero": ["kolontay"],
+            "GroundZeroHigh": ["kolontay"],
+            "Shoreline": ["sanitar", "goons", "cultistPriest"],
+            "Streets": ["kaban", "cultistPriest"],
+            "Woods": ["shturman", "goons", "cultistPriest"]
+        }
     },
-    "maps": {
-        "Customs": [
-            {
-                "boss": "Reshala",
-                "chance": {
-                    "day": 30,
-                    "night": 15
-                },
-                "guards": {
-                    "min": 1,
-                    "max": 1,
-                    "groups": [
-                        {
-                            "type": "ReshalaAssault",
-                            "weight": 3,
-                            "min": 2,
-                            "max": 5
-                        },
-                        {
-                            "type": "Scav",
-                            "weight": 1,
-                            "min": 3,
-                            "max": 6
-                        }
-                    ]
-                }
+    "bossGroups": {
+        "reshala": {
+            "chance": 30,
+            "bossTypes": {
+                "Reshala": 1
             },
-            {
-                "boss": "Knight",
-                "chance": 30,
-                "minGuards": 1,
-                "maxGuards": 2,
-                "guards": [
+            "difficulty": {
+                "easy": 15,
+                "normal": 25,
+                "hard": 50,
+                "impossible": 10
+            },
+            "guards": {
+                "min": 1,
+                "max": 1,
+                "groups": [
+                    {
+                        "type": "ReshalaAssault",
+                        "weight": 3,
+                        "min": 2,
+                        "max": 5
+                    },
+                    {
+                        "type": "Scav",
+                        "weight": 1,
+                        "min": 3,
+                        "max": 6
+                    }
+                ]
+            }
+        },
+        "goons": {
+            "chance": 30,
+            "bossTypes": {
+                "Knight": 1
+            },
+            "difficulty": {
+                "easy": 15,
+                "normal": 25,
+                "hard": 50,
+                "impossible": 10
+            },
+            "guards": {
+                "min": 1,
+                "max": 2,
+                "groups": [
                     {
                         "type": "BigPipe",
-                        "weight": 5,
+                        "weight": 3,
                         "min": 1,
                         "max": 1
                     },
                     {
                         "type": "BirdEye",
-                        "weight": 5,
+                        "weight": 3,
                         "min": 1,
                         "max": 1
                     },
                     {
                         "type": "Rogue",
-                        "weight": 2,
+                        "weight": 1,
                         "min": 2,
                         "max": 4
                     }
                 ]
-            },
-            {
-                "boss": "Partisan",
-                "chance": 15,
-                "minGuards": 0,
-                "maxGuards": 0,
-                "guards": []
             }
-        ],
-        "Factory": [
-            {
-                "boss": "Tagilla",
-                "chance": 30,
-                "minGuards": 0,
-                "maxGuards": 1,
-                "guards": [
+        },
+        "partisan": {
+            "chance": 15,
+            "bossTypes": {
+                "Partisan": 1
+            },
+            "difficulty": {
+                "easy": 15,
+                "normal": 25,
+                "hard": 50,
+                "impossible": 10
+            },
+            "guards": {
+                "min": 0,
+                "max": 0,
+                "groups": []
+            }
+        },
+        "tagilla": {
+            "chance": 30,
+            "bossTypes": {
+                "Tagilla": 1
+            },
+            "difficulty": {
+                "easy": 15,
+                "normal": 25,
+                "hard": 50,
+                "impossible": 10
+            },
+            "guards": {
+                "min": 0,
+                "max": 1,
+                "groups": [
                     {
                         "type": "TagillaAssault",
-                        "weight": 3,
+                        "weight": 1,
                         "min": 2,
                         "max": 3
                     },
@@ -87,18 +140,26 @@
                     }
                 ]
             }
-        ],
-        "FactoryNight": [
-            {
-                "boss": "Tagilla",
-                "chance": 30,
-                "minGuards": 0,
-                "maxGuards": 1,
-                "guards": [
+        },
+        "killa": {
+            "chance": 30,
+            "bossTypes": {
+                "Killa": 1
+            },
+            "difficulty": {
+                "easy": 15,
+                "normal": 25,
+                "hard": 50,
+                "impossible": 10
+            },
+            "guards": {
+                "min": 0,
+                "max": 1,
+                "groups": [
                     {
                         "type": "TagillaAssault",
-                        "weight": 3,
-                        "min": 1,
+                        "weight": 1,
+                        "min": 2,
                         "max": 3
                     },
                     {
@@ -109,31 +170,22 @@
                     }
                 ]
             }
-        ],
-        "Interchange": [
-            {
-                "boss": "Killa",
-                "chance": 30,
-                "minGuards": 0,
-                "maxGuards": 1,
-                "guards": [
-                    {
-                        "type": "Scav",
-                        "weight": 1,
-                        "min": 3,
-                        "max": 5
-                    }
-                ]
-            }
-        ],
-        "Laboratory": [],
-        "Lighthouse": [
-            {
-                "boss": "Zryachiy",
-                "chance": 100,
-                "minGuards": 1,
-                "maxGuards": 1,
-                "guards": [
+        },
+        "zryachiy": {
+            "chance": 100,
+            "bossTypes": {
+                "Zryachiy": 1
+            },
+            "difficulty": {
+                "easy": 15,
+                "normal": 25,
+                "hard": 50,
+                "impossible": 10
+            },
+            "guards": {
+                "min": 1,
+                "max": 1,
+                "groups": [
                     {
                         "type": "ZryachiyAssault",
                         "weight": 1,
@@ -141,22 +193,23 @@
                         "max": 4
                     }
                 ]
-            },
-            {
-                "boss": "Partisan",
-                "chance": 15,
-                "minGuards": 1,
-                "maxGuards": 0,
-                "guards": []
             }
-        ],
-        "Reserve": [
-            {
-                "boss": "Glukhar",
-                "chance": 30,
-                "minGuards": 2,
-                "maxGuards": 3,
-                "guards": [
+        },
+        "glukhar": {
+            "chance": 30,
+            "bossTypes": {
+                "Glukhar": 1
+            },
+            "difficulty": {
+                "easy": 15,
+                "normal": 25,
+                "hard": 50,
+                "impossible": 10
+            },
+            "guards": {
+                "min": 2,
+                "max": 3,
+                "groups": [
                     {
                         "type": "GlukharAssault",
                         "weight": 3,
@@ -171,7 +224,7 @@
                     },
                     {
                         "type": "GlukharSecurity",
-                        "weight": 2,
+                        "weight": 3,
                         "min": 2,
                         "max": 2
                     },
@@ -183,17 +236,25 @@
                     }
                 ]
             }
-        ],
-        "GroundZero": [
-            {
-                "boss": "Kolontay",
-                "chance": 30,
-                "minGuards": 1,
-                "maxGuards": 2,
-                "guards": [
+        },
+        "kolontay": {
+            "chance": 30,
+            "bossTypes": {
+                "Kolontay": 1
+            },
+            "difficulty": {
+                "easy": 15,
+                "normal": 25,
+                "hard": 50,
+                "impossible": 10
+            },
+            "guards": {
+                "min": 1,
+                "max": 2,
+                "groups": [
                     {
                         "type": "KolontayAssault",
-                        "weight": 1,
+                        "weight": 3,
                         "min": 2,
                         "max": 2
                     },
@@ -205,36 +266,22 @@
                     }
                 ]
             }
-        ],
-        "GroundZeroHigh": [
-            {
-                "boss": "Kolontay",
-                "chance": 30,
-                "minGuards": 1,
-                "maxGuards": 2,
-                "guards": [
-                    {
-                        "type": "KolontayAssault",
-                        "weight": 1,
-                        "min": 2,
-                        "max": 2
-                    },
-                    {
-                        "type": "KolontaySecurity",
-                        "weight": 1,
-                        "min": 2,
-                        "max": 2
-                    }
-                ]
-            }
-        ],
-        "Shoreline": [
-            {
-                "boss": "Sanitar",
-                "chance": 30,
-                "minGuards": 1,
-                "maxGuards": 1,
-                "guards": [
+        },
+        "sanitar": {
+            "chance": 30,
+            "bossTypes": {
+                "Sanitar": 1
+            },
+            "difficulty": {
+                "easy": 15,
+                "normal": 25,
+                "hard": 50,
+                "impossible": 10
+            },
+            "guards": {
+                "min": 1,
+                "max": 1,
+                "groups": [
                     {
                         "type": "SanitarAssault",
                         "weight": 1,
@@ -242,22 +289,23 @@
                         "max": 5
                     }
                 ]
-            },
-            {
-                "boss": "Partisan",
-                "chance": 15,
-                "minGuards": 0,
-                "maxGuards": 0,
-                "guards": []
             }
-        ],
-        "Streets": [
-            {
-                "boss": "Kaban",
-                "chance": 75,
-                "minGuards": 3,
-                "maxGuards": 4,
-                "guards": [
+        },
+        "kaban": {
+            "chance": 75,
+            "bossTypes": {
+                "Kaban": 1
+            },
+            "difficulty": {
+                "easy": 15,
+                "normal": 25,
+                "hard": 50,
+                "impossible": 10
+            },
+            "guards": {
+                "min": 3,
+                "max": 4,
+                "groups": [
                     {
                         "type": "KabanSniper",
                         "weight": 1,
@@ -284,14 +332,22 @@
                     }
                 ]
             }
-        ],
-        "Woods": [
-            {
-                "boss": "Shturman",
-                "chance": 30,
-                "minGuards": 1,
-                "maxGuards": 1,
-                "guards": [
+        },
+        "shturman": {
+            "chance": 30,
+            "bossTypes": {
+                "Shturman": 1
+            },
+            "difficulty": {
+                "easy": 15,
+                "normal": 25,
+                "hard": 50,
+                "impossible": 10
+            },
+            "guards": {
+                "min": 1,
+                "max": 1,
+                "groups": [
                     {
                         "type": "ShturmanAssault",
                         "weight": 1,
@@ -299,40 +355,67 @@
                         "max": 5
                     }
                 ]
+            }
+        },
+        "cultistPriest": {
+            "chance": 100,
+            "bossTypes": {
+                "CultistPriest": 1
             },
-            {
-                "boss": "Knight",
-                "chance": 30,
-                "minGuards": 1,
-                "maxGuards": 2,
-                "guards": [
+            "difficulty": {
+                "easy": 15,
+                "normal": 25,
+                "hard": 50,
+                "impossible": 10
+            },
+            "guards": {
+                "min": 1,
+                "max": 1,
+                "groups": [
                     {
-                        "type": "BigPipe",
-                        "weight": 5,
-                        "min": 1,
-                        "max": 1
-                    },
-                    {
-                        "type": "BirdEye",
-                        "weight": 5,
-                        "min": 1,
-                        "max": 1
-                    },
-                    {
-                        "type": "Rogue",
-                        "weight": 2,
-                        "min": 2,
-                        "max": 4
+                        "type": "Cultist",
+                        "weight": 1,
+                        "min": 5,
+                        "max": 6
                     }
                 ]
-            },
-            {
-                "boss": "Partisan",
-                "chance": 15,
-                "minGuards": 0,
-                "maxGuards": 0,
-                "guards": []
             }
-        ]
+        },
+        "cultistOni": {
+            "chance": 15,
+            "bossTypes": {
+                "CultistOni": 1
+            },
+            "difficulty": {
+                "easy": 15,
+                "normal": 25,
+                "hard": 50,
+                "impossible": 10
+            },
+            "guards": {
+                "min": 3,
+                "max": 3,
+                "groups": [
+                    {
+                        "type": "CultistPredvestni",
+                        "weight": 1,
+                        "min": 1,
+                        "max": 1
+                    },
+                    {
+                        "type": "CultistPrizrak",
+                        "weight": 1,
+                        "min": 1,
+                        "max": 1
+                    },
+                    {
+                        "type": "Cultist",
+                        "weight": 1,
+                        "min": 2,
+                        "max": 3
+                    }
+                ]
+            }
+        }
     }
 }

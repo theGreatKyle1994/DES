@@ -8,7 +8,8 @@ export type RealBotNames =
     | "Bear"
     | "Sniper"
     | "Scav"
-    | "ScavGroup"
+    | "ScavEvent"
+    | "ScavCursed"
     | "Rogue"
     | "Raider"
     | "Smuggler"
@@ -130,7 +131,6 @@ export type BotNames =
     | "crazyAssaultEvent"
     | "marksman"
     | "exUsec"
-    | "arenaFighter"
     | "arenaFighterEvent"
     | "pmcBot"
     | "sectantWarrior";

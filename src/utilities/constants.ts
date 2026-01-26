@@ -193,7 +193,6 @@ export const botNames: BotNames[] = [
     "crazyAssaultEvent",
     "marksman",
     "exUsec",
-    "arenaFighter",
     "arenaFighterEvent",
     "sectantWarrior",
 ];
@@ -203,7 +202,8 @@ export const realBotName: Record<RealBotNames, string> = {
     Bear: "pmcBEAR",
     Sniper: "marksman",
     Scav: "assault",
-    ScavGroup: "crazyAssaultEvent",
+    ScavEvent: "crazyAssaultEvent",
+    ScavCursed: "cursedAssault",
     Rogue: "exUsec",
     Raider: "pmcBot",
     Smuggler: "arenaFighterEvent",
