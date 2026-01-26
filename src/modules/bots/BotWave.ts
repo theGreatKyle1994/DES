@@ -51,7 +51,7 @@ export default class BotWave extends Module {
     public update(): void {
         this.resetWaves();
         this.setBotLimits();
-        this.genLocationSpawns();
+        this.genWaveSpawns();
     }
 
     private resetWaves(): void {
@@ -77,72 +77,6 @@ export default class BotWave extends Module {
         });
     }
 
-    // private genSpawns(mapName: string): IBossLocationSpawn[] {
-    //     const spawns: IBossLocationSpawn[] = [];
-    //     const waveGroups = botWaveModuleConfig.generation.waveGroups;
-    //     for (let j = 0; j < waveGroups.length; j++) {
-    //         const genConfig = waveGroups[j];
-    //         const groupName = waveGroups[j].name;
-    //         const timerGroup: number[] =
-    //             this.botWaves.timers[mapName][groupName];
-    //         for (let i = 0; i < timerGroup.length; i++) {
-    //             const isStarting = timerGroup[i] === 0;
-
-    //             const spawnTime = isStarting ? -1 : timerGroup[i];
-
-    //             const botType =
-    //                 realBotName[
-    //                     this.Utilities.chooseWeight(genConfig.conversion)
-    //                 ];
-
-    //             const botDiff = this.Utilities.chooseWeight(
-    //                 genConfig.difficulty,
-    //             );
-
-    //             const useGroups = this.Utilities.useChance(
-    //                 genConfig.group.chance,
-    //             );
-
-    //             let botGroupSize = "";
-
-    //             if (
-    //                 (isStarting && !genConfig.starting.useGroups) ||
-    //                 !useGroups
-    //             ) {
-    //                 botGroupSize = "0";
-    //             } else {
-    //                 botGroupSize = this.Utilities.genNumberInRange(
-    //                     genConfig.group.min,
-    //                     genConfig.group.max,
-    //                 ).toString();
-    //             }
-
-    //             const useIgnoreCount =
-    //                 isStarting && genConfig.starting.ignoreBotCap;
-
-    //             const spawn: IBossLocationSpawn = {
-    //                 BossChance: 100,
-    //                 BossDifficult: botDiff,
-    //                 BossEscortAmount: botGroupSize,
-    //                 BossEscortDifficult: botDiff,
-    //                 BossEscortType: botType,
-    //                 BossName: botType,
-    //                 BossPlayer: false,
-    //                 BossZone: "",
-    //                 Time: spawnTime,
-    //                 RandomTimeSpawn: false,
-    //                 IgnoreMaxBots: useIgnoreCount,
-    //                 TriggerId: "",
-    //                 TriggerName: "",
-    //                 Supports: null,
-    //                 SpawnMode: ["pve", "regular"],
-    //             };
-    //             spawns.push(spawn);
-    //         }
-    //     }
-    //     return spawns;
-    // }
-
     private genWaveTimers(): void {
         type SpawnGroupName = keyof typeof wavesConfig.spawnGroups;
         Object.keys(wavesConfig.mapGroups).forEach(
@@ -159,15 +93,17 @@ export default class BotWave extends Module {
                             ][groupName] = []);
 
                             // Add starting spawn timers
-                            const startRng =
+                            const startRange =
                                 wavesConfig.spawnGroups[groupName].starting;
-                            const count = this.Utilities.genNumberInRange(
-                                startRng.min,
-                                startRng.max,
+                            this.Utilities.repeat(
+                                this.Utilities.genNumberInRange(
+                                    startRange.min,
+                                    startRange.max,
+                                ),
+                                () => {
+                                    timeMapGroup.push(-1);
+                                },
                             );
-                            this.Utilities.repeat(count, () => {
-                                timeMapGroup.push(-1);
-                            });
 
                             // Add group timers
                             this.botWaves.dist[groupName].forEach((dist) => {
@@ -178,7 +114,6 @@ export default class BotWave extends Module {
                 );
             },
         );
-        this.logDebug(this.botWaves.timers);
     }
 
     private genWaveDist(): void {
@@ -186,42 +121,86 @@ export default class BotWave extends Module {
             (groupName: keyof typeof wavesConfig.spawnGroups) => {
                 const distGroup = (this.botWaves.dist[groupName] = []);
                 const group = wavesConfig.spawnGroups[groupName];
-                for (let i = 0; i < group.waves; i++) {
+                this.Utilities.repeat(group.waves, () => {
                     distGroup.push(
                         this.calcDist(
-                            0,
-                            1,
                             group.distribution,
                             group.clusterIntensity,
                         ),
                     );
-                }
+                });
                 distGroup.sort((a, b) => a - b);
             },
         );
     }
 
-    private genLocationSpawns(): void {
+    private genWaveSpawns(): void {
         this.genWaveDist();
         this.genWaveTimers();
-        // for (let map of mapNames) {
-        //     const loc = (this.locationsConfig[map] as ILocation).base;
-        //     for (let groupName in this.botWaves.dist) {
-        //         const timerMap = this.botWaves.timers[map];
-        //         if (!timerMap[groupName]) timerMap[groupName] = [];
-        //         for (let i = 0; i < this.botWaves.dist[groupName].length; i++) {
-        //             timerMap[groupName].push(
-        //                 Math.round(
-        //                     loc.EscapeTimeLimit *
-        //                         this.botWaves.dist[groupName][i] *
-        //                         100,
-        //                 ),
-        //             );
-        //         }
-        //         timerMap[groupName].sort((a: number, b: number) => a - b);
-        //     }
-        //     loc.BossLocationSpawn = this.generateSpawns(map);
-        // }
+        Object.keys(this.botWaves.spawns).forEach((map: MapNames) => {
+            Object.keys(this.botWaves.spawns[map]).forEach(
+                (timeOfDay: "day" | "night") => {
+                    Object.entries(
+                        this.botWaves.timers[map][timeOfDay],
+                    ).forEach(
+                        (
+                            waveGroup: [
+                                keyof typeof wavesConfig.spawnGroups,
+                                number[],
+                            ],
+                        ) => {
+                            const groupName = waveGroup[0];
+                            const timers = waveGroup[1];
+                            const spawnWaves =
+                                this.botWaves.spawns[map][timeOfDay].waves;
+                            this.Utilities.repeat(timers.length, (i) => {
+                                const genConfig =
+                                    wavesConfig.spawnGroups[groupName];
+                                const botDiff = this.Utilities.chooseWeight(
+                                    genConfig.difficulty,
+                                );
+                                const botType =
+                                    realBotName[
+                                        this.Utilities.chooseWeight(
+                                            genConfig.botTypes,
+                                        )
+                                    ];
+                                const spawn: IBossLocationSpawn = {
+                                    BossChance: 100,
+                                    BossDifficult: botDiff,
+                                    BossEscortAmount:
+                                        (timers[i] === -1 &&
+                                            !genConfig.starting.useGroups) ||
+                                        !this.Utilities.useChance(
+                                            genConfig.group.chance,
+                                        )
+                                            ? "0"
+                                            : this.Utilities.genNumberInRange(
+                                                  genConfig.group.min,
+                                                  genConfig.group.max,
+                                              ).toString(),
+                                    BossEscortDifficult: botDiff,
+                                    BossEscortType: botType,
+                                    BossName: botType,
+                                    BossPlayer: false,
+                                    BossZone: "",
+                                    Time: timers[i],
+                                    RandomTimeSpawn: false,
+                                    IgnoreMaxBots:
+                                        timers[i] === -1 &&
+                                        genConfig.starting.ignoreBotCap,
+                                    TriggerId: "",
+                                    TriggerName: "",
+                                    Supports: null,
+                                    SpawnMode: ["pve", "regular"],
+                                };
+                                spawnWaves.push(spawn);
+                            });
+                        },
+                    );
+                },
+            );
+        });
     }
 
     // public setMapCaps(): void {
@@ -255,10 +234,10 @@ export default class BotWave extends Module {
     }
 
     private calcDist(
-        min: number,
-        max: number,
-        target: number,
-        intensity: number,
+        target: number = 0.5,
+        intensity: number = 0,
+        min: number = 0,
+        max: number = 1,
     ): number {
         const t = Math.pow(Math.random(), Math.abs(intensity - 1));
         const range = Math.random() > 0.5 ? max - target : min - target;

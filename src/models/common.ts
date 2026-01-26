@@ -12,7 +12,6 @@ export type RealBotNames =
     | "Rogue"
     | "Raider"
     | "Smuggler"
-    | "SmugglerGroup"
     | "Kaban"
     | "KabanSniper"
     | "KabanAssault"

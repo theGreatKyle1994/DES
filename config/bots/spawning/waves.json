@@ -1,30 +1,30 @@
 {
     "mapGroups": {
         "day": {
-            "Customs": ["pmcsDay", "scavsDay"],
+            "Customs": ["pmcsDay", "scavsDay", "rogues", "smugglers"],
             "Factory": ["pmcsDay", "scavsDay"],
-            "Interchange": ["pmcsDay", "scavsDay"],
-            "Laboratory": ["pmcsDay", "scavsDay"],
-            "Lighthouse": ["pmcsDay", "scavsDay"],
-            "Reserve": ["pmcsDay", "scavsDay"],
-            "GroundZero": ["pmcsDay", "scavsDay"],
-            "GroundZeroHigh": ["pmcsDay", "scavsDay"],
-            "Shoreline": ["pmcsDay", "scavsDay"],
-            "Streets": ["pmcsDay", "scavsDay"],
-            "Woods": ["pmcsDay", "scavsDay"]
+            "Interchange": ["pmcsDay", "scavsDay", "smugglers"],
+            "Laboratory": ["pmcsDay", "raiders"],
+            "Lighthouse": ["pmcsDay", "scavsDay", "rogues"],
+            "Reserve": ["pmcsDay", "scavsDay", "raiders"],
+            "GroundZero": ["pmcsDay", "scavsDay", "smugglers"],
+            "GroundZeroHigh": ["pmcsDay", "scavsDay", "smugglers"],
+            "Shoreline": ["pmcsDay", "scavsDay", "smugglers"],
+            "Streets": ["pmcsDay", "scavsDay", "smugglers"],
+            "Woods": ["pmcsDay", "scavsDay", "smugglers"]
         },
         "night": {
-            "Customs": ["pmcsNight", "scavsNight"],
-            "FactoryNight": ["pmcsNight", "scavsNight"],
-            "Interchange": ["pmcsNight", "scavsNight"],
-            "Laboratory": ["pmcsNight", "scavsNight"],
-            "Lighthouse": ["pmcsNight", "scavsNight"],
-            "Reserve": ["pmcsNight", "scavsNight"],
+            "Customs": ["pmcsNight", "scavsNight", "rogues", "cultists"],
+            "FactoryNight": ["pmcsNight", "scavsNight", "cultists"],
+            "Interchange": ["pmcsNight", "scavsNight", "cultists"],
+            "Laboratory": ["pmcsNight", "raiders"],
+            "Lighthouse": ["pmcsNight", "scavsNight", "rogues", "cultists"],
+            "Reserve": ["pmcsNight", "scavsNight", "raiders"],
             "GroundZero": ["pmcsNight", "scavsNight"],
             "GroundZeroHigh": ["pmcsNight", "scavsNight"],
-            "Shoreline": ["pmcsNight", "scavsNight"],
-            "Streets": ["pmcsNight", "scavsNight"],
-            "Woods": ["pmcsNight", "scavsNight"]
+            "Shoreline": ["pmcsNight", "scavsNight", "cultists"],
+            "Streets": ["pmcsNight", "scavsNight", "cultists"],
+            "Woods": ["pmcsNight", "scavsNight", "cultists"]
         }
     },
     "spawnGroups": {
@@ -40,7 +40,7 @@
                 "max": 3,
                 "chance": 20
             },
-            "conversion": {
+            "botTypes": {
                 "Usec": 50,
                 "Bear": 50
             },
@@ -66,7 +66,7 @@
                 "max": 2,
                 "chance": 5
             },
-            "conversion": {
+            "botTypes": {
                 "Usec": 50,
                 "Bear": 50
             },
@@ -92,9 +92,8 @@
                 "max": 5,
                 "chance": 20
             },
-            "conversion": {
+            "botTypes": {
                 "Scav": 85,
-                "Raider": 5,
                 "Rogue": 5,
                 "Smuggler": 5
             },
@@ -120,7 +119,7 @@
                 "max": 2,
                 "chance": 10
             },
-            "conversion": {
+            "botTypes": {
                 "Scav": 1
             },
             "starting": {
@@ -132,6 +131,106 @@
             "waves": 15,
             "distribution": 0.5,
             "clusterIntensity": 0
+        },
+        "raiders": {
+            "difficulty": {
+                "easy": 10,
+                "normal": 25,
+                "hard": 50,
+                "impossible": 15
+            },
+            "group": {
+                "min": 2,
+                "max": 3,
+                "chance": 50
+            },
+            "botTypes": {
+                "Raider": 1
+            },
+            "starting": {
+                "min": 2,
+                "max": 3,
+                "useGroups": true,
+                "ignoreBotCap": true
+            },
+            "waves": 10,
+            "distribution": 0.33,
+            "clusterIntensity": 0.75
+        },
+        "smugglers": {
+            "difficulty": {
+                "easy": 15,
+                "normal": 50,
+                "hard": 30,
+                "impossible": 5
+            },
+            "group": {
+                "min": 4,
+                "max": 5,
+                "chance": 75
+            },
+            "botTypes": {
+                "Smuggler": 1
+            },
+            "starting": {
+                "min": 0,
+                "max": 0,
+                "useGroups": false,
+                "ignoreBotCap": false
+            },
+            "waves": 2,
+            "distribution": 0.66,
+            "clusterIntensity": 0.75
+        },
+        "rogues": {
+            "difficulty": {
+                "easy": 5,
+                "normal": 15,
+                "hard": 60,
+                "impossible": 20
+            },
+            "group": {
+                "min": 2,
+                "max": 3,
+                "chance": 75
+            },
+            "botTypes": {
+                "Rogue": 1
+            },
+            "starting": {
+                "min": 2,
+                "max": 3,
+                "useGroups": true,
+                "ignoreBotCap": true
+            },
+            "waves": 5,
+            "distribution": 0.5,
+            "clusterIntensity": 0
+        },
+        "cultists": {
+            "difficulty": {
+                "easy": 5,
+                "normal": 15,
+                "hard": 60,
+                "impossible": 20
+            },
+            "group": {
+                "min": 4,
+                "max": 8,
+                "chance": 100
+            },
+            "botTypes": {
+                "Cultist": 1
+            },
+            "starting": {
+                "min": 1,
+                "max": 2,
+                "useGroups": true,
+                "ignoreBotCap": true
+            },
+            "waves": 3,
+            "distribution": 0.1,
+            "clusterIntensity": 0.9
         }
     }
 }
