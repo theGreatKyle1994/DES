@@ -72,7 +72,7 @@ export default class ModuleManager {
                 break;
             }
             case "/client/raid/configuration": {
-                this.BotWave.setMapCaps();
+                this.BotWave.setMapData();
                 break;
             }
         }

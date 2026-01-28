@@ -3,6 +3,7 @@ import path from "path";
 import fs from "fs";
 import type { Database } from "../../models/database";
 import type { TimeFrameEntry, TimeStampEntry } from "../../models/calendar";
+import type { MapNames } from "../../models/common";
 
 // SPT
 import { ContextVariableType } from "@spt/context/ContextVariableType";
@@ -33,12 +34,20 @@ export default class Utilities {
         return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 
-    public getIsRaidDayOrNight(): string {
+    public getIsRaidDayOrNight(): "day" | "night" {
         // Get current raid configuration
-        const { timeVariant, location } = this.container
+        const { timeVariant } = this.container
             .resolve<ApplicationContext>("ApplicationContext")
             .getLatestValue(ContextVariableType.RAID_CONFIGURATION)
             .getValue<IGetRaidConfigurationRequestData>();
+        const location = this.getCurrentMap();
+        // Consider if factory map is selected
+        switch (location) {
+            case "factory4_day":
+                return "day";
+            case "factory4_night":
+                return "night";
+        }
         // Get and format time
         const time = parseInt(
             this.container
@@ -49,17 +58,17 @@ export default class Utilities {
         // Calculate exact hour based on current or past difference
         const hour = timeVariant === "PAST" ? (time + 12) % 24 : time;
         // Determine day or night
-        let timeOfDay = hour >= 7 && hour <= 20 ? "day" : "night";
-        // Consider if factory map is selected
-        switch (location) {
-            case "factory4_day":
-                timeOfDay = "day";
-                break;
-            case "factory4_night":
-                timeOfDay = "night";
-                break;
-        }
-        return timeOfDay;
+        return hour >= 7 && hour <= 20 ? "day" : "night";
+    }
+
+    public getCurrentMap(): MapNames {
+        // Get current raid location
+        const { location } = this.container
+            .resolve<ApplicationContext>("ApplicationContext")
+            .getLatestValue(ContextVariableType.RAID_CONFIGURATION)
+            .getValue<IGetRaidConfigurationRequestData>();
+        // Conversion to lowercase (map names are camelcase for some reason)
+        return location.toLowerCase() as MapNames;
     }
 
     public inRange(lower: number, upper: number, target: number): boolean {
@@ -175,6 +184,17 @@ export default class Utilities {
             total += weights[key];
             if (total >= cursor) return key;
         }
+    }
+
+    public calcDistribution(
+        target: number = 0.5,
+        intensity: number = 0,
+        min: number = 0,
+        max: number = 1,
+    ): number {
+        const t = Math.pow(Math.random(), Math.abs(intensity - 1));
+        const range = Math.random() > 0.5 ? max - target : min - target;
+        return parseFloat((target + range * (1 - t)).toFixed(3));
     }
 
     public calcPercentageOfWeights(

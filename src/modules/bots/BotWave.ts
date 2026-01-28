@@ -50,7 +50,6 @@ export default class BotWave extends Module {
 
     public update(): void {
         this.resetWaves();
-        this.setBotLimits();
         this.genWaveSpawns();
     }
 
@@ -123,7 +122,7 @@ export default class BotWave extends Module {
                 const group = wavesConfig.spawnGroups[groupName];
                 this.Utilities.repeat(group.waves, () => {
                     distGroup.push(
-                        this.calcDist(
+                        this.Utilities.calcDistribution(
                             group.distribution,
                             group.clusterIntensity,
                         ),
@@ -165,11 +164,13 @@ export default class BotWave extends Module {
                                             genConfig.botTypes,
                                         )
                                     ];
+                                const spawnTime =
+                                    timers[i] === 0 ? 10 : timers[i];
                                 const spawn: IBossLocationSpawn = {
                                     BossChance: 100,
                                     BossDifficult: botDiff,
                                     BossEscortAmount:
-                                        (timers[i] === -1 &&
+                                        (spawnTime === -1 &&
                                             !genConfig.starting.useGroups) ||
                                         !this.Utilities.useChance(
                                             genConfig.group.chance,
@@ -184,10 +185,10 @@ export default class BotWave extends Module {
                                     BossName: botType,
                                     BossPlayer: false,
                                     BossZone: "",
-                                    Time: timers[i],
+                                    Time: spawnTime,
                                     RandomTimeSpawn: false,
                                     IgnoreMaxBots:
-                                        timers[i] === -1 &&
+                                        spawnTime === -1 &&
                                         genConfig.starting.ignoreBotCap,
                                     TriggerId: "",
                                     TriggerName: "",
@@ -202,13 +203,6 @@ export default class BotWave extends Module {
             );
         });
     }
-
-    // public setMapCaps(): void {
-    //     const timeOfDay = this.Utilities.getIsRaidDayOrNight();
-    //     for (let map in botWaveModuleConfig.maxBots[timeOfDay])
-    //         this.botConfig.maxBotCap[realMapNames[map]] =
-    //             botWaveModuleConfig.maxBots[timeOfDay][map];
-    // }
 
     private setBotLimits(): void {
         // Reset all bot limits
@@ -233,14 +227,26 @@ export default class BotWave extends Module {
         );
     }
 
-    private calcDist(
-        target: number = 0.5,
-        intensity: number = 0,
-        min: number = 0,
-        max: number = 1,
-    ): number {
-        const t = Math.pow(Math.random(), Math.abs(intensity - 1));
-        const range = Math.random() > 0.5 ? max - target : min - target;
-        return parseFloat((target + range * (1 - t)).toFixed(3));
+    private setMapCaps(timeOfDay: "day" | "night"): void {
+        for (let map in botWaveModuleConfig.maxBots[timeOfDay])
+            this.botConfig.maxBotCap[realMapNames[map]] =
+                botWaveModuleConfig.maxBots[timeOfDay][map];
+    }
+
+    public setMapData(): void {
+        const timeOfDay = this.Utilities.getIsRaidDayOrNight();
+        const map = this.Utilities.getCurrentMap();
+        const { waves, bosses } = this.botWaves.spawns[map][timeOfDay];
+        const mapSpawns = [...waves, ...bosses];
+
+        // Full reset of spawns in case of map / time swap
+        this.locationsConfig[map].base.BossLocationSpawn = mapSpawns;
+
+        this.setMapCaps(timeOfDay);
+        this.setBotLimits();
+
+        this.logDebug(map);
+        this.logDebug(timeOfDay);
+        this.logDebug(this.locationsConfig[map].base.BossLocationSpawn);
     }
 }
