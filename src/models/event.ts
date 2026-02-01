@@ -1,6 +1,6 @@
 // General
 import type { TimeFrameEntry } from "./calendar";
-import type { DifficultyNames, MapNames, ZombieNames } from "./common";
+import type { DifficultyNames, MapNames, ZombieNames } from "./common/common";
 
 // SPT
 import type { IEquipment } from "@spt/models/eft/common/tables/IBotType";

@@ -1,12 +1,17 @@
-// General
-import type {
-    DifficultyNames,
-    MapNames,
-    RealMapNames,
-    BossNames,
-    BotNames,
-    RealBotNames,
-} from "../models/common";
+export enum MapNames {
+    Customs = "bigmap",
+    Factory = "factory4_day",
+    FactoryNight = "factory4_night",
+    Interchange = "interchange",
+    Laboratory = "laboratory",
+    Lighthouse = "lighthouse",
+    Reserve = "rezervbase",
+    GroundZero = "sandbox",
+    GroundZeroHigh = "sandbox_high",
+    Shoreline = "shoreline",
+    Streets = "tarkovstreets",
+    Woods = "woods",
+}
 
 export const zoneNames: Record<MapNames, string[]> = {
     bigmap: [
@@ -142,14 +147,7 @@ export const zoneNames: Record<MapNames, string[]> = {
     ],
 };
 
-export const difficultyNames: DifficultyNames[] = [
-    "easy",
-    "normal",
-    "hard",
-    "impossible",
-];
-
-export const mapNames: MapNames[] = [
+export const mapNames = [
     "bigmap",
     "factory4_day",
     "factory4_night",
@@ -163,96 +161,3 @@ export const mapNames: MapNames[] = [
     "tarkovstreets",
     "woods",
 ];
-
-export const bossNames: BossNames[] = [
-    "bossBully",
-    "bossGluhar",
-    "bossKilla",
-    "bossKojaniy",
-    "bossSanitar",
-    "bossTagilla",
-    "bossKnight",
-    "bossZryachiy",
-    "bossBoar",
-    "bossBoarSniper",
-    "bossKolontay",
-    "bossPartisan",
-    "followerBigPipe",
-    "followerBirdEye",
-    "sectantPriest",
-    "sectantOni",
-    "sectantPredvestnik",
-    "sectantPrizrak",
-];
-
-export const botNames: BotNames[] = [
-    "pmcUSEC",
-    "pmcBEAR",
-    "pmcBot",
-    "assault",
-    "crazyAssaultEvent",
-    "marksman",
-    "exUsec",
-    "arenaFighterEvent",
-    "sectantWarrior",
-];
-
-export const realBotName: Record<RealBotNames, string> = {
-    Usec: "pmcUSEC",
-    Bear: "pmcBEAR",
-    Sniper: "marksman",
-    Scav: "assault",
-    ScavEvent: "crazyAssaultEvent",
-    ScavCursed: "cursedAssault",
-    Rogue: "exUsec",
-    Raider: "pmcBot",
-    Smuggler: "arenaFighterEvent",
-    Kaban: "bossBoar",
-    KabanSniper: "bossBoarSniper",
-    KabanAssault: "followerBoar",
-    KabanClose1: "followerBoarClose1",
-    KabanClose2: "followerBoarClose2",
-    Reshala: "bossBully",
-    ReshalaAssault: "followerBully",
-    Glukhar: "bossGluhar",
-    GlukharAssault: "followerGluharAssault",
-    GlukharScout: "followerGluharScout",
-    GlukharSecurity: "followerGluharSecurity",
-    GlukharSniper: "followerGluharSnipe",
-    Knight: "bossKnight",
-    BigPipe: "followerBigPipe",
-    BirdEye: "followerBirdEye",
-    Shturman: "bossKojaniy",
-    ShturmanAssault: "followerKojaniy",
-    Kolontay: "bossKolontay",
-    KolontayAssault: "followerKolontayAssault",
-    KolontaySecurity: "followerKolontaySecurity",
-    Partisan: "bossPartisan",
-    Sanitar: "bossSanitar",
-    SanitarAssault: "followerSanitar",
-    Killa: "bossKilla",
-    Tagilla: "bossTagilla",
-    TagillaAssault: "followerTagilla",
-    Zryachiy: "bossZryachiy",
-    ZryachiyAssault: "followerZryachiy",
-    CultistPriest: "sectantPriest",
-    Cultist: "sectantWarrior",
-    CultistOni: "sectantOni",
-    CultistPredvestni: "sectantPredvestnik",
-    CultistPrizrak: "sectantPrizrak",
-};
-
-export const realMapNames: Record<RealMapNames, string> = {
-    Customs: "bigmap",
-    Factory: "factory4_day",
-    FactoryNight: "factory4_night",
-    Interchange: "interchange",
-    Laboratory: "laboratory",
-    Lighthouse: "lighthouse",
-    Reserve: "rezervbase",
-    GroundZero: "sandbox",
-    GroundZeroHigh: "sandbox_high",
-    Shoreline: "shoreline",
-    Streets: "tarkovstreets",
-    Woods: "woods",
-};

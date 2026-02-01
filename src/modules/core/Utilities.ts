@@ -3,7 +3,7 @@ import path from "path";
 import fs from "fs";
 import type { Database } from "../../models/database";
 import type { TimeFrameEntry, TimeStampEntry } from "../../models/calendar";
-import type { MapNames } from "../../models/common";
+import type { MapNames } from "../../models/common/common";
 
 // SPT
 import { ContextVariableType } from "@spt/context/ContextVariableType";
