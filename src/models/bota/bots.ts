@@ -12,24 +12,14 @@ export interface GuardGroupEntry extends MinMax {
 }
 
 export interface GroupEntry extends MinMax {
-    spawnChance?: number;
+    chance?: number;
     guards?: GuardGroupEntry[];
-}
-
-export interface StartingGroupEntry extends MinMax {
-    useGroups?: boolean;
-    ignoreBotCap?: boolean;
-}
-
-export interface BotSpawns {
-    waves: IBossLocationSpawn[];
-    bosses: IBossLocationSpawn[];
 }
 
 export interface BotWaves {
     dist: Record<string, number[]>;
     timers: Record<MapNames, DayNight<Record<string, number[]>>>;
-    spawns: Record<MapNames, DayNight<BotSpawns>>;
+    spawns: Record<MapNames, DayNight<IBossLocationSpawn[]>>;
 }
 
 export interface BotLimitEntry {
@@ -37,6 +27,8 @@ export interface BotLimitEntry {
     min: number;
     max: number;
 }
+
+export interface StartingGroupEntry extends MinMax {}
 
 export interface SpawnGroupEntry {
     spawnChance?: number;

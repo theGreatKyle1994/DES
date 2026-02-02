@@ -1,6 +1,38 @@
 // General
 import type { BotWaves } from "./bots";
 
+export const wavesConfigDefault = {
+    mapGroups: {
+        day: {
+            Customs: [],
+            Factory: [],
+            Interchange: [],
+            Laboratory: [],
+            Lighthouse: [],
+            Reserve: [],
+            GroundZero: [],
+            GroundZeroHigh: [],
+            Shoreline: [],
+            Streets: [],
+            Woods: [],
+        },
+        night: {
+            Customs: [],
+            FactoryNight: [],
+            Interchange: [],
+            Laboratory: [],
+            Lighthouse: [],
+            Reserve: [],
+            GroundZero: [],
+            GroundZeroHigh: [],
+            Shoreline: [],
+            Streets: [],
+            Woods: [],
+        },
+    },
+    spawnGroups: {},
+};
+
 export const botWavesDefault: BotWaves = {
     dist: {},
     timers: {
@@ -18,48 +50,18 @@ export const botWavesDefault: BotWaves = {
         woods: { day: {}, night: {} },
     },
     spawns: {
-        bigmap: {
-            day: { waves: [], bosses: [] },
-            night: { waves: [], bosses: [] },
-        },
-        factory4_day: { day: { waves: [], bosses: [] } },
-        factory4_night: { night: { waves: [], bosses: [] } },
-        interchange: {
-            day: { waves: [], bosses: [] },
-            night: { waves: [], bosses: [] },
-        },
-        laboratory: {
-            day: { waves: [], bosses: [] },
-            night: { waves: [], bosses: [] },
-        },
-        lighthouse: {
-            day: { waves: [], bosses: [] },
-            night: { waves: [], bosses: [] },
-        },
-        rezervbase: {
-            day: { waves: [], bosses: [] },
-            night: { waves: [], bosses: [] },
-        },
-        sandbox: {
-            day: { waves: [], bosses: [] },
-            night: { waves: [], bosses: [] },
-        },
-        sandbox_high: {
-            day: { waves: [], bosses: [] },
-            night: { waves: [], bosses: [] },
-        },
-        shoreline: {
-            day: { waves: [], bosses: [] },
-            night: { waves: [], bosses: [] },
-        },
-        tarkovstreets: {
-            day: { waves: [], bosses: [] },
-            night: { waves: [], bosses: [] },
-        },
-        woods: {
-            day: { waves: [], bosses: [] },
-            night: { waves: [], bosses: [] },
-        },
+        bigmap: { day: [], night: [] },
+        factory4_day: { day: [] },
+        factory4_night: { night: [] },
+        interchange: { day: [], night: [] },
+        laboratory: { day: [], night: [] },
+        lighthouse: { day: [], night: [] },
+        rezervbase: { day: [], night: [] },
+        sandbox: { day: [], night: [] },
+        sandbox_high: { day: [], night: [] },
+        shoreline: { day: [], night: [] },
+        tarkovstreets: { day: [], night: [] },
+        woods: { day: [], night: [] },
     },
 };
 

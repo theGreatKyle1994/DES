@@ -30,21 +30,16 @@
     "spawnGroups": {
         "pmcsDay": {
             "botTypes": { "Usec": 50, "Bear": 50 },
-            "group": { "chance": 20 },
-            "starting": {
-                "min": 3,
-                "max": 5,
-                "useGroups": true,
-                "ignoreBotCap": true
-            },
+            "group": { "chance": 30 },
+            "starting": { "min": 3, "max": 5 },
             "waves": 15,
             "distribution": 0.33,
             "clusterIntensity": 0.25
         },
         "pmcsNight": {
             "botTypes": { "Usec": 50, "Bear": 50 },
-            "group": { "min": 2, "max": 2, "chance": 5 },
-            "starting": { "min": 1, "max": 2, "useGroups": true },
+            "group": { "min": 2, "max": 2, "chance": 15 },
+            "starting": { "min": 1, "max": 2 },
             "waves": 7,
             "distribution": 0.2,
             "clusterIntensity": 0.25
@@ -60,18 +55,13 @@
         "scavsNight": {
             "botTypes": { "Scav": 90, "ScavEvent": 10 },
             "group": { "chance": 10 },
-            "starting": { "min": 3, "max": 6, "useGroups": true },
+            "starting": { "min": 3, "max": 6 },
             "waves": 15
         },
         "raiders": {
             "botTypes": { "Raider": 1 },
             "group": { "chance": 50 },
-            "starting": {
-                "min": 2,
-                "max": 3,
-                "useGroups": true,
-                "ignoreBotCap": true
-            },
+            "starting": { "min": 2, "max": 3 },
             "difficulty": {
                 "easy": 10,
                 "normal": 25,
@@ -98,12 +88,7 @@
         "rogues": {
             "botTypes": { "Rogue": 1 },
             "group": { "chance": 75 },
-            "starting": {
-                "min": 2,
-                "max": 3,
-                "useGroups": true,
-                "ignoreBotCap": true
-            },
+            "starting": { "min": 2, "max": 3 },
             "difficulty": {
                 "easy": 5,
                 "normal": 15,
@@ -117,21 +102,10 @@
             "group": {
                 "min": 1,
                 "max": 1,
-                "spawnChance": 100,
-                "guards": [
-                    {
-                        "type": "Cultist",
-                        "min": 3,
-                        "max": 4
-                    }
-                ]
+                "chance": 100,
+                "guards": [{ "type": "Cultist", "min": 3, "max": 4 }]
             },
-            "starting": {
-                "min": 2,
-                "max": 2,
-                "useGroups": true,
-                "ignoreBotCap": true
-            },
+            "starting": { "min": 2, "max": 2 },
             "difficulty": {
                 "easy": 15,
                 "normal": 25,

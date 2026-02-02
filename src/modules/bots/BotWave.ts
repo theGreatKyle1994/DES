@@ -5,13 +5,18 @@ import bossesConfigRaw from "../../../config/bots/spawning/bosses.json";
 
 // General
 import Module from "../core/Module";
-import { botWavesDefault, BotNames } from "../../models/bota/botConstants";
+import {
+    wavesConfigDefault,
+    botWavesDefault,
+    BotNames,
+} from "../../models/bota/botConstants";
 import { MapNames, mapNames } from "../../models/common/commonConstants";
 import type {
     WavesConfig,
     BotWaves,
     BotWaveModuleConfig,
     SpawnGroupEntry,
+    GuardGroupEntry,
 } from "../../models/bota/bots";
 import type { DayNightNames } from "../../models/common/common";
 import type { Database } from "../../models/database";
@@ -25,7 +30,10 @@ import type { IBotConfig } from "@spt/models/spt/config/IBotConfig";
 import type { IPmcConfig } from "@spt/models/spt/config/IPmcConfig";
 import type { ILocationConfig } from "@spt/models/spt/config/ILocationConfig";
 import type { DependencyContainer } from "tsyringe";
-import type { IBossLocationSpawn } from "@spt/models/eft/common/ILocationBase";
+import type {
+    IBossLocationSpawn,
+    IBossSupport,
+} from "@spt/models/eft/common/ILocationBase";
 
 export default class BotWave extends Module {
     private locationConfig: ILocationConfig;
@@ -36,8 +44,7 @@ export default class BotWave extends Module {
     private botWaves: BotWaves = botWavesDefault;
     private readonly botWaveModuleConfig =
         botWaveModuleConfigRaw as BotWaveModuleConfig;
-    private readonly wavesConfig = wavesConfigRaw as WavesConfig;
-    private readonly bossesConfig = bossesConfigRaw as WavesConfig;
+    private wavesConfig: WavesConfig = wavesConfigDefault;
 
     constructor(container: DependencyContainer, db: Database, logger: ILogger) {
         super(container, db, logger);
@@ -52,6 +59,7 @@ export default class BotWave extends Module {
         this.locationConfig = this.configServer.getConfig(ConfigTypes.LOCATION);
 
         // Run validation checks for all required configs
+        this.mergeWaveConfigs();
         this.validateWaveConfig();
     }
 
@@ -62,7 +70,7 @@ export default class BotWave extends Module {
     public update(): void {
         this.resetWaves();
         this.genWaveSpawns();
-        this.logDebug(this.wavesConfig.spawnGroups);
+        this.logDebug(this.botWaves.spawns.bigmap.day);
     }
 
     private resetWaves(): void {
@@ -102,7 +110,6 @@ export default class BotWave extends Module {
                                 (this.botWaves.timers[map][timeOfDay][
                                     groupName
                                 ] = []);
-
                             // Add starting spawn timers
                             const startRange =
                                 this.wavesConfig.spawnGroups[groupName]
@@ -153,8 +160,7 @@ export default class BotWave extends Module {
                     ).forEach((waveGroup) => {
                         const groupName = waveGroup[0];
                         const timers = waveGroup[1];
-                        const spawnWaves =
-                            this.botWaves.spawns[map][timeOfDay].waves;
+                        const spawnWaves = this.botWaves.spawns[map][timeOfDay];
                         const genConfig =
                             this.wavesConfig.spawnGroups[groupName];
                         this.Utilities.repeat(timers.length, (i) => {
@@ -176,17 +182,53 @@ export default class BotWave extends Module {
         const botType =
             BotNames[this.Utilities.chooseWeight(genConfig.botTypes)];
         const spawnTime = timer === 0 ? 10 : timer;
+
+        const groupCount = this.Utilities.useChance(genConfig.group.chance)
+            ? this.Utilities.genNumberInRange(
+                  genConfig.group.min,
+                  genConfig.group.max,
+              ).toString()
+            : "0";
+
+        const guardGroup: IBossSupport[] = (() => {
+            if (parseInt(groupCount) <= 0) return [];
+            const guards: GuardGroupEntry[] = [];
+            if (genConfig.group.guards.length > 0) {
+                const weightIndex: Record<string, number> = {};
+                genConfig.group.guards.forEach((guardEntry) => {
+                    weightIndex[guardEntry.type] = guardEntry.weight;
+                });
+                this.Utilities.repeat(parseInt(groupCount), () => {
+                    const choice = this.Utilities.chooseWeight(weightIndex);
+                    guards.push(
+                        genConfig.group.guards.find(
+                            (guard) => guard.type === choice,
+                        ),
+                    );
+                    delete weightIndex[choice];
+                });
+                return guards.map((group) => ({
+                    BossEscortType: BotNames[group.type],
+                    BossEscortAmount: this.Utilities.genNumberInRange(
+                        group.min,
+                        group.max,
+                    ).toString(),
+                    BossEscortDifficult: [botDiff],
+                }));
+            } else
+                return [
+                    {
+                        BossEscortType: botType,
+                        BossEscortAmount: groupCount,
+                        BossEscortDifficult: [botDiff],
+                    },
+                ];
+        })();
+
         return {
             BossChance: genConfig.spawnChance,
             BossDifficult: botDiff,
-            BossEscortAmount:
-                (spawnTime === -1 && !genConfig.starting.useGroups) ||
-                !this.Utilities.useChance(genConfig.group.spawnChance)
-                    ? "0"
-                    : this.Utilities.genNumberInRange(
-                          genConfig.group.min,
-                          genConfig.group.max,
-                      ).toString(),
+            BossEscortAmount: groupCount,
             BossEscortDifficult: botDiff,
             BossEscortType: botType,
             BossName: botType,
@@ -194,10 +236,10 @@ export default class BotWave extends Module {
             BossZone: "",
             Time: spawnTime,
             RandomTimeSpawn: false,
-            IgnoreMaxBots: spawnTime === -1 && genConfig.starting.ignoreBotCap,
+            IgnoreMaxBots: false,
             TriggerId: "",
             TriggerName: "",
-            Supports: null,
+            Supports: guardGroup,
             SpawnMode: ["pve", "regular"],
         };
     }
@@ -234,8 +276,7 @@ export default class BotWave extends Module {
     public setMapData(): void {
         const timeOfDay = this.Utilities.getIsRaidDayOrNight();
         const map = this.Utilities.getCurrentMap();
-        const { waves, bosses } = this.botWaves.spawns[map][timeOfDay];
-        const mapSpawns = [...waves, ...bosses];
+        const mapSpawns = this.botWaves.spawns[map][timeOfDay];
 
         // Full reset of spawns in case of map / time swap
         this.locationsConfig[map].base.BossLocationSpawn = mapSpawns;
@@ -261,19 +302,17 @@ export default class BotWave extends Module {
                 group.guards.forEach((guardGroup, i) => {
                     group.guards[i] = {
                         type: guardGroup.type,
-                        weight: guardGroup.weight ?? 1,
-                        min: guardGroup.min ?? 1,
-                        max: guardGroup.max ?? 1,
+                        weight: guardGroup?.weight ?? 1,
+                        min: guardGroup?.min ?? 1,
+                        max: guardGroup?.max ?? 1,
                     };
                 });
 
             this.wavesConfig.spawnGroups[groupConfig[0]] = {
                 spawnChance: spawnChance ?? 100,
-                botTypes: botTypes ?? {
-                    [BotNames["assault"]]: 1,
-                },
+                botTypes: botTypes,
                 group: {
-                    spawnChance: group?.spawnChance ?? 0,
+                    chance: group?.chance ?? 0,
                     min: group?.min ?? 2,
                     max: group?.max ?? 3,
                     guards: group?.guards ?? [],
@@ -281,8 +320,6 @@ export default class BotWave extends Module {
                 starting: {
                     min: starting?.min ?? 0,
                     max: starting?.max ?? 0,
-                    useGroups: starting?.useGroups ?? false,
-                    ignoreBotCap: starting?.ignoreBotCap ?? false,
                 },
                 difficulty: {
                     easy: difficulty?.easy ?? 25,
@@ -295,5 +332,27 @@ export default class BotWave extends Module {
                 clusterIntensity: clusterIntensity ?? 0,
             };
         });
+    }
+
+    private mergeWaveConfigs(): void {
+        const waves = wavesConfigRaw as WavesConfig;
+        const bosses = bossesConfigRaw as WavesConfig;
+        Object.keys(this.wavesConfig.mapGroups).forEach(
+            (timeOfDay: DayNightNames) => {
+                Object.entries(this.wavesConfig.mapGroups[timeOfDay]).forEach(
+                    (mapData: [keyof typeof MapNames, string[]]) => {
+                        const [map, arr] = mapData;
+                        this.wavesConfig.mapGroups[timeOfDay][map] = [
+                            ...waves.mapGroups[timeOfDay][map],
+                            ...bosses.mapGroups[timeOfDay][map],
+                        ];
+                    },
+                );
+            },
+        );
+        this.wavesConfig.spawnGroups = {
+            ...waves.spawnGroups,
+            ...bosses.spawnGroups,
+        };
     }
 }
