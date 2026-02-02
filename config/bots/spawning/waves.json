@@ -16,34 +16,21 @@
         "night": {
             "Customs": ["pmcsNight", "scavsNight", "cultists"],
             "FactoryNight": ["pmcsNight", "scavsNight", "cultists"],
-            "Interchange": ["pmcsNight", "scavsNight", "cultists"],
+            "Interchange": ["pmcsNight", "scavsNight"],
             "Laboratory": ["pmcsNight", "raiders", "cultists"],
             "Lighthouse": ["pmcsNight", "cultists"],
             "Reserve": ["pmcsNight", "scavsNight", "raiders"],
             "GroundZero": ["pmcsNight", "scavsNight"],
             "GroundZeroHigh": ["pmcsNight", "scavsNight"],
             "Shoreline": ["pmcsNight", "scavsNight", "cultists"],
-            "Streets": ["pmcsNight", "scavsNight", "cultists"],
+            "Streets": ["pmcsNight", "scavsNight"],
             "Woods": ["pmcsNight", "scavsNight", "cultists"]
         }
     },
     "spawnGroups": {
         "pmcsDay": {
-            "difficulty": {
-                "easy": 25,
-                "normal": 60,
-                "hard": 10,
-                "impossible": 5
-            },
-            "group": {
-                "min": 2,
-                "max": 3,
-                "chance": 20
-            },
-            "botTypes": {
-                "Usec": 50,
-                "Bear": 50
-            },
+            "botTypes": { "Usec": 50, "Bear": 50 },
+            "group": { "chance": 20 },
             "starting": {
                 "min": 3,
                 "max": 5,
@@ -55,182 +42,103 @@
             "clusterIntensity": 0.25
         },
         "pmcsNight": {
-            "difficulty": {
-                "easy": 25,
-                "normal": 60,
-                "hard": 10,
-                "impossible": 5
-            },
-            "group": {
-                "min": 2,
-                "max": 2,
-                "chance": 5
-            },
-            "botTypes": {
-                "Usec": 50,
-                "Bear": 50
-            },
-            "starting": {
-                "min": 1,
-                "max": 2,
-                "useGroups": true,
-                "ignoreBotCap": false
-            },
+            "botTypes": { "Usec": 50, "Bear": 50 },
+            "group": { "min": 2, "max": 2, "chance": 5 },
+            "starting": { "min": 1, "max": 2, "useGroups": true },
             "waves": 7,
             "distribution": 0.2,
             "clusterIntensity": 0.25
         },
         "scavsDay": {
-            "difficulty": {
-                "easy": 25,
-                "normal": 60,
-                "hard": 10,
-                "impossible": 5
-            },
-            "group": {
-                "min": 2,
-                "max": 5,
-                "chance": 20
-            },
-            "botTypes": {
-                "Scav": 90,
-                "ScavEvent": 10
-            },
-            "starting": {
-                "min": 6,
-                "max": 8,
-                "useGroups": false,
-                "ignoreBotCap": false
-            },
+            "botTypes": { "Scav": 90, "ScavEvent": 10 },
+            "group": { "min": 2, "max": 5, "chance": 20 },
+            "starting": { "min": 6, "max": 8 },
             "waves": 30,
             "distribution": 0.66,
             "clusterIntensity": 0.1
         },
         "scavsNight": {
-            "difficulty": {
-                "easy": 25,
-                "normal": 60,
-                "hard": 10,
-                "impossible": 5
-            },
-            "group": {
-                "min": 2,
-                "max": 2,
-                "chance": 10
-            },
-            "botTypes": {
-                "Scav": 90,
-                "ScavEvent": 10
-            },
-            "starting": {
-                "min": 3,
-                "max": 6,
-                "useGroups": true,
-                "ignoreBotCap": false
-            },
-            "waves": 15,
-            "distribution": 0.5,
-            "clusterIntensity": 0
+            "botTypes": { "Scav": 90, "ScavEvent": 10 },
+            "group": { "chance": 10 },
+            "starting": { "min": 3, "max": 6, "useGroups": true },
+            "waves": 15
         },
         "raiders": {
+            "botTypes": { "Raider": 1 },
+            "group": { "chance": 50 },
+            "starting": {
+                "min": 2,
+                "max": 3,
+                "useGroups": true,
+                "ignoreBotCap": true
+            },
             "difficulty": {
                 "easy": 10,
                 "normal": 25,
                 "hard": 50,
                 "impossible": 15
             },
-            "group": {
-                "min": 2,
-                "max": 3,
-                "chance": 50
-            },
-            "botTypes": {
-                "Raider": 1
-            },
-            "starting": {
-                "min": 2,
-                "max": 3,
-                "useGroups": true,
-                "ignoreBotCap": true
-            },
             "waves": 10,
             "distribution": 0.33,
             "clusterIntensity": 0.75
         },
         "smugglers": {
+            "botTypes": { "Smuggler": 1 },
+            "group": { "min": 4, "max": 5, "chance": 75 },
             "difficulty": {
                 "easy": 15,
                 "normal": 50,
                 "hard": 30,
                 "impossible": 5
             },
-            "group": {
-                "min": 4,
-                "max": 5,
-                "chance": 75
-            },
-            "botTypes": {
-                "Smuggler": 1
-            },
-            "starting": {
-                "min": 0,
-                "max": 0,
-                "useGroups": false,
-                "ignoreBotCap": false
-            },
             "waves": 2,
             "distribution": 0.66,
             "clusterIntensity": 0.75
         },
         "rogues": {
-            "difficulty": {
-                "easy": 5,
-                "normal": 15,
-                "hard": 60,
-                "impossible": 20
-            },
-            "group": {
-                "min": 2,
-                "max": 3,
-                "chance": 75
-            },
-            "botTypes": {
-                "Rogue": 1
-            },
+            "botTypes": { "Rogue": 1 },
+            "group": { "chance": 75 },
             "starting": {
                 "min": 2,
                 "max": 3,
                 "useGroups": true,
                 "ignoreBotCap": true
             },
-            "waves": 5,
-            "distribution": 0.5,
-            "clusterIntensity": 0
-        },
-        "cultists": {
             "difficulty": {
                 "easy": 5,
                 "normal": 15,
                 "hard": 60,
                 "impossible": 20
             },
+            "waves": 5
+        },
+        "cultists": {
+            "botTypes": { "CultistPriest": 1 },
             "group": {
-                "min": 2,
-                "max": 3,
-                "chance": 100
-            },
-            "botTypes": {
-                "Cultist": 1
+                "min": 1,
+                "max": 1,
+                "spawnChance": 100,
+                "guards": [
+                    {
+                        "type": "Cultist",
+                        "min": 3,
+                        "max": 4
+                    }
+                ]
             },
             "starting": {
-                "min": 1,
+                "min": 2,
                 "max": 2,
                 "useGroups": true,
                 "ignoreBotCap": true
             },
-            "waves": 3,
-            "distribution": 0.5,
-            "clusterIntensity": 0
+            "difficulty": {
+                "easy": 15,
+                "normal": 25,
+                "hard": 50,
+                "impossible": 10
+            },
+            "waves": 3
         }
     }
 }

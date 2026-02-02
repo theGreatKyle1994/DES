@@ -14,202 +14,141 @@
             "Woods": ["shturman", "goons", "partisan"]
         },
         "night": {
-            "Customs": ["goons", "cultistPriest"],
-            "FactoryNight": ["tagilla", "cultistPriest"],
-            "Interchange": ["killa", "cultistPriest"],
+            "Customs": ["goons"],
+            "FactoryNight": ["tagilla"],
+            "Interchange": ["killa"],
             "Laboratory": ["cultistPriest", "cultistOni"],
-            "Lighthouse": ["zryachiy", "cultistPriest", "cultistOni"],
+            "Lighthouse": ["zryachiy", "cultistOni"],
             "Reserve": ["glukhar"],
             "GroundZero": ["kolontay"],
             "GroundZeroHigh": ["kolontay"],
-            "Shoreline": ["sanitar", "goons", "cultistPriest"],
-            "Streets": ["kaban", "cultistPriest"],
-            "Woods": ["shturman", "goons", "cultistPriest"]
+            "Shoreline": ["sanitar", "goons"],
+            "Streets": ["kaban"],
+            "Woods": ["shturman", "goons"]
         }
     },
-    "bossGroups": {
+    "spawnGroups": {
         "reshala": {
-            "chance": 30,
-            "bossTypes": {
-                "Reshala": 1
-            },
+            "spawnChance": 30,
+            "botTypes": { "Reshala": 1 },
             "difficulty": {
                 "easy": 15,
                 "normal": 25,
                 "hard": 50,
                 "impossible": 10
             },
-            "guards": {
+            "group": {
                 "min": 1,
                 "max": 1,
-                "groups": [
+                "spawnChance": 100,
+                "guards": [
                     {
                         "type": "ReshalaAssault",
                         "weight": 3,
                         "min": 2,
                         "max": 5
                     },
-                    {
-                        "type": "Scav",
-                        "weight": 1,
-                        "min": 3,
-                        "max": 6
-                    }
+                    { "type": "Scav", "min": 3, "max": 6 }
                 ]
             }
         },
         "goons": {
-            "chance": 30,
-            "bossTypes": {
-                "Knight": 1
-            },
+            "spawnChance": 30,
+            "botTypes": { "Knight": 1 },
             "difficulty": {
                 "easy": 15,
                 "normal": 25,
                 "hard": 50,
                 "impossible": 10
             },
-            "guards": {
+            "group": {
                 "min": 1,
                 "max": 2,
-                "groups": [
-                    {
-                        "type": "BigPipe",
-                        "weight": 3,
-                        "min": 1,
-                        "max": 1
-                    },
-                    {
-                        "type": "BirdEye",
-                        "weight": 3,
-                        "min": 1,
-                        "max": 1
-                    },
-                    {
-                        "type": "Rogue",
-                        "weight": 1,
-                        "min": 2,
-                        "max": 4
-                    }
+                "spawnChance": 100,
+                "guards": [
+                    { "type": "BigPipe", "weight": 3 },
+                    { "type": "BirdEye", "weight": 3 },
+                    { "type": "Rogue", "min": 2, "max": 4 }
                 ]
             }
         },
         "partisan": {
-            "chance": 15,
-            "bossTypes": {
-                "Partisan": 1
-            },
+            "spawnChance": 15,
+            "botTypes": { "Partisan": 1 },
             "difficulty": {
                 "easy": 15,
                 "normal": 25,
                 "hard": 50,
                 "impossible": 10
-            },
-            "guards": {
-                "min": 0,
-                "max": 0,
-                "groups": []
             }
         },
         "tagilla": {
-            "chance": 30,
-            "bossTypes": {
-                "Tagilla": 1
-            },
+            "spawnChance": 30,
+            "botTypes": { "Tagilla": 1 },
             "difficulty": {
                 "easy": 15,
                 "normal": 25,
                 "hard": 50,
                 "impossible": 10
             },
-            "guards": {
-                "min": 0,
+            "group": {
+                "min": 1,
                 "max": 1,
-                "groups": [
-                    {
-                        "type": "TagillaAssault",
-                        "weight": 1,
-                        "min": 2,
-                        "max": 3
-                    },
-                    {
-                        "type": "Scav",
-                        "weight": 1,
-                        "min": 3,
-                        "max": 5
-                    }
+                "spawnChance": 50,
+                "guards": [
+                    { "type": "TagillaAssault", "min": 2, "max": 3 },
+                    { "type": "Scav", "min": 3, "max": 5 }
                 ]
             }
         },
         "killa": {
-            "chance": 30,
-            "bossTypes": {
-                "Killa": 1
-            },
+            "spawnChance": 30,
+            "botTypes": { "Killa": 1 },
             "difficulty": {
                 "easy": 15,
                 "normal": 25,
                 "hard": 50,
                 "impossible": 10
             },
-            "guards": {
-                "min": 0,
+            "group": {
+                "min": 1,
                 "max": 1,
-                "groups": [
-                    {
-                        "type": "TagillaAssault",
-                        "weight": 1,
-                        "min": 2,
-                        "max": 3
-                    },
-                    {
-                        "type": "Scav",
-                        "weight": 1,
-                        "min": 3,
-                        "max": 5
-                    }
+                "spawnChance": 50,
+                "guards": [
+                    { "type": "TagillaAssault", "min": 2, "max": 3 },
+                    { "type": "Scav", "min": 3, "max": 5 }
                 ]
             }
         },
         "zryachiy": {
-            "chance": 100,
-            "bossTypes": {
-                "Zryachiy": 1
-            },
+            "botTypes": { "Zryachiy": 1 },
             "difficulty": {
                 "easy": 15,
                 "normal": 25,
                 "hard": 50,
                 "impossible": 10
             },
-            "guards": {
+            "group": {
                 "min": 1,
                 "max": 1,
-                "groups": [
-                    {
-                        "type": "ZryachiyAssault",
-                        "weight": 1,
-                        "min": 3,
-                        "max": 4
-                    }
-                ]
+                "spawnChance": 100,
+                "guards": [{ "type": "ZryachiyAssault", "min": 3, "max": 4 }]
             }
         },
         "glukhar": {
-            "chance": 30,
-            "bossTypes": {
-                "Glukhar": 1
-            },
+            "spawnChance": 30,
+            "botTypes": { "Glukhar": 1 },
             "difficulty": {
                 "easy": 15,
                 "normal": 25,
                 "hard": 50,
                 "impossible": 10
             },
-            "guards": {
+            "group": {
                 "min": 2,
                 "max": 3,
-                "groups": [
+                "spawnChance": 100,
+                "guards": [
                     {
                         "type": "GlukharAssault",
                         "weight": 3,
@@ -228,192 +167,104 @@
                         "min": 2,
                         "max": 2
                     },
-                    {
-                        "type": "GlukharSniper",
-                        "weight": 1,
-                        "min": 1,
-                        "max": 1
-                    }
+                    { "type": "GlukharSniper" }
                 ]
             }
         },
         "kolontay": {
-            "chance": 30,
-            "bossTypes": {
-                "Kolontay": 1
-            },
+            "spawnChance": 30,
+            "botTypes": { "Kolontay": 1 },
             "difficulty": {
                 "easy": 15,
                 "normal": 25,
                 "hard": 50,
                 "impossible": 10
             },
-            "guards": {
+            "group": {
                 "min": 1,
                 "max": 2,
-                "groups": [
+                "spawnChance": 100,
+                "guards": [
                     {
                         "type": "KolontayAssault",
                         "weight": 3,
                         "min": 2,
                         "max": 2
                     },
-                    {
-                        "type": "KolontaySecurity",
-                        "weight": 1,
-                        "min": 2,
-                        "max": 2
-                    }
+                    { "type": "KolontaySecurity", "min": 2, "max": 2 }
                 ]
             }
         },
         "sanitar": {
-            "chance": 30,
-            "bossTypes": {
-                "Sanitar": 1
-            },
+            "spawnChance": 30,
+            "botTypes": { "Sanitar": 1 },
             "difficulty": {
                 "easy": 15,
                 "normal": 25,
                 "hard": 50,
                 "impossible": 10
             },
-            "guards": {
+            "group": {
                 "min": 1,
                 "max": 1,
-                "groups": [
-                    {
-                        "type": "SanitarAssault",
-                        "weight": 1,
-                        "min": 3,
-                        "max": 5
-                    }
-                ]
+                "spawnChance": 100,
+                "guards": [{ "type": "SanitarAssault", "min": 3, "max": 5 }]
             }
         },
         "kaban": {
-            "chance": 75,
-            "bossTypes": {
-                "Kaban": 1
-            },
+            "spawnChance": 75,
+            "botTypes": { "Kaban": 1 },
             "difficulty": {
                 "easy": 15,
                 "normal": 25,
                 "hard": 50,
                 "impossible": 10
             },
-            "guards": {
+            "group": {
                 "min": 3,
                 "max": 4,
-                "groups": [
-                    {
-                        "type": "KabanSniper",
-                        "weight": 1,
-                        "min": 1,
-                        "max": 2
-                    },
-                    {
-                        "type": "KabanAssault",
-                        "weight": 3,
-                        "min": 3,
-                        "max": 4
-                    },
-                    {
-                        "type": "KabanClose1",
-                        "weight": 2,
-                        "min": 1,
-                        "max": 1
-                    },
-                    {
-                        "type": "KabanClose2",
-                        "weight": 2,
-                        "min": 1,
-                        "max": 1
-                    }
+                "spawnChance": 100,
+                "guards": [
+                    { "type": "KabanSniper", "min": 1, "max": 2 },
+                    { "type": "KabanAssault", "weight": 3, "min": 3, "max": 4 },
+                    { "type": "KabanClose1", "weight": 2 },
+                    { "type": "KabanClose2", "weight": 2 }
                 ]
             }
         },
         "shturman": {
-            "chance": 30,
-            "bossTypes": {
-                "Shturman": 1
-            },
+            "spawnChance": 30,
+            "botTypes": { "Shturman": 1 },
             "difficulty": {
                 "easy": 15,
                 "normal": 25,
                 "hard": 50,
                 "impossible": 10
             },
-            "guards": {
+            "group": {
                 "min": 1,
                 "max": 1,
-                "groups": [
-                    {
-                        "type": "ShturmanAssault",
-                        "weight": 1,
-                        "min": 3,
-                        "max": 5
-                    }
-                ]
-            }
-        },
-        "cultistPriest": {
-            "chance": 100,
-            "bossTypes": {
-                "CultistPriest": 1
-            },
-            "difficulty": {
-                "easy": 15,
-                "normal": 25,
-                "hard": 50,
-                "impossible": 10
-            },
-            "guards": {
-                "min": 1,
-                "max": 1,
-                "groups": [
-                    {
-                        "type": "Cultist",
-                        "weight": 1,
-                        "min": 5,
-                        "max": 6
-                    }
-                ]
+                "spawnChance": 100,
+                "guards": [{ "type": "ShturmanAssault", "min": 3, "max": 5 }]
             }
         },
         "cultistOni": {
-            "chance": 15,
-            "bossTypes": {
-                "CultistOni": 1
-            },
+            "spawnChance": 15,
+            "botTypes": { "CultistOni": 1 },
             "difficulty": {
                 "easy": 15,
                 "normal": 25,
                 "hard": 50,
                 "impossible": 10
             },
-            "guards": {
+            "group": {
                 "min": 3,
                 "max": 3,
-                "groups": [
-                    {
-                        "type": "CultistPredvestni",
-                        "weight": 1,
-                        "min": 1,
-                        "max": 1
-                    },
-                    {
-                        "type": "CultistPrizrak",
-                        "weight": 1,
-                        "min": 1,
-                        "max": 1
-                    },
-                    {
-                        "type": "Cultist",
-                        "weight": 1,
-                        "min": 2,
-                        "max": 3
-                    }
+                "spawnChance": 100,
+                "guards": [
+                    { "type": "CultistPredvestni" },
+                    { "type": "CultistPrizrak" },
+                    { "type": "Cultist", "min": 2, "max": 3 }
                 ]
             }
         }

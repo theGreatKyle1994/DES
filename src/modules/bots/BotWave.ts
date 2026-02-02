@@ -1,7 +1,7 @@
 // Configs
 import botWaveModuleConfigRaw from "../../../config/bots/spawning/bots.json";
 import wavesConfigRaw from "../../../config/bots/spawning/waves.json";
-import bossesConfig from "../../../config/bots/spawning/bosses.json";
+import bossesConfigRaw from "../../../config/bots/spawning/bosses.json";
 
 // General
 import Module from "../core/Module";
@@ -37,6 +37,7 @@ export default class BotWave extends Module {
     private readonly botWaveModuleConfig =
         botWaveModuleConfigRaw as BotWaveModuleConfig;
     private readonly wavesConfig = wavesConfigRaw as WavesConfig;
+    private readonly bossesConfig = bossesConfigRaw as WavesConfig;
 
     constructor(container: DependencyContainer, db: Database, logger: ILogger) {
         super(container, db, logger);
@@ -49,6 +50,9 @@ export default class BotWave extends Module {
         this.pmcConfig = this.configServer.getConfig(ConfigTypes.PMC);
         this.botConfig = this.configServer.getConfig(ConfigTypes.BOT);
         this.locationConfig = this.configServer.getConfig(ConfigTypes.LOCATION);
+
+        // Run validation checks for all required configs
+        this.validateWaveConfig();
     }
 
     public enable(): void {
@@ -58,7 +62,7 @@ export default class BotWave extends Module {
     public update(): void {
         this.resetWaves();
         this.genWaveSpawns();
-        this.logDebug(this.botWaves.spawns.interchange.day.waves);
+        this.logDebug(this.wavesConfig.spawnGroups);
     }
 
     private resetWaves(): void {
@@ -88,15 +92,16 @@ export default class BotWave extends Module {
         Object.keys(this.wavesConfig.mapGroups).forEach(
             (timeOfDay: DayNightNames) => {
                 Object.entries(this.wavesConfig.mapGroups[timeOfDay]).forEach(
-                    (mapGroup) => {
+                    (mapGroup: [keyof typeof MapNames, string[]]) => {
                         const [mapKey, group] = mapGroup;
-                        const map = MapNames[mapKey] as MapNames;
+                        const map = MapNames[mapKey];
                         const loc = this.locationsConfig[map].base;
                         const mapTime = loc.EscapeTimeLimit * 60;
                         group.forEach((groupName) => {
-                            const timeMapGroup = (this.botWaves.timers[map][
-                                timeOfDay
-                            ][groupName] = []);
+                            const timeMapGroup: number[] =
+                                (this.botWaves.timers[map][timeOfDay][
+                                    groupName
+                                ] = []);
 
                             // Add starting spawn timers
                             const startRange =
@@ -107,9 +112,7 @@ export default class BotWave extends Module {
                                     startRange.min,
                                     startRange.max,
                                 ),
-                                () => {
-                                    timeMapGroup.push(-1);
-                                },
+                                () => timeMapGroup.push(-1),
                             );
 
                             // Add group timers
@@ -125,7 +128,7 @@ export default class BotWave extends Module {
 
     private genWaveDist(): void {
         Object.keys(this.wavesConfig.spawnGroups).forEach((groupName) => {
-            const distGroup = (this.botWaves.dist[groupName] = []);
+            const distGroup: number[] = (this.botWaves.dist[groupName] = []);
             const group = this.wavesConfig.spawnGroups[groupName];
             this.Utilities.repeat(group.waves, () => {
                 distGroup.push(
@@ -174,11 +177,11 @@ export default class BotWave extends Module {
             BotNames[this.Utilities.chooseWeight(genConfig.botTypes)];
         const spawnTime = timer === 0 ? 10 : timer;
         return {
-            BossChance: 100,
+            BossChance: genConfig.spawnChance,
             BossDifficult: botDiff,
             BossEscortAmount:
                 (spawnTime === -1 && !genConfig.starting.useGroups) ||
-                !this.Utilities.useChance(genConfig.group.chance)
+                !this.Utilities.useChance(genConfig.group.spawnChance)
                     ? "0"
                     : this.Utilities.genNumberInRange(
                           genConfig.group.min,
@@ -239,9 +242,58 @@ export default class BotWave extends Module {
 
         this.setMapCaps(timeOfDay);
         this.setBotLimits();
+    }
 
-        this.logDebug(map);
-        this.logDebug(timeOfDay);
-        this.logDebug(this.locationsConfig[map].base.BossLocationSpawn);
+    private validateWaveConfig(): void {
+        Object.entries(this.wavesConfig.spawnGroups).forEach((groupConfig) => {
+            const {
+                spawnChance,
+                botTypes,
+                group,
+                starting,
+                difficulty,
+                waves,
+                distribution,
+                clusterIntensity,
+            } = groupConfig[1];
+
+            group?.guards &&
+                group.guards.forEach((guardGroup, i) => {
+                    group.guards[i] = {
+                        type: guardGroup.type,
+                        weight: guardGroup.weight ?? 1,
+                        min: guardGroup.min ?? 1,
+                        max: guardGroup.max ?? 1,
+                    };
+                });
+
+            this.wavesConfig.spawnGroups[groupConfig[0]] = {
+                spawnChance: spawnChance ?? 100,
+                botTypes: botTypes ?? {
+                    [BotNames["assault"]]: 1,
+                },
+                group: {
+                    spawnChance: group?.spawnChance ?? 0,
+                    min: group?.min ?? 2,
+                    max: group?.max ?? 3,
+                    guards: group?.guards ?? [],
+                },
+                starting: {
+                    min: starting?.min ?? 0,
+                    max: starting?.max ?? 0,
+                    useGroups: starting?.useGroups ?? false,
+                    ignoreBotCap: starting?.ignoreBotCap ?? false,
+                },
+                difficulty: {
+                    easy: difficulty?.easy ?? 25,
+                    normal: difficulty?.normal ?? 60,
+                    hard: difficulty?.hard ?? 10,
+                    impossible: difficulty?.impossible ?? 5,
+                },
+                waves: waves ?? 1,
+                distribution: distribution ?? 0.5,
+                clusterIntensity: clusterIntensity ?? 0,
+            };
+        });
     }
 }

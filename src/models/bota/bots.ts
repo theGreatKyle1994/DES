@@ -6,23 +6,19 @@ import type { BotNames, DifficultyNames } from "./botConstants";
 // SPT
 import type { IBossLocationSpawn } from "@spt/models/eft/common/ILocationBase";
 
+export interface GuardGroupEntry extends MinMax {
+    type: BotNames;
+    weight?: number;
+}
+
 export interface GroupEntry extends MinMax {
-    chance?: number;
+    spawnChance?: number;
+    guards?: GuardGroupEntry[];
 }
 
 export interface StartingGroupEntry extends MinMax {
-    useGroups: boolean;
-    ignoreBotCap: boolean;
-}
-
-export interface SpawnGroupEntry {
-    difficulty: Record<DifficultyNames, number>;
-    group: GroupEntry;
-    botTypes: Partial<Record<keyof typeof BotNames, number>>;
-    starting: StartingGroupEntry;
-    waves: number;
-    distribution: number;
-    clusterIntensity: number;
+    useGroups?: boolean;
+    ignoreBotCap?: boolean;
 }
 
 export interface BotSpawns {
@@ -40,6 +36,17 @@ export interface BotLimitEntry {
     type: keyof typeof BotNames;
     min: number;
     max: number;
+}
+
+export interface SpawnGroupEntry {
+    spawnChance?: number;
+    botTypes: Partial<Record<keyof typeof BotNames, number>>;
+    group?: GroupEntry;
+    starting?: StartingGroupEntry;
+    difficulty?: Record<DifficultyNames, number>;
+    waves?: number;
+    distribution?: number;
+    clusterIntensity?: number;
 }
 
 export interface WavesConfig {
