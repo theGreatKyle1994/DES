@@ -30,6 +30,7 @@
     "spawnGroups": {
         "reshala": {
             "spawnChance": 30,
+            "ignoreMaxBots": true,
             "botTypes": { "Reshala": 1 },
             "difficulty": {
                 "easy": 15,
@@ -54,6 +55,7 @@
         },
         "goons": {
             "spawnChance": 30,
+            "ignoreMaxBots": true,
             "botTypes": { "Knight": 1 },
             "difficulty": {
                 "easy": 15,
@@ -74,6 +76,7 @@
         },
         "partisan": {
             "spawnChance": 15,
+            "ignoreMaxBots": true,
             "botTypes": { "Partisan": 1 },
             "difficulty": {
                 "easy": 15,
@@ -84,6 +87,7 @@
         },
         "tagilla": {
             "spawnChance": 30,
+            "ignoreMaxBots": true,
             "botTypes": { "Tagilla": 1 },
             "difficulty": {
                 "easy": 15,
@@ -103,6 +107,7 @@
         },
         "killa": {
             "spawnChance": 30,
+            "ignoreMaxBots": true,
             "botTypes": { "Killa": 1 },
             "difficulty": {
                 "easy": 15,
@@ -121,6 +126,7 @@
             }
         },
         "zryachiy": {
+            "ignoreMaxBots": true,
             "botTypes": { "Zryachiy": 1 },
             "difficulty": {
                 "easy": 15,
@@ -137,6 +143,7 @@
         },
         "glukhar": {
             "spawnChance": 30,
+            "ignoreMaxBots": true,
             "botTypes": { "Glukhar": 1 },
             "difficulty": {
                 "easy": 15,
@@ -173,6 +180,7 @@
         },
         "kolontay": {
             "spawnChance": 30,
+            "ignoreMaxBots": true,
             "botTypes": { "Kolontay": 1 },
             "difficulty": {
                 "easy": 15,
@@ -197,6 +205,7 @@
         },
         "sanitar": {
             "spawnChance": 30,
+            "ignoreMaxBots": true,
             "botTypes": { "Sanitar": 1 },
             "difficulty": {
                 "easy": 15,
@@ -213,6 +222,7 @@
         },
         "kaban": {
             "spawnChance": 75,
+            "ignoreMaxBots": true,
             "botTypes": { "Kaban": 1 },
             "difficulty": {
                 "easy": 15,
@@ -234,6 +244,7 @@
         },
         "shturman": {
             "spawnChance": 30,
+            "ignoreMaxBots": true,
             "botTypes": { "Shturman": 1 },
             "difficulty": {
                 "easy": 15,
@@ -250,6 +261,7 @@
         },
         "cultistOni": {
             "spawnChance": 15,
+            "ignoreMaxBots": true,
             "botTypes": { "CultistOni": 1 },
             "difficulty": {
                 "easy": 15,

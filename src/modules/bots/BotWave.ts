@@ -24,7 +24,6 @@ import type { Database } from "../../models/database";
 // SPT
 import { ConfigTypes } from "@spt/models/enums/ConfigTypes";
 import type { ILogger } from "@spt/models/spt/utils/ILogger";
-import type { IBots } from "@spt/models/spt/bots/IBots";
 import type { ILocations } from "@spt/models/spt/server/ILocations";
 import type { IBotConfig } from "@spt/models/spt/config/IBotConfig";
 import type { IPmcConfig } from "@spt/models/spt/config/IPmcConfig";
@@ -39,7 +38,6 @@ export default class BotWave extends Module {
     private locationConfig: ILocationConfig;
     private locationsConfig: ILocations;
     private botConfig: IBotConfig;
-    private botsConfig: IBots;
     private pmcConfig: IPmcConfig;
     private botWaves: BotWaves = botWavesDefault;
     private readonly botWaveModuleConfig =
@@ -52,7 +50,6 @@ export default class BotWave extends Module {
 
     public initialize(): void {
         const { bots, locations } = this.databaseServer.getTables();
-        this.botsConfig = bots;
         this.locationsConfig = locations;
         this.pmcConfig = this.configServer.getConfig(ConfigTypes.PMC);
         this.botConfig = this.configServer.getConfig(ConfigTypes.BOT);
@@ -70,10 +67,16 @@ export default class BotWave extends Module {
     public update(): void {
         this.resetWaves();
         this.genWaveSpawns();
-        this.logDebug(this.botWaves.spawns.bigmap.day);
+        this.logDebug(this.botWaves.spawns.lighthouse.night);
     }
 
     private resetWaves(): void {
+        // Map specific spawns disabled
+        this.locationConfig.reserveRaiderSpawnChanceOverrides.nonTriggered = 0;
+        this.locationConfig.reserveRaiderSpawnChanceOverrides.triggered = 0;
+        this.locationConfig.rogueLighthouseSpawnTimeSettings.enabled = false;
+        this.locationConfig.rogueLighthouseSpawnTimeSettings.waitTimeSeconds = 0;
+
         // Remove custom waves
         this.locationConfig.addCustomBotWavesToMaps = false;
         this.locationConfig.customWaves = { boss: {}, normal: {} };
@@ -121,11 +124,11 @@ export default class BotWave extends Module {
                                 ),
                                 () => timeMapGroup.push(-1),
                             );
-
                             // Add group timers
                             this.botWaves.dist[groupName].forEach((dist) => {
                                 timeMapGroup.push(Math.round(mapTime * dist));
                             });
+                            timeMapGroup.sort((a, b) => a - b);
                         });
                     },
                 );
@@ -169,6 +172,9 @@ export default class BotWave extends Module {
                             );
                         });
                     });
+                    this.botWaves.spawns[map][timeOfDay].sort(
+                        (a, b) => a.Time - b.Time,
+                    );
                 },
             );
         });
@@ -181,15 +187,14 @@ export default class BotWave extends Module {
         const botDiff = this.Utilities.chooseWeight(genConfig.difficulty);
         const botType =
             BotNames[this.Utilities.chooseWeight(genConfig.botTypes)];
-        const spawnTime = timer === 0 ? 10 : timer;
-
+        const spawnTime = timer === 0 ? 60 : timer;
+        const ignoreBotCount = genConfig.ignoreMaxBots || spawnTime === -1;
         const groupCount = this.Utilities.useChance(genConfig.group.chance)
             ? this.Utilities.genNumberInRange(
                   genConfig.group.min,
                   genConfig.group.max,
               ).toString()
             : "0";
-
         const guardGroup: IBossSupport[] = (() => {
             if (parseInt(groupCount) <= 0) return [];
             const guards: GuardGroupEntry[] = [];
@@ -236,7 +241,7 @@ export default class BotWave extends Module {
             BossZone: "",
             Time: spawnTime,
             RandomTimeSpawn: false,
-            IgnoreMaxBots: false,
+            IgnoreMaxBots: ignoreBotCount,
             TriggerId: "",
             TriggerName: "",
             Supports: guardGroup,
@@ -289,6 +294,7 @@ export default class BotWave extends Module {
         Object.entries(this.wavesConfig.spawnGroups).forEach((groupConfig) => {
             const {
                 spawnChance,
+                ignoreMaxBots,
                 botTypes,
                 group,
                 starting,
@@ -310,6 +316,7 @@ export default class BotWave extends Module {
 
             this.wavesConfig.spawnGroups[groupConfig[0]] = {
                 spawnChance: spawnChance ?? 100,
+                ignoreMaxBots: ignoreMaxBots ?? false,
                 botTypes: botTypes,
                 group: {
                     chance: group?.chance ?? 0,

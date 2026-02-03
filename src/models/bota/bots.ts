@@ -32,6 +32,7 @@ export interface StartingGroupEntry extends MinMax {}
 
 export interface SpawnGroupEntry {
     spawnChance?: number;
+    ignoreMaxBots?: boolean;
     botTypes: Partial<Record<keyof typeof BotNames, number>>;
     group?: GroupEntry;
     starting?: StartingGroupEntry;
