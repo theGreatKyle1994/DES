@@ -1,6 +1,7 @@
 // General
+import { DifficultyNames } from "./bota/botConstants";
+import { MapNames } from "./common/commonConstants";
 import type { TimeFrameEntry } from "./calendar";
-import type { DifficultyNames, MapNames, ZombieNames } from "./common/common";
 
 // SPT
 import type { IEquipment } from "@spt/models/eft/common/tables/IBotType";
@@ -55,7 +56,7 @@ export interface EventConfig {
 
 export interface ZombieCrowdEntry {
     difficulty: DifficultyNames;
-    role: ZombieNames;
+    role: string;
     weight: number;
 }
 
