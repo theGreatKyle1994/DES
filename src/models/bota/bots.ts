@@ -1,10 +1,26 @@
 // General
 import { MapNames } from "../common/commonConstants";
+import { BotNames, DifficultyNames } from "./botConstants";
 import type { MinMax, DayNight } from "../common/common";
-import type { BotNames, DifficultyNames } from "./botConstants";
 
 // SPT
 import type { IBossLocationSpawn } from "@spt/models/eft/common/ILocationBase";
+
+export interface BotWaves {
+    dist: Record<string, number[]>;
+    timers: Record<MapNames, DayNight<Record<string, number[]>>>;
+    spawns: Record<MapNames, DayNight<IBossLocationSpawn[]>>;
+}
+
+export interface Spawning {
+    chance?: number;
+    waves?: number;
+    distTarget?: number;
+    clusterIntensity?: number;
+    delay?: number;
+    range?: MinMax;
+    ignoreMaxBots?: boolean;
+}
 
 export interface GuardGroupEntry extends MinMax {
     type: BotNames;
@@ -16,30 +32,20 @@ export interface GroupEntry extends MinMax {
     guards?: GuardGroupEntry[];
 }
 
-export interface BotWaves {
-    dist: Record<string, number[]>;
-    timers: Record<MapNames, DayNight<Record<string, number[]>>>;
-    spawns: Record<MapNames, DayNight<IBossLocationSpawn[]>>;
+export interface StartingGroupEntry extends MinMax {}
+
+export interface SpawnGroupEntry {
+    botTypes: Partial<Record<keyof typeof BotNames, number>>;
+    spawning?: Spawning;
+    group?: GroupEntry;
+    starting?: StartingGroupEntry;
+    difficulty?: Record<DifficultyNames, number>;
 }
 
 export interface BotLimitEntry {
     type: keyof typeof BotNames;
     min: number;
     max: number;
-}
-
-export interface StartingGroupEntry extends MinMax {}
-
-export interface SpawnGroupEntry {
-    spawnChance?: number;
-    ignoreMaxBots?: boolean;
-    botTypes: Partial<Record<keyof typeof BotNames, number>>;
-    group?: GroupEntry;
-    starting?: StartingGroupEntry;
-    difficulty?: Record<DifficultyNames, number>;
-    waves?: number;
-    distribution?: number;
-    clusterIntensity?: number;
 }
 
 export interface WavesConfig {

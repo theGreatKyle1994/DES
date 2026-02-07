@@ -30,38 +30,48 @@
     "spawnGroups": {
         "pmcsDay": {
             "botTypes": { "Usec": 50, "Bear": 50 },
+            "spawning": {
+                "waves": 15,
+                "distTarget": 0.25,
+                "clusterIntensity": 0.05,
+                "range": { "min": 0.05, "max": 0.75 }
+            },
             "group": { "chance": 30 },
-            "starting": { "min": 3, "max": 5 },
-            "waves": 15,
-            "distribution": 0.3,
-            "clusterIntensity": 0.25
+            "starting": { "min": 3, "max": 5 }
         },
         "pmcsNight": {
             "botTypes": { "Usec": 50, "Bear": 50 },
+            "spawning": {
+                "waves": 10,
+                "distTarget": 0.25,
+                "clusterIntensity": 0.05,
+                "range": { "min": 0.05, "max": 0.75 }
+            },
             "group": { "chance": 30 },
-            "starting": { "min": 3, "max": 5 },
-            "waves": 10,
-            "distribution": 0.2,
-            "clusterIntensity": 0.5
+            "starting": { "min": 3, "max": 5 }
         },
         "scavsDay": {
-            "botTypes": { "Scav": 90, "ScavEvent": 10 },
-            "group": { "min": 2, "max": 5, "chance": 20 },
-            "starting": { "min": 6, "max": 8 },
-            "waves": 30,
-            "distribution": 0.66,
-            "clusterIntensity": 0.1
+            "botTypes": { "Scav": 70, "ScavEvent": 30 },
+            "spawning": { "waves": 30, "range": { "min": 0.075, "max": 0.9 } },
+            "group": { "chance": 20, "min": 2, "max": 5 },
+            "starting": { "min": 6, "max": 8 }
         },
         "scavsNight": {
             "botTypes": { "Scav": 90, "ScavEvent": 10 },
+            "spawning": { "waves": 20, "range": { "min": 0.075, "max": 0.9 } },
             "group": { "chance": 20 },
-            "starting": { "min": 4, "max": 6 },
-            "waves": 20
+            "starting": { "min": 4, "max": 6 }
         },
         "raiders": {
-            "spawnChance": 50,
-            "ignoreMaxBots": true,
             "botTypes": { "Raider": 1 },
+            "spawning": {
+                "chance": 50,
+                "waves": 10,
+                "distTarget": 0.33,
+                "clusterIntensity": 0.75,
+                "range": { "min": 0.05 },
+                "ignoreMaxBots": true
+            },
             "group": { "chance": 75 },
             "starting": { "min": 2, "max": 3 },
             "difficulty": {
@@ -69,30 +79,33 @@
                 "normal": 25,
                 "hard": 50,
                 "impossible": 15
-            },
-            "waves": 10,
-            "distribution": 0.33,
-            "clusterIntensity": 0.75
+            }
         },
         "smugglers": {
-            "spawnChance": 75,
-            "ignoreMaxBots": true,
             "botTypes": { "Smuggler": 1 },
-            "group": { "min": 2, "max": 3, "chance": 75 },
+            "spawning": {
+                "chance": 50,
+                "distTarget": 0.75,
+                "clusterIntensity": 0.75,
+                "range": { "min": 0.6, "max": 0.75 },
+                "ignoreMaxBots": true
+            },
+            "group": { "chance": 75 },
             "difficulty": {
                 "easy": 15,
                 "normal": 50,
                 "hard": 30,
                 "impossible": 5
-            },
-            "waves": 1,
-            "distribution": 0.75,
-            "clusterIntensity": 0.9
+            }
         },
         "rogues": {
-            "spawnChance": 50,
-            "ignoreMaxBots": true,
             "botTypes": { "Rogue": 1 },
+            "spawning": {
+                "chance": 50,
+                "waves": 3,
+                "range": { "min": 0.05 },
+                "ignoreMaxBots": true
+            },
             "group": { "chance": 75 },
             "starting": { "min": 2, "max": 3 },
             "difficulty": {
@@ -100,17 +113,20 @@
                 "normal": 15,
                 "hard": 60,
                 "impossible": 20
-            },
-            "waves": 3
+            }
         },
         "cultists": {
-            "spawnChance": 25,
-            "ignoreMaxBots": true,
             "botTypes": { "CultistPriest": 1 },
+            "spawning": {
+                "chance": 25,
+                "waves": 3,
+                "range": { "min": 0.05 },
+                "ignoreMaxBots": true
+            },
             "group": {
+                "chance": 100,
                 "min": 1,
                 "max": 1,
-                "chance": 100,
                 "guards": [{ "type": "Cultist", "min": 2, "max": 3 }]
             },
             "starting": { "min": 1, "max": 2 },
@@ -119,8 +135,7 @@
                 "normal": 25,
                 "hard": 50,
                 "impossible": 10
-            },
-            "waves": 3
+            }
         }
     }
 }

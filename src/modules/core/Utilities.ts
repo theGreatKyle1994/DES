@@ -187,14 +187,16 @@ export default class Utilities {
     }
 
     public calcDistribution(
-        target: number = 0.5,
+        targetIn: number = 0.5,
         intensity: number = 0,
         min: number = 0,
         max: number = 1,
     ): number {
-        const t = Math.pow(Math.random(), Math.abs(intensity - 1));
-        const range = Math.random() > 0.5 ? max - target : min - target;
-        return parseFloat((target + range * (1 - t)).toFixed(3));
+        const target = targetIn * (max - min) + min;
+        const midLine = (min + max) / 2;
+        const t = Math.pow(Math.random(), Math.abs(intensity - max));
+        const range = Math.random() > midLine ? max - target : min - target;
+        return parseFloat((target + range * (max - t)).toFixed(3));
     }
 
     public calcPercentageOfWeights(
