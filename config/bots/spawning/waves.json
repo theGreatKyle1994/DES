@@ -30,25 +30,15 @@
     "spawnGroups": {
         "pmcsDay": {
             "botTypes": { "Usec": 50, "Bear": 50 },
-            "spawning": {
-                "waves": 15,
-                "distTarget": 0.25,
-                "clusterIntensity": 0.05,
-                "range": { "min": 0.05, "max": 0.75 }
-            },
+            "spawning": { "waves": 15, "range": { "min": 0.05, "max": 0.75 } },
             "group": { "chance": 30 },
             "starting": { "min": 3, "max": 5 }
         },
         "pmcsNight": {
             "botTypes": { "Usec": 50, "Bear": 50 },
-            "spawning": {
-                "waves": 10,
-                "distTarget": 0.25,
-                "clusterIntensity": 0.05,
-                "range": { "min": 0.05, "max": 0.75 }
-            },
+            "spawning": { "waves": 10, "range": { "min": 0.05, "max": 0.75 } },
             "group": { "chance": 30 },
-            "starting": { "min": 3, "max": 5 }
+            "starting": { "min": 2, "max": 3 }
         },
         "scavsDay": {
             "botTypes": { "Scav": 70, "ScavEvent": 30 },
