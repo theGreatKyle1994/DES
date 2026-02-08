@@ -49,8 +49,7 @@ export default class BotWave extends Module {
     }
 
     public initialize(): void {
-        const { bots, locations } = this.databaseServer.getTables();
-        this.locationsConfig = locations;
+        this.locationsConfig = this.databaseServer.getTables().locations;
         this.pmcConfig = this.configServer.getConfig(ConfigTypes.PMC);
         this.botConfig = this.configServer.getConfig(ConfigTypes.BOT);
         this.locationConfig = this.configServer.getConfig(ConfigTypes.LOCATION);
@@ -68,7 +67,7 @@ export default class BotWave extends Module {
         this.resetWaves();
         this.genWaveSpawns();
         // this.logDebug(this.botWaves.timers.bigmap.day);
-        this.logDebug(this.botWaves.dist);
+        this.logDebug(this.botWaves.spawns.bigmap.night);
     }
 
     private resetWaves(): void {
@@ -192,29 +191,38 @@ export default class BotWave extends Module {
         const spawnTime = timer === 0 ? 60 : timer;
         const ignoreBotCount =
             genConfig.spawning.ignoreMaxBots || spawnTime === -1;
-        const groupCount = this.Utilities.useChance(genConfig.group.chance)
-            ? this.Utilities.genNumberInRange(
-                  genConfig.group.min,
-                  genConfig.group.max,
-              ).toString()
-            : "0";
+
         const guardGroup: IBossSupport[] = (() => {
+            const groupCount = this.Utilities.useChance(genConfig.group.chance)
+                ? this.Utilities.genNumberInRange(
+                      genConfig.group.min,
+                      genConfig.group.max,
+                  ).toString()
+                : "0";
+
             if (parseInt(groupCount) <= 0) return [];
             const guards: GuardGroupEntry[] = [];
+
             if (genConfig.group.guards.length > 0) {
-                const weightIndex: Record<string, number> = {};
+                let weightIndex: Record<string, number> = {};
+
                 genConfig.group.guards.forEach((guardEntry) => {
                     weightIndex[guardEntry.type] = guardEntry.weight;
                 });
-                this.Utilities.repeat(parseInt(groupCount), () => {
+
+                const defaultWeightIndex = { ...weightIndex };
+                this.Utilities.repeat(parseInt(groupCount), (i) => {
                     const choice = this.Utilities.chooseWeight(weightIndex);
                     guards.push(
                         genConfig.group.guards.find(
                             (guard) => guard.type === choice,
                         ),
                     );
-                    delete weightIndex[choice];
+                    if (Object.keys(weightIndex).length >= i + 1)
+                        delete weightIndex[choice];
+                    else weightIndex = { ...defaultWeightIndex };
                 });
+
                 return guards.map((group) => ({
                     BossEscortType: BotNames[group.type],
                     BossEscortAmount: this.Utilities.genNumberInRange(
@@ -224,19 +232,17 @@ export default class BotWave extends Module {
                     BossEscortDifficult: [botDiff],
                 }));
             } else
-                return [
-                    {
-                        BossEscortType: botType,
-                        BossEscortAmount: groupCount,
-                        BossEscortDifficult: [botDiff],
-                    },
-                ];
+                return [...new Array(parseInt(groupCount))].map(() => ({
+                    BossEscortType: botType,
+                    BossEscortAmount: "1",
+                    BossEscortDifficult: [botDiff],
+                }));
         })();
 
         return {
             BossChance: genConfig.spawning.chance,
             BossDifficult: botDiff,
-            BossEscortAmount: groupCount,
+            BossEscortAmount: guardGroup.length.toString(),
             BossEscortDifficult: botDiff,
             BossEscortType: botType,
             BossName: botType,
@@ -288,7 +294,6 @@ export default class BotWave extends Module {
 
         // Full reset of spawns in case of map / time swap
         this.locationsConfig[map].base.BossLocationSpawn = mapSpawns;
-
         this.setMapCaps(timeOfDay);
         this.setBotLimits();
     }
@@ -301,7 +306,7 @@ export default class BotWave extends Module {
             group?.guards &&
                 group.guards.forEach((guardGroup, i) => {
                     group.guards[i] = {
-                        type: guardGroup.type,
+                        type: guardGroup?.type,
                         weight: guardGroup?.weight ?? 1,
                         min: guardGroup?.min ?? 1,
                         max: guardGroup?.max ?? 1,
@@ -321,7 +326,7 @@ export default class BotWave extends Module {
                     },
                     ignoreMaxBots: spawning?.ignoreMaxBots ?? false,
                 },
-                botTypes: botTypes,
+                botTypes: botTypes ?? { Scav: 1 },
                 group: {
                     chance: group?.chance ?? 0,
                     min: group?.min ?? 2,

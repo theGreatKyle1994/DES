@@ -12,7 +12,7 @@ export interface BotWaves {
     spawns: Record<MapNames, DayNight<IBossLocationSpawn[]>>;
 }
 
-export interface Spawning {
+export interface SpawningEntry {
     chance?: number;
     waves?: number;
     distTarget?: number;
@@ -36,7 +36,7 @@ export interface StartingGroupEntry extends MinMax {}
 
 export interface SpawnGroupEntry {
     botTypes: Partial<Record<keyof typeof BotNames, number>>;
-    spawning?: Spawning;
+    spawning?: SpawningEntry;
     group?: GroupEntry;
     starting?: StartingGroupEntry;
     difficulty?: Record<DifficultyNames, number>;
