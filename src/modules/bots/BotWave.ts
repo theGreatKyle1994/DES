@@ -66,8 +66,9 @@ export default class BotWave extends Module {
     public update(): void {
         this.resetWaves();
         this.genWaveSpawns();
-        // this.logDebug(this.botWaves.timers.bigmap.day);
-        this.logDebug(this.botWaves.spawns.bigmap.night);
+        this.logDebug(this.botWaves.dist);
+        this.logDebug(this.botWaves.timers.bigmap.day);
+        // this.logDebug(this.botWaves.spawns.bigmap.day);
     }
 
     private resetWaves(): void {
@@ -88,8 +89,8 @@ export default class BotWave extends Module {
         );
 
         // Remove boss waves and set spawn system
-        mapNames.forEach((val) => {
-            const loc = this.locationsConfig[val].base;
+        mapNames.forEach((map) => {
+            const loc = this.locationsConfig[map].base;
             loc.BossLocationSpawn = [];
             loc.waves = [];
             loc.OldSpawn = true;
@@ -100,6 +101,13 @@ export default class BotWave extends Module {
     }
 
     private genWaveTimers(): void {
+        // Reset timers on raid end
+        Object.keys(this.botWaves.timers).forEach((map: MapNames) => {
+            this.botWaves.timers[map].day = {};
+            this.botWaves.timers[map].night = {};
+        });
+
+        // Set timers based on distribution groups
         Object.keys(this.wavesConfig.mapGroups).forEach(
             (timeOfDay: DayNightNames) => {
                 Object.entries(this.wavesConfig.mapGroups[timeOfDay]).forEach(
@@ -108,11 +116,14 @@ export default class BotWave extends Module {
                         const map = MapNames[mapKey];
                         const loc = this.locationsConfig[map].base;
                         const mapTime = loc.EscapeTimeLimit * 60;
+
+                        // Set each group to an empty array
                         group.forEach((groupName) => {
                             const timeMapGroup: number[] =
                                 (this.botWaves.timers[map][timeOfDay][
                                     groupName
                                 ] = []);
+
                             // Add starting spawn timers
                             this.Utilities.repeat(
                                 this.Utilities.genNumberInRange(
@@ -123,7 +134,8 @@ export default class BotWave extends Module {
                                 ),
                                 () => timeMapGroup.push(-1),
                             );
-                            // Add botGroup timers
+
+                            // Add botGroup timers to group array
                             this.botWaves.dist[groupName].forEach((dist) =>
                                 timeMapGroup.push(Math.round(mapTime * dist)),
                             );
@@ -136,6 +148,10 @@ export default class BotWave extends Module {
     }
 
     private genWaveDist(): void {
+        // Reset wave distributions on raid end
+        this.botWaves.dist = {};
+
+        // Create group distributions
         Object.keys(this.wavesConfig.spawnGroups).forEach((groupName) => {
             const distGroup: number[] = (this.botWaves.dist[groupName] = []);
             const group = this.wavesConfig.spawnGroups[groupName];
@@ -149,16 +165,25 @@ export default class BotWave extends Module {
                     ),
                 );
             });
+
+            // Sort distributions to maintain spawning order
             distGroup.sort((a, b) => a - b);
         });
     }
 
     private genWaveSpawns(): void {
+        // Generate distributions and timers
         this.genWaveDist();
         this.genWaveTimers();
+
+        // Generate group spawns
         Object.keys(this.botWaves.spawns).forEach((map: MapNames) => {
             Object.keys(this.botWaves.spawns[map]).forEach(
                 (timeOfDay: DayNightNames) => {
+                    // Reset spawns for new raids
+                    this.botWaves.spawns[map][timeOfDay] = [];
+
+                    // Generate spawns based on group timers
                     Object.entries(
                         this.botWaves.timers[map][timeOfDay],
                     ).forEach((waveGroup) => {
@@ -167,12 +192,16 @@ export default class BotWave extends Module {
                         const spawnWaves = this.botWaves.spawns[map][timeOfDay];
                         const genConfig =
                             this.wavesConfig.spawnGroups[groupName];
+
+                        // Create spawn data for current entry
                         this.Utilities.repeat(timers.length, (i) => {
                             spawnWaves.push(
                                 this.createSpawn(genConfig, timers[i]),
                             );
                         });
                     });
+
+                    // Sort timers to maintain spawning order
                     this.botWaves.spawns[map][timeOfDay].sort(
                         (a, b) => a.Time - b.Time,
                     );
@@ -218,6 +247,7 @@ export default class BotWave extends Module {
                             (guard) => guard.type === choice,
                         ),
                     );
+
                     if (Object.keys(weightIndex).length >= i + 1)
                         delete weightIndex[choice];
                     else weightIndex = { ...defaultWeightIndex };
@@ -248,6 +278,7 @@ export default class BotWave extends Module {
             BossName: botType,
             BossPlayer: false,
             BossZone: "",
+            Delay: genConfig.spawning.delay,
             Time: spawnTime,
             RandomTimeSpawn: false,
             IgnoreMaxBots: ignoreBotCount,
