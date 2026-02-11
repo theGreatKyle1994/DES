@@ -1,5 +1,5 @@
 // General
-import type { BotWaves } from "./bots";
+import type { BotWaves, BotZones } from "./bots";
 
 export const wavesConfigDefault = {
     mapGroups: {
@@ -62,6 +62,274 @@ export const botWavesDefault: BotWaves = {
         shoreline: { day: [], night: [] },
         tarkovstreets: { day: [], night: [] },
         woods: { day: [], night: [] },
+    },
+};
+
+export const zoneNames: BotZones = {
+    bigmap: {
+        zones: {
+            general: [
+                "ZoneBrige",
+                "ZoneCrossRoad",
+                "ZoneDormitory",
+                "ZoneGasStation",
+                "ZoneFactoryCenter",
+                "ZoneFactorySide",
+                "ZoneOldAZS",
+                "ZoneBlockPost",
+                "ZoneTankSquare",
+                "ZoneWade",
+                "ZoneCustoms",
+                "ZoneScavBase",
+            ],
+            sniper: [
+                "ZoneSnipeBrige",
+                "ZoneSnipeTower",
+                "ZoneSnipeFactory",
+                "ZoneBlockPostSniper",
+            ],
+            boss: [
+                "ZoneDormitory",
+                "ZoneGasStation",
+                "ZoneFactorySide",
+                "ZoneWade",
+                "ZoneCustoms",
+                "ZoneScavBase",
+            ],
+        },
+    },
+    factory4_day: {
+        zones: {
+            general: ["BotZone"],
+            sniper: [],
+            boss: ["BotZone"],
+        },
+    },
+    factory4_night: {
+        zones: {
+            general: ["BotZone"],
+            sniper: [],
+            boss: ["BotZone"],
+        },
+    },
+    interchange: {
+        zones: {
+            general: [
+                "ZoneCenter",
+                "ZoneCenterBot",
+                "ZoneOLI",
+                "ZoneIDEA",
+                "ZoneRoad",
+                "ZoneIDEAPark",
+                "ZoneGoshan",
+                "ZonePowerStation",
+                "ZoneTrucks",
+                "ZoneOLIPark",
+            ],
+            sniper: [],
+            boss: [
+                "ZoneCenterBot",
+                "ZoneIDEA",
+                "ZoneCenter",
+                "ZoneTrucks",
+                "ZoneOLI",
+                "ZoneGoshan",
+            ],
+        },
+    },
+    laboratory: {
+        zones: {
+            general: [
+                "BotZoneBasement",
+                "BotZoneFloor1",
+                "BotZoneFloor2",
+                "BotZoneGate1",
+                "BotZoneGate2",
+            ],
+            sniper: [],
+            boss: [
+                "BotZoneBasement",
+                "BotZoneFloor1",
+                "BotZoneFloor2",
+                "BotZoneGate1",
+                "BotZoneGate2",
+            ],
+        },
+    },
+    lighthouse: {
+        zones: {
+            general: [
+                "Zone_Containers",
+                "Zone_Rocks",
+                "Zone_Chalet",
+                "Zone_Village",
+                "Zone_Bridge",
+                "Zone_OldHouse",
+                "Zone_LongRoad",
+                "Zone_DestroyedHouse",
+                "Zone_TreatmentContainers",
+                "Zone_TreatmentRocks",
+                "Zone_TreatmentBeach",
+                "Zone_Blockpost",
+                "Zone_Hellicopter",
+            ],
+            sniper: [
+                "Zone_RoofBeach",
+                "Zone_RoofContainers",
+                "Zone_RoofRocks",
+                "Zone_SniperPeak",
+                "Zone_Island",
+            ],
+            boss: [
+                "Zone_Containers",
+                "Zone_Chalet",
+                "Zone_Village",
+                "Zone_Bridge",
+                "Zone_LongRoad",
+                "Zone_DestroyedHouse",
+                "Zone_Blockpost",
+                "Zone_TreatmentRocks",
+                "Zone_TreatmentContainers",
+                "Zone_TreatmentBeach",
+                "Zone_Hellicopter",
+            ],
+        },
+    },
+    rezervbase: {
+        zones: {
+            general: [
+                "ZoneRailStrorage",
+                "ZonePTOR1",
+                "ZonePTOR2",
+                "ZoneBarrack",
+                "ZoneBunkerStorage",
+                "ZoneSubStorage",
+                "ZoneSubCommand",
+            ],
+            sniper: [],
+            boss: [
+                "ZoneRailStrorage",
+                "ZonePTOR1",
+                "ZonePTOR2",
+                "ZoneBarrack",
+                "ZoneSubStorage",
+                "ZoneSubCommand",
+            ],
+        },
+    },
+    sandbox: {
+        zones: {
+            general: ["ZoneSandbox"],
+            sniper: ["ZoneSandSnipeCenter", "ZoneSandSnipeCenter2"],
+            boss: ["ZoneSandbox"],
+        },
+    },
+    sandbox_high: {
+        zones: {
+            general: ["ZoneSandbox"],
+            sniper: ["ZoneSandSnipeCenter", "ZoneSandSnipeCenter2"],
+            boss: ["ZoneSandbox"],
+        },
+    },
+    shoreline: {
+        zones: {
+            general: [
+                "ZoneSanatorium1",
+                "ZoneSanatorium2",
+                "ZoneIsland",
+                "ZoneGasStation",
+                "ZoneMeteoStation",
+                "ZonePowerStation",
+                "ZoneBusStation",
+                "ZoneRailWays",
+                "ZonePort",
+                "ZoneForestTruck",
+                "ZoneForestSpawn",
+                "ZoneSmuglers",
+                "ZoneTunnel",
+                "ZonePassClose",
+                "ZoneBunker",
+                "ZoneGreenHouses",
+                "ZoneStartVillage",
+                "ZoneForestGasStation",
+            ],
+            sniper: ["ZoneBunkeSniper", "ZonePowerStationSniper"],
+            boss: [
+                "ZoneGreenHouses",
+                "ZonePowerStation",
+                "ZonePort",
+                "ZoneSanatorium1",
+                "ZoneSanatorium2",
+                "ZoneMeteoStation",
+                "ZoneSmuglers",
+            ],
+        },
+    },
+    tarkovstreets: {
+        zones: {
+            general: [
+                "ZoneSW01",
+                "ZoneConstruction",
+                "ZoneCarShowroom",
+                "ZoneCinema",
+                "ZoneFactory",
+                "ZoneHotel_1",
+                "ZoneHotel_2",
+                "ZoneConcordia_1",
+                "ZoneConcordiaParking",
+                "ZoneSW00",
+                "ZoneCard1",
+                "ZoneStilo",
+                "ZoneColumn",
+                "ZoneMvd",
+                "ZoneClimova",
+            ],
+            sniper: [
+                "ZoneSnipeCinema",
+                "ZoneSnipeCarShowroom",
+                "ZoneSnipeBuilding",
+                "ZoneSnipeSW01",
+                "ZoneSnipeStilo",
+                "ZoneSnipeCard",
+            ],
+            boss: [
+                "ZoneCarShowroom",
+                "ZoneFactory",
+                "ZoneHotel_1",
+                "ZoneColumn",
+                "ZoneSW00",
+                "ZoneCard1",
+            ],
+        },
+    },
+    woods: {
+        zones: {
+            general: [
+                "ZoneClearVill",
+                "ZoneHouse",
+                "ZoneScavBase2",
+                "ZoneWoodCutter",
+                "ZoneBigRocks",
+                "ZoneRoad",
+                "ZoneMiniHouse",
+                "ZoneRedHouse",
+                "ZoneDepo",
+                "ZoneStoneBunker",
+                "ZoneBrokenVill",
+                "ZoneUsecBase",
+            ],
+            sniper: ["ZoneHighRocks"],
+            boss: [
+                "ZoneWoodCutter",
+                "ZoneHouse",
+                "ZoneRoad",
+                "ZoneRedHouse",
+                "ZoneScavBase2",
+                "ZoneBrokenVill",
+                "ZoneUsecBase",
+                "ZoneStoneBunker",
+            ],
+        },
     },
 };
 

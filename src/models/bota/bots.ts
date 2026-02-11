@@ -6,6 +6,16 @@ import type { MinMax, DayNight } from "../common/common";
 // SPT
 import type { IBossLocationSpawn } from "@spt/models/eft/common/ILocationBase";
 
+export interface BotZoneEntry {
+    zones: {
+        general: string[];
+        sniper: string[];
+        boss: string[];
+    };
+}
+
+export type BotZones = Record<MapNames, BotZoneEntry>;
+
 export interface BotWaves {
     dist: Record<string, number[]>;
     timers: Record<MapNames, DayNight<Record<string, number[]>>>;

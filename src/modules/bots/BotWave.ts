@@ -61,14 +61,12 @@ export default class BotWave extends Module {
 
     public enable(): void {
         this.update();
+        this.logDebug(this.locationsConfig.bigmap.base.SpawnPointParams);
     }
 
     public update(): void {
         this.resetWaves();
         this.genWaveSpawns();
-        this.logDebug(this.botWaves.dist);
-        this.logDebug(this.botWaves.timers.bigmap.day);
-        // this.logDebug(this.botWaves.spawns.bigmap.day);
     }
 
     private resetWaves(): void {
