@@ -6,16 +6,6 @@ import type { MinMax, DayNight } from "../common/common";
 // SPT
 import type { IBossLocationSpawn } from "@spt/models/eft/common/ILocationBase";
 
-export interface BotZoneEntry {
-    zones: {
-        general: string[];
-        sniper: string[];
-        boss: string[];
-    };
-}
-
-export type BotZones = Record<MapNames, BotZoneEntry>;
-
 export interface BotWaves {
     dist: Record<string, number[]>;
     timers: Record<MapNames, DayNight<Record<string, number[]>>>;
@@ -47,6 +37,7 @@ export interface StartingGroupEntry extends MinMax {}
 export interface SpawnGroupEntry {
     botTypes: Partial<Record<keyof typeof BotNames, number>>;
     spawning?: SpawningEntry;
+    zoneTypes?: string[];
     group?: GroupEntry;
     starting?: StartingGroupEntry;
     difficulty?: Record<DifficultyNames, number>;
@@ -57,6 +48,8 @@ export interface BotLimitEntry {
     min: number;
     max: number;
 }
+
+export type BotZones = Record<MapNames, Record<string, string[]>>;
 
 export interface WavesConfig {
     mapGroups: DayNight<Partial<Record<keyof typeof MapNames, string[]>>>;

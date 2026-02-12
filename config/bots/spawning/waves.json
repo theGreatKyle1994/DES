@@ -1,17 +1,17 @@
 {
     "mapGroups": {
         "day": {
-            "Customs": ["pmcsDay", "scavsDay", "smugglers"],
+            "Customs": ["pmcsDay", "scavsDay", "sniper", "smugglers"],
             "Factory": ["pmcsDay", "scavsDay"],
             "Interchange": ["pmcsDay", "scavsDay", "smugglers"],
             "Laboratory": ["pmcsDay", "raiders"],
-            "Lighthouse": ["pmcsDay", "scavsDay", "rogues"],
+            "Lighthouse": ["pmcsDay", "scavsDay", "sniper", "rogues"],
             "Reserve": ["pmcsDay", "scavsDay", "raiders"],
-            "GroundZero": ["pmcsDay", "scavsDay", "smugglers"],
-            "GroundZeroHigh": ["pmcsDay", "scavsDay", "smugglers"],
-            "Shoreline": ["pmcsDay", "scavsDay", "smugglers"],
-            "Streets": ["pmcsDay", "scavsDay", "smugglers"],
-            "Woods": ["pmcsDay", "scavsDay", "smugglers"]
+            "GroundZero": ["pmcsDay", "scavsDay", "sniper"],
+            "GroundZeroHigh": ["pmcsDay", "scavsDay", "sniper", "smugglers"],
+            "Shoreline": ["pmcsDay", "scavsDay", "sniper", "smugglers"],
+            "Streets": ["pmcsDay", "scavsDay", "sniper", "smugglers"],
+            "Woods": ["pmcsDay", "scavsDay", "sniper", "smugglers"]
         },
         "night": {
             "Customs": ["pmcsNight", "scavsNight", "cultists"],
@@ -23,7 +23,7 @@
             "GroundZero": ["pmcsNight", "scavsNight"],
             "GroundZeroHigh": ["pmcsNight", "scavsNight"],
             "Shoreline": ["pmcsNight", "scavsNight", "cultists"],
-            "Streets": ["pmcsNight", "scavsNight"],
+            "Streets": ["pmcsNight", "scavsNight", "cultists"],
             "Woods": ["pmcsNight", "scavsNight", "cultists"]
         }
     },
@@ -31,29 +31,36 @@
         "pmcsDay": {
             "botTypes": { "Usec": 50, "Bear": 50 },
             "spawning": { "waves": 15, "range": { "min": 0.05, "max": 0.75 } },
-            "group": { "chance": 30 },
+            "group": { "chance": 20 },
             "starting": { "min": 3, "max": 5 }
         },
         "pmcsNight": {
             "botTypes": { "Usec": 50, "Bear": 50 },
             "spawning": { "waves": 10, "range": { "min": 0.05, "max": 0.75 } },
-            "group": { "chance": 30 },
+            "group": { "chance": 10 },
             "starting": { "min": 2, "max": 3 }
         },
         "scavsDay": {
             "botTypes": { "Scav": 70, "ScavEvent": 30 },
-            "spawning": { "waves": 30, "range": { "min": 0.075, "max": 0.9 } },
-            "group": { "chance": 20, "min": 2, "max": 5 },
-            "starting": { "min": 6, "max": 8 }
+            "spawning": { "waves": 20, "range": { "min": 0.05, "max": 0.75 } },
+            "group": { "chance": 30 },
+            "starting": { "min": 3, "max": 5 }
         },
         "scavsNight": {
             "botTypes": { "Scav": 90, "ScavEvent": 10 },
-            "spawning": { "waves": 20, "range": { "min": 0.075, "max": 0.9 } },
+            "spawning": { "waves": 15, "range": { "min": 0.05, "max": 0.75 } },
             "group": { "chance": 20 },
-            "starting": { "min": 4, "max": 6 }
+            "starting": { "min": 2, "max": 3 }
+        },
+        "sniper": {
+            "botTypes": { "Sniper": 1 },
+            "zoneTypes": ["sniper"],
+            "spawning": { "chance": 50, "waves": 0, "ignoreMaxBots": true },
+            "starting": { "min": 1, "max": 3 }
         },
         "raiders": {
             "botTypes": { "Raider": 1 },
+            "zoneTypes": ["raider"],
             "spawning": {
                 "chance": 50,
                 "waves": 10,
@@ -73,6 +80,7 @@
         },
         "smugglers": {
             "botTypes": { "Smuggler": 1 },
+            "zoneTypes": ["smuggler"],
             "spawning": {
                 "chance": 50,
                 "distTarget": 0.75,
@@ -90,6 +98,7 @@
         },
         "rogues": {
             "botTypes": { "Rogue": 1 },
+            "zoneTypes": ["rogue"],
             "spawning": {
                 "chance": 50,
                 "waves": 3,
@@ -107,6 +116,7 @@
         },
         "cultists": {
             "botTypes": { "CultistPriest": 1 },
+            "zoneTypes": ["cultist"],
             "spawning": {
                 "chance": 25,
                 "waves": 3,

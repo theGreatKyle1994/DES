@@ -7,7 +7,7 @@
             "Laboratory": [],
             "Lighthouse": ["zryachiy", "goons", "partisan"],
             "Reserve": ["glukhar"],
-            "GroundZero": ["kolontay"],
+            "GroundZero": [],
             "GroundZeroHigh": ["kolontay"],
             "Shoreline": ["sanitar", "goons", "partisan"],
             "Streets": ["kaban"],
@@ -20,26 +20,21 @@
             "Laboratory": ["cultistOni"],
             "Lighthouse": ["zryachiy", "cultistOni"],
             "Reserve": ["glukhar"],
-            "GroundZero": ["kolontay"],
+            "GroundZero": [],
             "GroundZeroHigh": ["kolontay"],
             "Shoreline": ["sanitar", "goons"],
             "Streets": ["kaban"],
-            "Woods": ["shturman", "goons"]
+            "Woods": ["shturman", "goons", "cultistOni"]
         }
     },
     "spawnGroups": {
         "reshala": {
+            "botTypes": { "Reshala": 1 },
+            "zoneTypes": ["boss"],
             "spawning": {
                 "chance": 30,
                 "range": { "min": 0.05, "max": 0.2 },
                 "ignoreMaxBots": true
-            },
-            "botTypes": { "Reshala": 1 },
-            "difficulty": {
-                "easy": 15,
-                "normal": 25,
-                "hard": 50,
-                "impossible": 10
             },
             "group": {
                 "min": 1,
@@ -54,20 +49,21 @@
                     },
                     { "type": "Scav", "min": 3, "max": 6 }
                 ]
-            }
-        },
-        "goons": {
-            "spawning": {
-                "chance": 30,
-                "range": { "min": 0.05, "max": 0.2 },
-                "ignoreMaxBots": true
             },
-            "botTypes": { "Knight": 1 },
             "difficulty": {
                 "easy": 15,
                 "normal": 25,
                 "hard": 50,
                 "impossible": 10
+            }
+        },
+        "goons": {
+            "botTypes": { "Knight": 1 },
+            "zoneTypes": ["boss"],
+            "spawning": {
+                "chance": 30,
+                "range": { "min": 0.05, "max": 0.2 },
+                "ignoreMaxBots": true
             },
             "group": {
                 "min": 1,
@@ -78,15 +74,21 @@
                     { "type": "BirdEye", "weight": 3 },
                     { "type": "Rogue", "min": 2, "max": 4 }
                 ]
+            },
+            "difficulty": {
+                "easy": 15,
+                "normal": 25,
+                "hard": 50,
+                "impossible": 10
             }
         },
         "partisan": {
+            "botTypes": { "Partisan": 1 },
             "spawning": {
                 "chance": 15,
                 "range": { "min": 0.05, "max": 0.75 },
                 "ignoreMaxBots": true
             },
-            "botTypes": { "Partisan": 1 },
             "difficulty": {
                 "easy": 15,
                 "normal": 25,
@@ -95,17 +97,12 @@
             }
         },
         "tagilla": {
+            "botTypes": { "Tagilla": 1 },
+            "zoneTypes": ["boss"],
             "spawning": {
                 "chance": 30,
                 "range": { "min": 0.05, "max": 0.2 },
                 "ignoreMaxBots": true
-            },
-            "botTypes": { "Tagilla": 1 },
-            "difficulty": {
-                "easy": 15,
-                "normal": 25,
-                "hard": 50,
-                "impossible": 10
             },
             "group": {
                 "min": 1,
@@ -115,20 +112,21 @@
                     { "type": "TagillaAssault", "min": 2, "max": 3 },
                     { "type": "Scav", "min": 3, "max": 5 }
                 ]
+            },
+            "difficulty": {
+                "easy": 15,
+                "normal": 25,
+                "hard": 50,
+                "impossible": 10
             }
         },
         "killa": {
+            "botTypes": { "Killa": 1 },
+            "zoneTypes": ["boss"],
             "spawning": {
                 "chance": 30,
                 "range": { "min": 0.05, "max": 0.2 },
                 "ignoreMaxBots": true
-            },
-            "botTypes": { "Killa": 1 },
-            "difficulty": {
-                "easy": 15,
-                "normal": 25,
-                "hard": 50,
-                "impossible": 10
             },
             "group": {
                 "min": 1,
@@ -138,39 +136,41 @@
                     { "type": "TagillaAssault", "min": 2, "max": 3 },
                     { "type": "Scav", "min": 3, "max": 5 }
                 ]
-            }
-        },
-        "zryachiy": {
-            "spawning": {
-                "range": { "max": 0.05 },
-                "ignoreMaxBots": true
             },
-            "botTypes": { "Zryachiy": 1 },
             "difficulty": {
                 "easy": 15,
                 "normal": 25,
                 "hard": 50,
                 "impossible": 10
+            }
+        },
+        "zryachiy": {
+            "botTypes": { "Zryachiy": 1 },
+            "zoneTypes": ["zryachiy"],
+            "spawning": {
+                "range": { "max": 0.05 },
+                "ignoreMaxBots": true
             },
             "group": {
                 "min": 1,
                 "max": 1,
                 "chance": 100,
                 "guards": [{ "type": "ZryachiyAssault", "min": 3, "max": 4 }]
-            }
-        },
-        "glukhar": {
-            "spawning": {
-                "chance": 30,
-                "range": { "min": 0.05, "max": 0.2 },
-                "ignoreMaxBots": true
             },
-            "botTypes": { "Glukhar": 1 },
             "difficulty": {
                 "easy": 15,
                 "normal": 25,
                 "hard": 50,
                 "impossible": 10
+            }
+        },
+        "glukhar": {
+            "botTypes": { "Glukhar": 1 },
+            "zoneTypes": ["boss"],
+            "spawning": {
+                "chance": 30,
+                "range": { "min": 0.05, "max": 0.2 },
+                "ignoreMaxBots": true
             },
             "group": {
                 "min": 2,
@@ -197,20 +197,21 @@
                     },
                     { "type": "GlukharSniper" }
                 ]
-            }
-        },
-        "kolontay": {
-            "spawning": {
-                "chance": 30,
-                "range": { "min": 0.05, "max": 0.2 },
-                "ignoreMaxBots": true
             },
-            "botTypes": { "Kolontay": 1 },
             "difficulty": {
                 "easy": 15,
                 "normal": 25,
                 "hard": 50,
                 "impossible": 10
+            }
+        },
+        "kolontay": {
+            "botTypes": { "Kolontay": 1 },
+            "zoneTypes": ["boss"],
+            "spawning": {
+                "chance": 30,
+                "range": { "min": 0.05, "max": 0.2 },
+                "ignoreMaxBots": true
             },
             "group": {
                 "min": 1,
@@ -225,40 +226,42 @@
                     },
                     { "type": "KolontaySecurity", "min": 2, "max": 2 }
                 ]
-            }
-        },
-        "sanitar": {
-            "spawning": {
-                "chance": 30,
-                "range": { "min": 0.05, "max": 0.2 },
-                "ignoreMaxBots": true
             },
-            "botTypes": { "Sanitar": 1 },
             "difficulty": {
                 "easy": 15,
                 "normal": 25,
                 "hard": 50,
                 "impossible": 10
+            }
+        },
+        "sanitar": {
+            "botTypes": { "Sanitar": 1 },
+            "zoneTypes": ["boss"],
+            "spawning": {
+                "chance": 30,
+                "range": { "min": 0.05, "max": 0.2 },
+                "ignoreMaxBots": true
             },
             "group": {
                 "min": 1,
                 "max": 1,
                 "chance": 100,
                 "guards": [{ "type": "SanitarAssault", "min": 3, "max": 5 }]
-            }
-        },
-        "kaban": {
-            "spawning": {
-                "chance": 75,
-                "range": { "min": 0.05, "max": 0.2 },
-                "ignoreMaxBots": true
             },
-            "botTypes": { "Kaban": 1 },
             "difficulty": {
                 "easy": 15,
                 "normal": 25,
                 "hard": 50,
                 "impossible": 10
+            }
+        },
+        "kaban": {
+            "botTypes": { "Kaban": 1 },
+            "zoneTypes": ["boss"],
+            "spawning": {
+                "chance": 75,
+                "range": { "min": 0.05, "max": 0.2 },
+                "ignoreMaxBots": true
             },
             "group": {
                 "min": 3,
@@ -270,40 +273,42 @@
                     { "type": "KabanClose1", "weight": 2 },
                     { "type": "KabanClose2", "weight": 2 }
                 ]
-            }
-        },
-        "shturman": {
-            "spawning": {
-                "chance": 30,
-                "range": { "min": 0.05, "max": 0.2 },
-                "ignoreMaxBots": true
             },
-            "botTypes": { "Shturman": 1 },
             "difficulty": {
                 "easy": 15,
                 "normal": 25,
                 "hard": 50,
                 "impossible": 10
+            }
+        },
+        "shturman": {
+            "botTypes": { "Shturman": 1 },
+            "zoneTypes": ["boss"],
+            "spawning": {
+                "chance": 30,
+                "range": { "min": 0.05, "max": 0.2 },
+                "ignoreMaxBots": true
             },
             "group": {
                 "min": 1,
                 "max": 1,
                 "chance": 100,
                 "guards": [{ "type": "ShturmanAssault", "min": 3, "max": 5 }]
-            }
-        },
-        "cultistOni": {
-            "spawning": {
-                "chance": 15,
-                "range": { "min": 0.33, "max": 0.66 },
-                "ignoreMaxBots": true
             },
-            "botTypes": { "CultistOni": 1 },
             "difficulty": {
                 "easy": 15,
                 "normal": 25,
                 "hard": 50,
                 "impossible": 10
+            }
+        },
+        "cultistOni": {
+            "botTypes": { "CultistOni": 1 },
+            "zoneTypes": ["cultistOni"],
+            "spawning": {
+                "chance": 15,
+                "range": { "min": 0.33, "max": 0.66 },
+                "ignoreMaxBots": true
             },
             "group": {
                 "min": 3,
@@ -314,6 +319,12 @@
                     { "type": "CultistPrizrak" },
                     { "type": "Cultist", "min": 2, "max": 3 }
                 ]
+            },
+            "difficulty": {
+                "easy": 15,
+                "normal": 25,
+                "hard": 50,
+                "impossible": 10
             }
         }
     }

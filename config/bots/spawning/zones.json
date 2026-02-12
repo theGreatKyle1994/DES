@@ -1,0 +1,242 @@
+{
+    "Customs": {
+        "general": [
+            "ZoneBrige",
+            "ZoneCrossRoad",
+            "ZoneDormitory",
+            "ZoneGasStation",
+            "ZoneFactoryCenter",
+            "ZoneFactorySide",
+            "ZoneOldAZS",
+            "ZoneBlockPost",
+            "ZoneTankSquare",
+            "ZoneWade",
+            "ZoneCustoms",
+            "ZoneScavBase"
+        ],
+        "sniper": [
+            "ZoneSnipeBrige",
+            "ZoneSnipeTower",
+            "ZoneSnipeFactory",
+            "ZoneBlockPostSniper"
+        ],
+        "boss": [
+            "ZoneDormitory",
+            "ZoneGasStation",
+            "ZoneCustoms",
+            "ZoneScavBase"
+        ],
+        "smuggler": ["ZoneFactoryCenter", "ZoneScavBase"],
+        "cultist": ["ZoneDormitory", "ZoneScavBase", "ZoneCustoms"]
+    },
+    "Factory": {
+        "general": ["BotZone"]
+    },
+    "FactoryNight": {
+        "general": ["BotZone"]
+    },
+    "Interchange": {
+        "general": [
+            "ZoneCenter",
+            "ZoneCenterBot",
+            "ZoneOLI",
+            "ZoneIDEA",
+            "ZoneRoad",
+            "ZoneIDEAPark",
+            "ZoneGoshan",
+            "ZonePowerStation",
+            "ZoneTrucks",
+            "ZoneOLIPark"
+        ],
+        "boss": ["ZoneIDEA", "ZoneCenter", "ZoneOLI", "ZoneGoshan"],
+        "smuggler": ["ZonePowerStation", "ZoneTrucks", "ZoneRoad"]
+    },
+    "Laboratory": {
+        "general": [
+            "BotZoneBasement",
+            "BotZoneFloor1",
+            "BotZoneFloor2",
+            "BotZoneGate1",
+            "BotZoneGate2"
+        ]
+    },
+    "Lighthouse": {
+        "general": [
+            "Zone_Containers",
+            "Zone_Rocks",
+            "Zone_Chalet",
+            "Zone_Village",
+            "Zone_Bridge",
+            "Zone_OldHouse",
+            "Zone_LongRoad",
+            "Zone_DestroyedHouse",
+            "Zone_TreatmentRocks",
+            "Zone_TreatmentBeach"
+        ],
+        "sniper": [
+            "Zone_RoofBeach",
+            "Zone_RoofContainers",
+            "Zone_RoofRocks",
+            "Zone_SniperPeak"
+        ],
+        "boss": [
+            "Zone_Containers",
+            "Zone_Chalet",
+            "Zone_Village",
+            "Zone_Hellicopter"
+        ],
+        "rogue": [
+            "Zone_Blockpost",
+            "Zone_Containers",
+            "Zone_TreatmentContainers",
+            "Zone_TreatmentRocks",
+            "Zone_TreatmentBeach",
+            "Zone_Hellicopter"
+        ],
+        "cultist": [
+            "Zone_LongRoad",
+            "Zone_OldHouse",
+            "Zone_Rocks",
+            "Zone_DestroyedHouse"
+        ],
+        "cultistOni": ["Zone_Island", "Zone_OldHouse"],
+        "zryachiy": ["Zone_Island"]
+    },
+    "Reserve": {
+        "general": [
+            "ZoneRailStrorage",
+            "ZonePTOR1",
+            "ZonePTOR2",
+            "ZoneBarrack",
+            "ZoneBunkerStorage",
+            "ZoneSubStorage",
+            "ZoneSubCommand"
+        ],
+        "boss": ["ZoneRailStrorage", "ZonePTOR1", "ZonePTOR2", "ZoneBarrack"],
+        "raider": ["ZoneRailStrorage", "ZoneSubCommand", "ZoneSubStorage"]
+    },
+    "GroundZero": {
+        "general": ["ZoneSandbox"],
+        "sniper": ["ZoneSandSnipeCenter", "ZoneSandSnipeCenter2"]
+    },
+    "GroundZeroHigh": {
+        "general": ["ZoneSandbox"],
+        "sniper": ["ZoneSandSnipeCenter", "ZoneSandSnipeCenter2"]
+    },
+    "Shoreline": {
+        "general": [
+            "ZoneSanatorium1",
+            "ZoneSanatorium2",
+            "ZoneIsland",
+            "ZoneGasStation",
+            "ZoneMeteoStation",
+            "ZonePowerStation",
+            "ZoneBusStation",
+            "ZoneRailWays",
+            "ZonePort",
+            "ZoneForestTruck",
+            "ZoneForestSpawn",
+            "ZoneSmuglers",
+            "ZoneTunnel",
+            "ZonePassClose",
+            "ZoneBunker",
+            "ZoneGreenHouses",
+            "ZoneStartVillage",
+            "ZoneForestGasStation"
+        ],
+        "sniper": ["ZoneBunkeSniper", "ZonePowerStationSniper"],
+        "boss": [
+            "ZonePowerStation",
+            "ZoneSanatorium1",
+            "ZoneSanatorium2",
+            "ZoneMeteoStation"
+        ],
+        "smuggler": ["ZoneSmuglers", "ZoneIsland", "ZonePort"],
+        "cultist": [
+            "ZoneSanatorium1",
+            "ZoneSanatorium2",
+            "ZoneIsland",
+            "ZoneStartVillage",
+            "ZoneGreenHouses",
+            "ZoneBunker",
+            "ZoneForestSpawn"
+        ]
+    },
+    "Streets": {
+        "general": [
+            "ZoneSW01",
+            "ZoneConstruction",
+            "ZoneCinema",
+            "ZoneFactory",
+            "ZoneHotel_1",
+            "ZoneHotel_2",
+            "ZoneConcordia_1",
+            "ZoneConcordiaParking",
+            "ZoneSW00",
+            "ZoneCard1",
+            "ZoneStilo",
+            "ZoneColumn",
+            "ZoneMvd",
+            "ZoneClimova"
+        ],
+        "sniper": [
+            "ZoneSnipeCinema",
+            "ZoneSnipeCarShowroom",
+            "ZoneSnipeBuilding",
+            "ZoneSnipeSW01",
+            "ZoneSnipeStilo",
+            "ZoneSnipeCard"
+        ],
+        "boss": [
+            "ZoneCarShowroom",
+            "ZoneFactory",
+            "ZoneHotel_1",
+            "ZoneHotel_2",
+            "ZoneColumn",
+            "ZoneSW00",
+            "ZoneCard1"
+        ],
+        "smuggler": ["ZoneHotel_1", "ZoneHotel_2", "ZoneConcordia_1"],
+        "cultist": ["ZoneFactory", "ZoneCinema", "ZoneConstruction"]
+    },
+    "Woods": {
+        "general": [
+            "ZoneClearVill",
+            "ZoneHouse",
+            "ZoneScavBase2",
+            "ZoneWoodCutter",
+            "ZoneBigRocks",
+            "ZoneRoad",
+            "ZoneMiniHouse",
+            "ZoneRedHouse",
+            "ZoneDepo",
+            "ZoneStoneBunker",
+            "ZoneBrokenVill",
+            "ZoneUsecBase"
+        ],
+        "sniper": ["ZoneHighRocks"],
+        "boss": [
+            "ZoneWoodCutter",
+            "ZoneScavBase2",
+            "ZoneBrokenVill",
+            "ZoneUsecBase"
+        ],
+        "smuggler": [
+            "ZoneMiniHouse",
+            "ZoneClearVill",
+            "ZoneRoad",
+            "ZoneBrokenVill",
+            "ZoneScavBase2"
+        ],
+        "cultist": [
+            "ZoneMiniHouse",
+            "ZoneClearVill",
+            "ZoneRoad",
+            "ZoneBrokenVill",
+            "ZoneScavBase2",
+            "ZoneStoneBunker",
+            "ZoneBigRocks"
+        ],
+        "cultistOni": ["ZoneStoneBunker"]
+    }
+}
